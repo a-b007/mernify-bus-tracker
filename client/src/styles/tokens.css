@@ -1,0 +1,63 @@
+/* client/src/styles/tokens.css  — Tailwind v4 */
+:root {
+  /* Neutrals */
+  --paper:        #E9EDE3;  /* app background, chip fill, hover */
+  --surface:      #FAFBF7;  /* panels, sheets */
+  --surface-2:    #F1F4EC;  /* sunken areas, inputs */
+  --border:       #D3D9CC;
+  --border-strong:#B8C0B0;
+  --text:         #1E2229;
+  --text-2:       #4F5A66;
+  --text-3:       #6B7887;  /* icons, placeholders, disabled only */
+
+  /* Brand */
+  --primary-50:   #EDF3EE;
+  --primary-100:  #DCE8E0;
+  --primary-600:  #45796D;  /* fills (white text OK) */
+  --primary-700:  #2F6358;  /* text, links, hover fill */
+  --primary-800:  #244C44;  /* pressed */
+  --sage-200:     #C5D6C9;
+  --sage-400:     #80A48D;  /* secondary graphics, sparklines */
+
+  /* Signal */
+  --amber-500:    #D98E2B;  /* tracked bus, arriving. text on it: --text */
+  --amber-100:    #F6E6C8;
+  --red-600:      #B4493B;  /* disruption, missed. white text OK */
+  --red-100:      #F3DAD5;
+  --location:     #2D6CDF;  /* user location dot ONLY (convention newcomers know) */
+
+  /* Radii: don't make everything the same */
+  --r-sm: 6px;    /* route chips, badges */
+  --r-md: 8px;    /* inputs, buttons */
+  --r-lg: 12px;   /* panels, sheets */
+  --r-pill: 999px;/* filter chips only */
+
+  --shadow-panel: 0 1px 2px rgb(30 34 41 / .06), 0 4px 16px rgb(30 34 41 / .08);
+  --shadow-sheet: 0 -2px 16px rgb(30 34 41 / .10);
+
+  --ease-out: cubic-bezier(.2, 0, 0, 1);
+  --ease-in-out: cubic-bezier(.4, 0, .2, 1);
+  --dur-1: 100ms; --dur-2: 160ms; --dur-3: 240ms; --dur-4: 360ms;
+}
+
+[data-theme="dark"] {
+  --paper:#14181D; --surface:#1E2229; --surface-2:#262C34;
+  --border:#323A44; --border-strong:#46505C;
+  --text:#E9EDE3; --text-2:#A9B3BC; --text-3:#7C8794;
+  --primary-50:#1F2D2A; --primary-100:#26403A;
+  --primary-600:#6FAE9E; /* fill: use --text-on-primary = #14181D */
+  --primary-700:#6FAE9E; --primary-800:#8CC2B4;
+  --amber-500:#E3A24A; --amber-100:#3A2E1A;
+  --red-600:#D9695B;   --red-100:#3A2220;
+  --location:#5B93F0;
+  --shadow-panel: 0 1px 2px rgb(0 0 0 / .4), 0 4px 16px rgb(0 0 0 / .35);
+}
+
+@theme inline {
+  --color-paper: var(--paper);       --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2); --color-border: var(--border);
+  --color-text: var(--text);         --color-text-2: var(--text-2);
+  --color-primary: var(--primary-600); --color-primary-text: var(--primary-700);
+  --color-amber: var(--amber-500);   --color-danger: var(--red-600);
+  --font-sans: "Inter Variable", "Noto Sans Kannada", "Noto Sans Devanagari", system-ui, sans-serif;
+}

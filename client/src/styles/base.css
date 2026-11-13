@@ -1,0 +1,39 @@
+@import "tailwindcss";
+@import "./tokens.css";
+@import "@fontsource-variable/inter";
+@import "maplibre-gl/dist/maplibre-gl.css";
+
+/* Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-feature-settings: "cv11" 1;
+  color: var(--text);
+  background: var(--paper);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Hide default Vite plugin stuff */
+#app > .vite-default,
+.vite-plugin-checker-error-overlay {
+  display: none;
+}
