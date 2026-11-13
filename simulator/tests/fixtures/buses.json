@@ -1,0 +1,29 @@
+[
+  {
+    "busId": "B0001",
+    "regNo": "KA-57-F-0001",
+    "routeId": "335E-UP",
+    "busType": "AC",
+    "capacity": 52,
+    "depot": "Shantinagar",
+    "destination": "ITPL"
+  },
+  {
+    "busId": "B0002",
+    "regNo": "KA-57-F-0002",
+    "routeId": "335E-UP",
+    "busType": "AC",
+    "capacity": 52,
+    "depot": "Shantinagar",
+    "destination": "ITPL"
+  },
+  {
+    "busId": "B0003",
+    "regNo": "KA-57-F-0003",
+    "routeId": "335E-DN",
+    "busType": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Kempegowda Bus Station"
+  }
+]

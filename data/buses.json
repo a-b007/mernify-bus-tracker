@@ -1,0 +1,5402 @@
+[
+  {
+    "_id": "B0001",
+    "regNo": "KA-04-J-3209",
+    "routeId": "335E-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "ITPL Bus Stop"
+  },
+  {
+    "_id": "B0002",
+    "regNo": "KA-04-K-7476",
+    "routeId": "335E-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0003",
+    "regNo": "KA-04-G-9589",
+    "routeId": "335E-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "ITPL Bus Stop"
+  },
+  {
+    "_id": "B0004",
+    "regNo": "KA-41-J-5362",
+    "routeId": "335E-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yeshwantpur",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0005",
+    "regNo": "KA-53-F-2467",
+    "routeId": "335E-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "ITPL Bus Stop"
+  },
+  {
+    "_id": "B0006",
+    "regNo": "KA-04-H-6984",
+    "routeId": "335E-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0007",
+    "regNo": "KA-01-K-6644",
+    "routeId": "335E-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "ITPL Bus Stop"
+  },
+  {
+    "_id": "B0008",
+    "regNo": "KA-57-H-3773",
+    "routeId": "335E-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Koramangala",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0009",
+    "regNo": "KA-01-J-3389",
+    "routeId": "335E-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Hebbal",
+    "destination": "ITPL Bus Stop"
+  },
+  {
+    "_id": "B0010",
+    "regNo": "KA-03-H-4271",
+    "routeId": "335E-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Banashankari",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0011",
+    "regNo": "KA-04-F-2841",
+    "routeId": "335E-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yeshwantpur",
+    "destination": "ITPL Bus Stop"
+  },
+  {
+    "_id": "B0012",
+    "regNo": "KA-01-H-3419",
+    "routeId": "335E-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0013",
+    "regNo": "KA-57-H-2823",
+    "routeId": "335E-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "ITPL Bus Stop"
+  },
+  {
+    "_id": "B0014",
+    "regNo": "KA-04-H-1372",
+    "routeId": "500A-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0015",
+    "regNo": "KA-05-G-4471",
+    "routeId": "500A-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Electronic City",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0016",
+    "regNo": "KA-03-K-8913",
+    "routeId": "500A-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Electronic City",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0017",
+    "regNo": "KA-01-K-7170",
+    "routeId": "500A-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0018",
+    "regNo": "KA-05-F-3790",
+    "routeId": "500A-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Koramangala",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0019",
+    "regNo": "KA-57-F-5444",
+    "routeId": "500A-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0020",
+    "regNo": "KA-05-J-2091",
+    "routeId": "500A-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Shantinagar",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0021",
+    "regNo": "KA-05-F-2767",
+    "routeId": "500A-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0022",
+    "regNo": "KA-02-J-4787",
+    "routeId": "500A-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0023",
+    "regNo": "KA-02-K-8940",
+    "routeId": "500A-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0024",
+    "regNo": "KA-57-K-4258",
+    "routeId": "500A-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0025",
+    "regNo": "KA-04-F-1352",
+    "routeId": "500A-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Electronic City",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0026",
+    "regNo": "KA-57-H-5995",
+    "routeId": "500A-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0027",
+    "regNo": "KA-41-F-3572",
+    "routeId": "500A-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0028",
+    "regNo": "KA-04-H-6822",
+    "routeId": "201-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yelahanka",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0029",
+    "regNo": "KA-05-F-5519",
+    "routeId": "201-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0030",
+    "regNo": "KA-05-K-1482",
+    "routeId": "201-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0031",
+    "regNo": "KA-53-H-3485",
+    "routeId": "201-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Banashankari",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0032",
+    "regNo": "KA-04-J-2438",
+    "routeId": "201-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0033",
+    "regNo": "KA-03-K-4938",
+    "routeId": "201-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0034",
+    "regNo": "KA-41-K-6118",
+    "routeId": "201-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0035",
+    "regNo": "KA-04-G-9883",
+    "routeId": "201-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0036",
+    "regNo": "KA-03-G-9869",
+    "routeId": "201-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Peenya",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0037",
+    "regNo": "KA-53-G-9582",
+    "routeId": "201-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0038",
+    "regNo": "KA-02-H-3589",
+    "routeId": "201-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0039",
+    "regNo": "KA-03-F-9732",
+    "routeId": "201-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0040",
+    "regNo": "KA-41-F-3384",
+    "routeId": "201-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0041",
+    "regNo": "KA-57-H-7737",
+    "routeId": "201-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0042",
+    "regNo": "KA-02-G-3489",
+    "routeId": "356-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Koramangala",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0043",
+    "regNo": "KA-05-F-4026",
+    "routeId": "356-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Peenya",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0044",
+    "regNo": "KA-04-K-4783",
+    "routeId": "356-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Hebbal",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0045",
+    "regNo": "KA-02-H-1427",
+    "routeId": "356-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0046",
+    "regNo": "KA-57-K-3196",
+    "routeId": "356-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0047",
+    "regNo": "KA-57-J-4014",
+    "routeId": "356-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0048",
+    "regNo": "KA-04-G-3253",
+    "routeId": "356-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0049",
+    "regNo": "KA-01-J-1528",
+    "routeId": "356-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Banashankari",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0050",
+    "regNo": "KA-04-G-7767",
+    "routeId": "356-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0051",
+    "regNo": "KA-57-G-2083",
+    "routeId": "356-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Banashankari",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0052",
+    "regNo": "KA-57-H-9027",
+    "routeId": "356-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0053",
+    "regNo": "KA-01-J-8005",
+    "routeId": "356-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0054",
+    "regNo": "KA-53-H-7232",
+    "routeId": "356-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0055",
+    "regNo": "KA-01-K-9784",
+    "routeId": "314-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Koramangala Bus Station"
+  },
+  {
+    "_id": "B0056",
+    "regNo": "KA-57-J-2791",
+    "routeId": "314-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Electronic City",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0057",
+    "regNo": "KA-53-K-5025",
+    "routeId": "314-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Koramangala Bus Station"
+  },
+  {
+    "_id": "B0058",
+    "regNo": "KA-01-K-7347",
+    "routeId": "314-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Shantinagar",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0059",
+    "regNo": "KA-53-J-5770",
+    "routeId": "314-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "Koramangala Bus Station"
+  },
+  {
+    "_id": "B0060",
+    "regNo": "KA-03-J-5684",
+    "routeId": "314-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0061",
+    "regNo": "KA-01-K-5823",
+    "routeId": "314-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Koramangala Bus Station"
+  },
+  {
+    "_id": "B0062",
+    "regNo": "KA-57-J-3330",
+    "routeId": "314-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0063",
+    "regNo": "KA-03-F-9202",
+    "routeId": "314-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yeshwantpur",
+    "destination": "Koramangala Bus Station"
+  },
+  {
+    "_id": "B0064",
+    "regNo": "KA-53-G-9952",
+    "routeId": "314-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0065",
+    "regNo": "KA-01-J-6299",
+    "routeId": "314-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Koramangala Bus Station"
+  },
+  {
+    "_id": "B0066",
+    "regNo": "KA-04-K-8433",
+    "routeId": "314-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0067",
+    "regNo": "KA-41-H-2477",
+    "routeId": "314-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Koramangala Bus Station"
+  },
+  {
+    "_id": "B0068",
+    "regNo": "KA-02-F-3024",
+    "routeId": "314-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Peenya",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0069",
+    "regNo": "KA-53-F-6946",
+    "routeId": "314-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Koramangala Bus Station"
+  },
+  {
+    "_id": "B0070",
+    "regNo": "KA-53-J-3619",
+    "routeId": "KBS-7-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Electronic City",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0071",
+    "regNo": "KA-03-H-3799",
+    "routeId": "KBS-7-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0072",
+    "regNo": "KA-01-G-3369",
+    "routeId": "KBS-7-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Peenya",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0073",
+    "regNo": "KA-57-H-6047",
+    "routeId": "KBS-7-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "KR Puram",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0074",
+    "regNo": "KA-03-F-3960",
+    "routeId": "KBS-7-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0075",
+    "regNo": "KA-05-K-1057",
+    "routeId": "KBS-7-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0076",
+    "regNo": "KA-57-J-8514",
+    "routeId": "KBS-7-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Shantinagar",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0077",
+    "regNo": "KA-57-K-1094",
+    "routeId": "KBS-7-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0078",
+    "regNo": "KA-57-K-4553",
+    "routeId": "KBS-7-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Banashankari",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0079",
+    "regNo": "KA-02-J-7719",
+    "routeId": "KBS-7-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0080",
+    "regNo": "KA-05-G-1107",
+    "routeId": "KBS-7-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0081",
+    "regNo": "KA-03-F-4401",
+    "routeId": "KBS-7-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0082",
+    "regNo": "KA-01-H-1902",
+    "routeId": "KBS-7-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0083",
+    "regNo": "KA-05-K-1531",
+    "routeId": "KBS-7-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0084",
+    "regNo": "KA-02-F-2436",
+    "routeId": "KBS-7-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0085",
+    "regNo": "KA-05-G-3920",
+    "routeId": "KBS-7-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0086",
+    "regNo": "KA-41-J-3906",
+    "routeId": "KBS-7-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Hebbal",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0087",
+    "regNo": "KA-41-H-2525",
+    "routeId": "401-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Shantinagar",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0088",
+    "regNo": "KA-53-F-7208",
+    "routeId": "401-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0089",
+    "regNo": "KA-57-H-2063",
+    "routeId": "401-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0090",
+    "regNo": "KA-41-H-2999",
+    "routeId": "401-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Peenya",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0091",
+    "regNo": "KA-04-K-7779",
+    "routeId": "401-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Electronic City",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0092",
+    "regNo": "KA-02-F-1953",
+    "routeId": "401-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0093",
+    "regNo": "KA-41-J-5705",
+    "routeId": "401-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0094",
+    "regNo": "KA-41-K-9608",
+    "routeId": "401-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0095",
+    "regNo": "KA-57-K-9132",
+    "routeId": "401-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0096",
+    "regNo": "KA-04-K-3947",
+    "routeId": "401-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0097",
+    "regNo": "KA-02-F-4171",
+    "routeId": "401-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0098",
+    "regNo": "KA-04-F-8616",
+    "routeId": "401-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Shantinagar",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0099",
+    "regNo": "KA-01-J-7793",
+    "routeId": "401-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0100",
+    "regNo": "KA-04-K-6728",
+    "routeId": "401-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0101",
+    "regNo": "KA-05-H-4296",
+    "routeId": "401-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0102",
+    "regNo": "KA-41-H-6042",
+    "routeId": "401-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0103",
+    "regNo": "KA-41-H-2865",
+    "routeId": "401-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0104",
+    "regNo": "KA-04-G-1477",
+    "routeId": "500C-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Jayanagar 4th Block"
+  },
+  {
+    "_id": "B0105",
+    "regNo": "KA-57-J-6536",
+    "routeId": "500C-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0106",
+    "regNo": "KA-03-J-3224",
+    "routeId": "500C-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Shantinagar",
+    "destination": "Jayanagar 4th Block"
+  },
+  {
+    "_id": "B0107",
+    "regNo": "KA-57-H-9797",
+    "routeId": "500C-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Whitefield",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0108",
+    "regNo": "KA-05-K-1917",
+    "routeId": "500C-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Jayanagar 4th Block"
+  },
+  {
+    "_id": "B0109",
+    "regNo": "KA-01-K-6169",
+    "routeId": "500C-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Hebbal",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0110",
+    "regNo": "KA-02-H-6434",
+    "routeId": "500C-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "Jayanagar 4th Block"
+  },
+  {
+    "_id": "B0111",
+    "regNo": "KA-41-F-5595",
+    "routeId": "500C-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0112",
+    "regNo": "KA-53-G-9753",
+    "routeId": "500C-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Jayanagar 4th Block"
+  },
+  {
+    "_id": "B0113",
+    "regNo": "KA-41-H-2914",
+    "routeId": "500C-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Peenya",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0114",
+    "regNo": "KA-02-J-5448",
+    "routeId": "500C-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Jayanagar 4th Block"
+  },
+  {
+    "_id": "B0115",
+    "regNo": "KA-57-H-4893",
+    "routeId": "500C-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0116",
+    "regNo": "KA-05-K-4541",
+    "routeId": "500C-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Jayanagar 4th Block"
+  },
+  {
+    "_id": "B0117",
+    "regNo": "KA-01-H-2838",
+    "routeId": "500C-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0118",
+    "regNo": "KA-01-J-2517",
+    "routeId": "500C-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Banashankari",
+    "destination": "Jayanagar 4th Block"
+  },
+  {
+    "_id": "B0119",
+    "regNo": "KA-04-G-9192",
+    "routeId": "600-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0120",
+    "regNo": "KA-05-K-8921",
+    "routeId": "600-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0121",
+    "regNo": "KA-03-F-3347",
+    "routeId": "600-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0122",
+    "regNo": "KA-53-J-1598",
+    "routeId": "600-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0123",
+    "regNo": "KA-05-F-2897",
+    "routeId": "600-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Electronic City",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0124",
+    "regNo": "KA-57-H-2426",
+    "routeId": "600-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0125",
+    "regNo": "KA-05-K-2689",
+    "routeId": "600-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Shantinagar",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0126",
+    "regNo": "KA-41-G-6114",
+    "routeId": "600-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Shantinagar",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0127",
+    "regNo": "KA-05-H-4154",
+    "routeId": "600-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Banashankari",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0128",
+    "regNo": "KA-02-J-6228",
+    "routeId": "600-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Electronic City",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0129",
+    "regNo": "KA-05-G-3446",
+    "routeId": "600-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Koramangala",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0130",
+    "regNo": "KA-02-K-1249",
+    "routeId": "600-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yeshwantpur",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0131",
+    "regNo": "KA-41-H-9888",
+    "routeId": "600-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Banashankari",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0132",
+    "regNo": "KA-04-H-3319",
+    "routeId": "600-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Koramangala",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0133",
+    "regNo": "KA-41-H-2167",
+    "routeId": "600-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0134",
+    "regNo": "KA-03-F-8268",
+    "routeId": "171-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Electronic City",
+    "destination": "KR Puram Bus Station"
+  },
+  {
+    "_id": "B0135",
+    "regNo": "KA-02-F-8712",
+    "routeId": "171-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0136",
+    "regNo": "KA-53-F-1881",
+    "routeId": "171-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "KR Puram Bus Station"
+  },
+  {
+    "_id": "B0137",
+    "regNo": "KA-57-K-3932",
+    "routeId": "171-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0138",
+    "regNo": "KA-41-H-6826",
+    "routeId": "171-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "KR Puram Bus Station"
+  },
+  {
+    "_id": "B0139",
+    "regNo": "KA-57-F-9740",
+    "routeId": "171-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0140",
+    "regNo": "KA-57-F-3159",
+    "routeId": "171-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "KR Puram Bus Station"
+  },
+  {
+    "_id": "B0141",
+    "regNo": "KA-57-H-8464",
+    "routeId": "171-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0142",
+    "regNo": "KA-03-G-4796",
+    "routeId": "171-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "KR Puram Bus Station"
+  },
+  {
+    "_id": "B0143",
+    "regNo": "KA-53-H-5227",
+    "routeId": "171-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0144",
+    "regNo": "KA-57-H-6412",
+    "routeId": "171-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Peenya",
+    "destination": "KR Puram Bus Station"
+  },
+  {
+    "_id": "B0145",
+    "regNo": "KA-57-F-1495",
+    "routeId": "171-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0146",
+    "regNo": "KA-57-J-6758",
+    "routeId": "171-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "KR Puram Bus Station"
+  },
+  {
+    "_id": "B0147",
+    "regNo": "KA-03-H-5624",
+    "routeId": "171-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Peenya",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0148",
+    "regNo": "KA-02-J-2686",
+    "routeId": "365-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Marathahalli Bridge"
+  },
+  {
+    "_id": "B0149",
+    "regNo": "KA-57-H-2162",
+    "routeId": "365-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yelahanka",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0150",
+    "regNo": "KA-04-G-7773",
+    "routeId": "365-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Marathahalli Bridge"
+  },
+  {
+    "_id": "B0151",
+    "regNo": "KA-53-J-3605",
+    "routeId": "365-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0152",
+    "regNo": "KA-53-G-6582",
+    "routeId": "365-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Marathahalli Bridge"
+  },
+  {
+    "_id": "B0153",
+    "regNo": "KA-04-K-6606",
+    "routeId": "365-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0154",
+    "regNo": "KA-57-K-2276",
+    "routeId": "365-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Peenya",
+    "destination": "Marathahalli Bridge"
+  },
+  {
+    "_id": "B0155",
+    "regNo": "KA-02-H-8584",
+    "routeId": "365-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0156",
+    "regNo": "KA-53-H-3886",
+    "routeId": "365-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Marathahalli Bridge"
+  },
+  {
+    "_id": "B0157",
+    "regNo": "KA-53-K-2781",
+    "routeId": "365-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0158",
+    "regNo": "KA-02-F-9098",
+    "routeId": "365-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Marathahalli Bridge"
+  },
+  {
+    "_id": "B0159",
+    "regNo": "KA-01-K-3276",
+    "routeId": "365-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0160",
+    "regNo": "KA-05-J-3444",
+    "routeId": "365-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Peenya",
+    "destination": "Marathahalli Bridge"
+  },
+  {
+    "_id": "B0161",
+    "regNo": "KA-04-G-8326",
+    "routeId": "365-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0162",
+    "regNo": "KA-05-K-5910",
+    "routeId": "365-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yelahanka",
+    "destination": "Marathahalli Bridge"
+  },
+  {
+    "_id": "B0163",
+    "regNo": "KA-01-F-6640",
+    "routeId": "252-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "KR Puram",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0164",
+    "regNo": "KA-03-J-9362",
+    "routeId": "252-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0165",
+    "regNo": "KA-01-H-2022",
+    "routeId": "252-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0166",
+    "regNo": "KA-05-F-6885",
+    "routeId": "252-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Shantinagar",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0167",
+    "regNo": "KA-53-J-4854",
+    "routeId": "252-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Shantinagar",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0168",
+    "regNo": "KA-53-J-7271",
+    "routeId": "252-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yelahanka",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0169",
+    "regNo": "KA-03-G-9931",
+    "routeId": "252-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0170",
+    "regNo": "KA-53-G-3278",
+    "routeId": "252-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0171",
+    "regNo": "KA-05-G-7835",
+    "routeId": "252-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0172",
+    "regNo": "KA-02-F-3200",
+    "routeId": "252-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0173",
+    "regNo": "KA-53-J-3359",
+    "routeId": "252-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0174",
+    "regNo": "KA-53-G-2387",
+    "routeId": "252-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0175",
+    "regNo": "KA-03-K-7974",
+    "routeId": "252-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Whitefield",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0176",
+    "regNo": "KA-57-J-9346",
+    "routeId": "252-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0177",
+    "regNo": "KA-03-G-6821",
+    "routeId": "252-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "KR Puram",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0178",
+    "regNo": "KA-57-K-1121",
+    "routeId": "252-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "KR Puram",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0179",
+    "regNo": "KA-53-H-9220",
+    "routeId": "270-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0180",
+    "regNo": "KA-01-F-7012",
+    "routeId": "270-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Electronic City",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0181",
+    "regNo": "KA-02-H-8917",
+    "routeId": "270-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0182",
+    "regNo": "KA-03-F-8889",
+    "routeId": "270-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Hebbal",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0183",
+    "regNo": "KA-02-J-5578",
+    "routeId": "270-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Electronic City",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0184",
+    "regNo": "KA-57-G-2449",
+    "routeId": "270-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Electronic City",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0185",
+    "regNo": "KA-05-K-9834",
+    "routeId": "270-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0186",
+    "regNo": "KA-01-H-1864",
+    "routeId": "270-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Hebbal",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0187",
+    "regNo": "KA-57-K-8438",
+    "routeId": "270-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0188",
+    "regNo": "KA-41-J-6431",
+    "routeId": "270-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0189",
+    "regNo": "KA-01-G-5738",
+    "routeId": "270-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Koramangala",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0190",
+    "regNo": "KA-05-K-5981",
+    "routeId": "270-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0191",
+    "regNo": "KA-03-K-8752",
+    "routeId": "270-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0192",
+    "regNo": "KA-01-H-1845",
+    "routeId": "305E-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "HSR Layout Bus Stop"
+  },
+  {
+    "_id": "B0193",
+    "regNo": "KA-03-F-8942",
+    "routeId": "305E-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Koramangala",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0194",
+    "regNo": "KA-05-H-2259",
+    "routeId": "305E-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Electronic City",
+    "destination": "HSR Layout Bus Stop"
+  },
+  {
+    "_id": "B0195",
+    "regNo": "KA-05-H-5603",
+    "routeId": "305E-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Peenya",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0196",
+    "regNo": "KA-03-K-2827",
+    "routeId": "305E-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "HSR Layout Bus Stop"
+  },
+  {
+    "_id": "B0197",
+    "regNo": "KA-41-J-3476",
+    "routeId": "305E-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Hebbal",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0198",
+    "regNo": "KA-57-G-5280",
+    "routeId": "305E-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "HSR Layout Bus Stop"
+  },
+  {
+    "_id": "B0199",
+    "regNo": "KA-41-F-9640",
+    "routeId": "305E-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0200",
+    "regNo": "KA-03-K-3376",
+    "routeId": "305E-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "HSR Layout Bus Stop"
+  },
+  {
+    "_id": "B0201",
+    "regNo": "KA-04-J-7765",
+    "routeId": "305E-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0202",
+    "regNo": "KA-41-G-3740",
+    "routeId": "305E-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "HSR Layout Bus Stop"
+  },
+  {
+    "_id": "B0203",
+    "regNo": "KA-01-F-5331",
+    "routeId": "305E-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0204",
+    "regNo": "KA-57-J-8602",
+    "routeId": "305E-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "HSR Layout Bus Stop"
+  },
+  {
+    "_id": "B0205",
+    "regNo": "KA-04-K-8803",
+    "routeId": "305E-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Koramangala",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0206",
+    "regNo": "KA-05-J-7390",
+    "routeId": "305E-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "HSR Layout Bus Stop"
+  },
+  {
+    "_id": "B0207",
+    "regNo": "KA-01-J-9690",
+    "routeId": "410-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0208",
+    "regNo": "KA-41-J-8353",
+    "routeId": "410-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Koramangala",
+    "destination": "Peenya Industry"
+  },
+  {
+    "_id": "B0209",
+    "regNo": "KA-41-F-1672",
+    "routeId": "410-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0210",
+    "regNo": "KA-05-H-5466",
+    "routeId": "410-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Peenya Industry"
+  },
+  {
+    "_id": "B0211",
+    "regNo": "KA-53-H-2610",
+    "routeId": "410-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0212",
+    "regNo": "KA-04-K-4961",
+    "routeId": "410-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Peenya Industry"
+  },
+  {
+    "_id": "B0213",
+    "regNo": "KA-41-G-6528",
+    "routeId": "410-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0214",
+    "regNo": "KA-02-F-1173",
+    "routeId": "410-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Peenya Industry"
+  },
+  {
+    "_id": "B0215",
+    "regNo": "KA-02-F-7737",
+    "routeId": "410-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0216",
+    "regNo": "KA-05-G-6759",
+    "routeId": "410-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Peenya Industry"
+  },
+  {
+    "_id": "B0217",
+    "regNo": "KA-01-F-4163",
+    "routeId": "410-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0218",
+    "regNo": "KA-04-F-2506",
+    "routeId": "410-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Peenya Industry"
+  },
+  {
+    "_id": "B0219",
+    "regNo": "KA-02-F-2995",
+    "routeId": "410-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0220",
+    "regNo": "KA-03-J-3128",
+    "routeId": "410-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Peenya Industry"
+  },
+  {
+    "_id": "B0221",
+    "regNo": "KA-05-H-4018",
+    "routeId": "410-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0222",
+    "regNo": "KA-05-J-2240",
+    "routeId": "340-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Indiranagar Bus Stop"
+  },
+  {
+    "_id": "B0223",
+    "regNo": "KA-03-H-6298",
+    "routeId": "340-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "KR Puram",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0224",
+    "regNo": "KA-53-F-5543",
+    "routeId": "340-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Indiranagar Bus Stop"
+  },
+  {
+    "_id": "B0225",
+    "regNo": "KA-05-F-6450",
+    "routeId": "340-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "KR Puram",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0226",
+    "regNo": "KA-02-J-3915",
+    "routeId": "340-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Koramangala",
+    "destination": "Indiranagar Bus Stop"
+  },
+  {
+    "_id": "B0227",
+    "regNo": "KA-53-K-4287",
+    "routeId": "340-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0228",
+    "regNo": "KA-03-F-9061",
+    "routeId": "340-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Indiranagar Bus Stop"
+  },
+  {
+    "_id": "B0229",
+    "regNo": "KA-02-G-8065",
+    "routeId": "340-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0230",
+    "regNo": "KA-01-F-5243",
+    "routeId": "340-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Indiranagar Bus Stop"
+  },
+  {
+    "_id": "B0231",
+    "regNo": "KA-05-K-2153",
+    "routeId": "340-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Yeshwantpur",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0232",
+    "regNo": "KA-03-J-1307",
+    "routeId": "340-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Indiranagar Bus Stop"
+  },
+  {
+    "_id": "B0233",
+    "regNo": "KA-05-J-1619",
+    "routeId": "340-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Shantinagar",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0234",
+    "regNo": "KA-01-J-6403",
+    "routeId": "340-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Indiranagar Bus Stop"
+  },
+  {
+    "_id": "B0235",
+    "regNo": "KA-53-J-9039",
+    "routeId": "340-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0236",
+    "regNo": "KA-04-K-2148",
+    "routeId": "340-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "KR Puram",
+    "destination": "Indiranagar Bus Stop"
+  },
+  {
+    "_id": "B0237",
+    "regNo": "KA-02-J-7298",
+    "routeId": "340-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0238",
+    "regNo": "KA-41-H-9770",
+    "routeId": "340-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Hebbal",
+    "destination": "Indiranagar Bus Stop"
+  },
+  {
+    "_id": "B0239",
+    "regNo": "KA-02-F-7563",
+    "routeId": "210-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0240",
+    "regNo": "KA-02-H-9759",
+    "routeId": "210-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yelahanka",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0241",
+    "regNo": "KA-03-G-5750",
+    "routeId": "210-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0242",
+    "regNo": "KA-04-J-1644",
+    "routeId": "210-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Electronic City",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0243",
+    "regNo": "KA-41-F-7391",
+    "routeId": "210-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0244",
+    "regNo": "KA-04-J-2390",
+    "routeId": "210-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0245",
+    "regNo": "KA-01-G-1584",
+    "routeId": "210-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Peenya",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0246",
+    "regNo": "KA-53-J-4907",
+    "routeId": "210-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Hebbal",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0247",
+    "regNo": "KA-57-H-9856",
+    "routeId": "210-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yeshwantpur",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0248",
+    "regNo": "KA-01-F-8361",
+    "routeId": "210-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0249",
+    "regNo": "KA-01-H-1918",
+    "routeId": "210-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yelahanka",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0250",
+    "regNo": "KA-57-G-2936",
+    "routeId": "210-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0251",
+    "regNo": "KA-04-K-3440",
+    "routeId": "210-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0252",
+    "regNo": "KA-57-G-1604",
+    "routeId": "210-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0253",
+    "regNo": "KA-01-K-8720",
+    "routeId": "210-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0254",
+    "regNo": "KA-03-F-3138",
+    "routeId": "210-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0255",
+    "regNo": "KA-57-F-6035",
+    "routeId": "210-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0256",
+    "regNo": "KA-02-K-3796",
+    "routeId": "290-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "BTM Layout Bus Stop"
+  },
+  {
+    "_id": "B0257",
+    "regNo": "KA-04-J-2870",
+    "routeId": "290-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Rajajinagar Bus Stop"
+  },
+  {
+    "_id": "B0258",
+    "regNo": "KA-41-J-4320",
+    "routeId": "290-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yeshwantpur",
+    "destination": "BTM Layout Bus Stop"
+  },
+  {
+    "_id": "B0259",
+    "regNo": "KA-03-F-6312",
+    "routeId": "290-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Rajajinagar Bus Stop"
+  },
+  {
+    "_id": "B0260",
+    "regNo": "KA-03-F-4493",
+    "routeId": "290-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Yelahanka",
+    "destination": "BTM Layout Bus Stop"
+  },
+  {
+    "_id": "B0261",
+    "regNo": "KA-05-F-2035",
+    "routeId": "290-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yelahanka",
+    "destination": "Rajajinagar Bus Stop"
+  },
+  {
+    "_id": "B0262",
+    "regNo": "KA-41-G-7801",
+    "routeId": "290-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Peenya",
+    "destination": "BTM Layout Bus Stop"
+  },
+  {
+    "_id": "B0263",
+    "regNo": "KA-04-J-3703",
+    "routeId": "290-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Rajajinagar Bus Stop"
+  },
+  {
+    "_id": "B0264",
+    "regNo": "KA-02-G-1666",
+    "routeId": "290-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "BTM Layout Bus Stop"
+  },
+  {
+    "_id": "B0265",
+    "regNo": "KA-01-G-7162",
+    "routeId": "290-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Hebbal",
+    "destination": "Rajajinagar Bus Stop"
+  },
+  {
+    "_id": "B0266",
+    "regNo": "KA-01-F-2322",
+    "routeId": "290-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "BTM Layout Bus Stop"
+  },
+  {
+    "_id": "B0267",
+    "regNo": "KA-05-K-2460",
+    "routeId": "290-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Peenya",
+    "destination": "Rajajinagar Bus Stop"
+  },
+  {
+    "_id": "B0268",
+    "regNo": "KA-04-G-8798",
+    "routeId": "290-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "BTM Layout Bus Stop"
+  },
+  {
+    "_id": "B0269",
+    "regNo": "KA-57-K-5439",
+    "routeId": "290-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Rajajinagar Bus Stop"
+  },
+  {
+    "_id": "B0270",
+    "regNo": "KA-01-G-4919",
+    "routeId": "290-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "BTM Layout Bus Stop"
+  },
+  {
+    "_id": "B0271",
+    "regNo": "KA-02-J-3949",
+    "routeId": "290-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Hebbal",
+    "destination": "Rajajinagar Bus Stop"
+  },
+  {
+    "_id": "B0272",
+    "regNo": "KA-01-J-6699",
+    "routeId": "411-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "KR Puram Bus Station"
+  },
+  {
+    "_id": "B0273",
+    "regNo": "KA-02-G-4860",
+    "routeId": "411-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0274",
+    "regNo": "KA-41-K-2567",
+    "routeId": "411-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Electronic City",
+    "destination": "KR Puram Bus Station"
+  },
+  {
+    "_id": "B0275",
+    "regNo": "KA-57-G-9315",
+    "routeId": "411-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Electronic City",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0276",
+    "regNo": "KA-04-F-5528",
+    "routeId": "411-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "KR Puram Bus Station"
+  },
+  {
+    "_id": "B0277",
+    "regNo": "KA-57-J-3444",
+    "routeId": "411-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yeshwantpur",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0278",
+    "regNo": "KA-01-F-3617",
+    "routeId": "411-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "KR Puram Bus Station"
+  },
+  {
+    "_id": "B0279",
+    "regNo": "KA-53-G-5670",
+    "routeId": "411-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Yelahanka",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0280",
+    "regNo": "KA-57-K-6477",
+    "routeId": "411-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "KR Puram Bus Station"
+  },
+  {
+    "_id": "B0281",
+    "regNo": "KA-03-F-2710",
+    "routeId": "411-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0282",
+    "regNo": "KA-02-J-1476",
+    "routeId": "411-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "KR Puram Bus Station"
+  },
+  {
+    "_id": "B0283",
+    "regNo": "KA-41-J-4855",
+    "routeId": "411-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yeshwantpur",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0284",
+    "regNo": "KA-04-H-4256",
+    "routeId": "411-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "KR Puram Bus Station"
+  },
+  {
+    "_id": "B0285",
+    "regNo": "KA-02-G-6343",
+    "routeId": "411-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0286",
+    "regNo": "KA-53-G-7759",
+    "routeId": "500D-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0287",
+    "regNo": "KA-57-J-2204",
+    "routeId": "500D-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Banashankari",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0288",
+    "regNo": "KA-04-G-8141",
+    "routeId": "500D-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Shantinagar",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0289",
+    "regNo": "KA-53-G-8454",
+    "routeId": "500D-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Hebbal",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0290",
+    "regNo": "KA-04-J-3234",
+    "routeId": "500D-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yelahanka",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0291",
+    "regNo": "KA-41-G-5418",
+    "routeId": "500D-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yelahanka",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0292",
+    "regNo": "KA-01-K-1525",
+    "routeId": "500D-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Peenya",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0293",
+    "regNo": "KA-57-F-3236",
+    "routeId": "500D-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Koramangala",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0294",
+    "regNo": "KA-41-G-7852",
+    "routeId": "500D-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0295",
+    "regNo": "KA-03-K-5835",
+    "routeId": "500D-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0296",
+    "regNo": "KA-04-K-3784",
+    "routeId": "500D-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Hebbal",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0297",
+    "regNo": "KA-57-K-7745",
+    "routeId": "500D-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Yeshwantpur",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0298",
+    "regNo": "KA-05-J-8757",
+    "routeId": "500D-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Banashankari",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0299",
+    "regNo": "KA-04-G-8014",
+    "routeId": "500D-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Shantinagar",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0300",
+    "regNo": "KA-04-K-8114",
+    "routeId": "500D-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0301",
+    "regNo": "KA-01-K-3440",
+    "routeId": "501-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0302",
+    "regNo": "KA-57-F-1724",
+    "routeId": "501-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "KR Puram",
+    "destination": "Basavanagudi Bus Stop"
+  },
+  {
+    "_id": "B0303",
+    "regNo": "KA-53-J-1550",
+    "routeId": "501-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Electronic City",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0304",
+    "regNo": "KA-57-J-2605",
+    "routeId": "501-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Whitefield",
+    "destination": "Basavanagudi Bus Stop"
+  },
+  {
+    "_id": "B0305",
+    "regNo": "KA-01-K-2361",
+    "routeId": "501-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Banashankari",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0306",
+    "regNo": "KA-41-G-4571",
+    "routeId": "501-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Basavanagudi Bus Stop"
+  },
+  {
+    "_id": "B0307",
+    "regNo": "KA-01-F-4916",
+    "routeId": "501-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0308",
+    "regNo": "KA-57-G-5994",
+    "routeId": "501-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Basavanagudi Bus Stop"
+  },
+  {
+    "_id": "B0309",
+    "regNo": "KA-57-J-1399",
+    "routeId": "501-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Hebbal",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0310",
+    "regNo": "KA-41-G-7641",
+    "routeId": "501-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Basavanagudi Bus Stop"
+  },
+  {
+    "_id": "B0311",
+    "regNo": "KA-53-F-1022",
+    "routeId": "501-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0312",
+    "regNo": "KA-05-F-9698",
+    "routeId": "501-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Basavanagudi Bus Stop"
+  },
+  {
+    "_id": "B0313",
+    "regNo": "KA-04-K-5420",
+    "routeId": "501-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "KR Puram",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0314",
+    "regNo": "KA-41-F-6500",
+    "routeId": "330-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "HSR Layout Bus Stop"
+  },
+  {
+    "_id": "B0315",
+    "regNo": "KA-41-J-2818",
+    "routeId": "330-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0316",
+    "regNo": "KA-41-H-1669",
+    "routeId": "330-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Whitefield",
+    "destination": "HSR Layout Bus Stop"
+  },
+  {
+    "_id": "B0317",
+    "regNo": "KA-04-K-2097",
+    "routeId": "330-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0318",
+    "regNo": "KA-02-G-6487",
+    "routeId": "330-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "HSR Layout Bus Stop"
+  },
+  {
+    "_id": "B0319",
+    "regNo": "KA-41-G-4437",
+    "routeId": "330-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0320",
+    "regNo": "KA-53-K-5380",
+    "routeId": "330-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Yelahanka",
+    "destination": "HSR Layout Bus Stop"
+  },
+  {
+    "_id": "B0321",
+    "regNo": "KA-41-F-1892",
+    "routeId": "330-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Koramangala",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0322",
+    "regNo": "KA-02-J-8412",
+    "routeId": "330-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yelahanka",
+    "destination": "HSR Layout Bus Stop"
+  },
+  {
+    "_id": "B0323",
+    "regNo": "KA-05-K-9714",
+    "routeId": "330-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0324",
+    "regNo": "KA-04-F-7031",
+    "routeId": "330-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "HSR Layout Bus Stop"
+  },
+  {
+    "_id": "B0325",
+    "regNo": "KA-53-F-2430",
+    "routeId": "330-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Whitefield",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0326",
+    "regNo": "KA-02-F-5724",
+    "routeId": "330-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Peenya",
+    "destination": "HSR Layout Bus Stop"
+  },
+  {
+    "_id": "B0327",
+    "regNo": "KA-03-F-5521",
+    "routeId": "450-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0328",
+    "regNo": "KA-01-G-3465",
+    "routeId": "450-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Whitefield",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0329",
+    "regNo": "KA-03-K-7824",
+    "routeId": "450-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Koramangala",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0330",
+    "regNo": "KA-57-J-6680",
+    "routeId": "450-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0331",
+    "regNo": "KA-02-G-5776",
+    "routeId": "450-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Shantinagar",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0332",
+    "regNo": "KA-41-K-4806",
+    "routeId": "450-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0333",
+    "regNo": "KA-57-H-6616",
+    "routeId": "450-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "KR Puram",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0334",
+    "regNo": "KA-57-K-9686",
+    "routeId": "450-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0335",
+    "regNo": "KA-03-K-5982",
+    "routeId": "450-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0336",
+    "regNo": "KA-04-H-3813",
+    "routeId": "450-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0337",
+    "regNo": "KA-01-H-7093",
+    "routeId": "450-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0338",
+    "regNo": "KA-57-H-6785",
+    "routeId": "450-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Peenya",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0339",
+    "regNo": "KA-05-K-3634",
+    "routeId": "450-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0340",
+    "regNo": "KA-03-G-3873",
+    "routeId": "450-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Peenya",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0341",
+    "regNo": "KA-41-F-2915",
+    "routeId": "450-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0342",
+    "regNo": "KA-05-J-3072",
+    "routeId": "450-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0343",
+    "regNo": "KA-01-G-4022",
+    "routeId": "116-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0344",
+    "regNo": "KA-41-G-6633",
+    "routeId": "116-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0345",
+    "regNo": "KA-05-G-9845",
+    "routeId": "116-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0346",
+    "regNo": "KA-57-J-1408",
+    "routeId": "116-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0347",
+    "regNo": "KA-03-H-8504",
+    "routeId": "116-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0348",
+    "regNo": "KA-41-K-9948",
+    "routeId": "116-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0349",
+    "regNo": "KA-03-H-8764",
+    "routeId": "116-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0350",
+    "regNo": "KA-02-H-8243",
+    "routeId": "116-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0351",
+    "regNo": "KA-02-G-1656",
+    "routeId": "116-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0352",
+    "regNo": "KA-04-J-1406",
+    "routeId": "116-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0353",
+    "regNo": "KA-41-F-6855",
+    "routeId": "116-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Whitefield",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0354",
+    "regNo": "KA-04-K-4197",
+    "routeId": "116-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Shantinagar",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0355",
+    "regNo": "KA-02-F-4206",
+    "routeId": "116-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0356",
+    "regNo": "KA-53-F-8298",
+    "routeId": "116-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0357",
+    "regNo": "KA-01-H-9035",
+    "routeId": "116-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0358",
+    "regNo": "KA-53-G-7513",
+    "routeId": "225-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Koramangala Bus Station"
+  },
+  {
+    "_id": "B0359",
+    "regNo": "KA-01-H-7326",
+    "routeId": "225-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yelahanka",
+    "destination": "Peenya Industry"
+  },
+  {
+    "_id": "B0360",
+    "regNo": "KA-05-H-6651",
+    "routeId": "225-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Koramangala Bus Station"
+  },
+  {
+    "_id": "B0361",
+    "regNo": "KA-57-G-2435",
+    "routeId": "225-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Peenya Industry"
+  },
+  {
+    "_id": "B0362",
+    "regNo": "KA-03-H-8249",
+    "routeId": "225-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "KR Puram",
+    "destination": "Koramangala Bus Station"
+  },
+  {
+    "_id": "B0363",
+    "regNo": "KA-02-G-7786",
+    "routeId": "225-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Peenya Industry"
+  },
+  {
+    "_id": "B0364",
+    "regNo": "KA-57-H-4404",
+    "routeId": "225-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Peenya",
+    "destination": "Koramangala Bus Station"
+  },
+  {
+    "_id": "B0365",
+    "regNo": "KA-53-F-6495",
+    "routeId": "225-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Electronic City",
+    "destination": "Peenya Industry"
+  },
+  {
+    "_id": "B0366",
+    "regNo": "KA-05-J-1108",
+    "routeId": "225-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Koramangala Bus Station"
+  },
+  {
+    "_id": "B0367",
+    "regNo": "KA-57-K-3865",
+    "routeId": "225-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Peenya Industry"
+  },
+  {
+    "_id": "B0368",
+    "regNo": "KA-03-G-3243",
+    "routeId": "225-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Koramangala Bus Station"
+  },
+  {
+    "_id": "B0369",
+    "regNo": "KA-57-K-5742",
+    "routeId": "225-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Peenya Industry"
+  },
+  {
+    "_id": "B0370",
+    "regNo": "KA-05-K-5947",
+    "routeId": "225-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Shantinagar",
+    "destination": "Koramangala Bus Station"
+  },
+  {
+    "_id": "B0371",
+    "regNo": "KA-01-G-8593",
+    "routeId": "500E-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0372",
+    "regNo": "KA-05-H-3523",
+    "routeId": "500E-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0373",
+    "regNo": "KA-53-H-3034",
+    "routeId": "500E-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Whitefield",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0374",
+    "regNo": "KA-01-G-9059",
+    "routeId": "500E-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0375",
+    "regNo": "KA-02-J-5541",
+    "routeId": "500E-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yeshwantpur",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0376",
+    "regNo": "KA-57-K-6927",
+    "routeId": "500E-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Hebbal",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0377",
+    "regNo": "KA-57-H-8144",
+    "routeId": "500E-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0378",
+    "regNo": "KA-01-K-7114",
+    "routeId": "500E-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0379",
+    "regNo": "KA-01-K-3668",
+    "routeId": "500E-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Koramangala",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0380",
+    "regNo": "KA-03-J-6237",
+    "routeId": "500E-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0381",
+    "regNo": "KA-05-F-3675",
+    "routeId": "500E-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0382",
+    "regNo": "KA-01-H-7873",
+    "routeId": "500E-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yelahanka",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0383",
+    "regNo": "KA-02-K-5778",
+    "routeId": "500E-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0384",
+    "regNo": "KA-02-G-4175",
+    "routeId": "285-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0385",
+    "regNo": "KA-41-K-3738",
+    "routeId": "285-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Hebbal",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0386",
+    "regNo": "KA-41-H-5932",
+    "routeId": "285-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yelahanka",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0387",
+    "regNo": "KA-41-K-9755",
+    "routeId": "285-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0388",
+    "regNo": "KA-05-G-1211",
+    "routeId": "285-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0389",
+    "regNo": "KA-41-J-8944",
+    "routeId": "285-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yelahanka",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0390",
+    "regNo": "KA-03-G-2678",
+    "routeId": "285-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Peenya",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0391",
+    "regNo": "KA-02-G-4622",
+    "routeId": "285-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Electronic City",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0392",
+    "regNo": "KA-02-F-8544",
+    "routeId": "285-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0393",
+    "regNo": "KA-41-J-1284",
+    "routeId": "285-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Peenya",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0394",
+    "regNo": "KA-57-G-6940",
+    "routeId": "285-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Koramangala",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0395",
+    "regNo": "KA-03-H-9570",
+    "routeId": "285-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Hebbal",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0396",
+    "regNo": "KA-04-F-1471",
+    "routeId": "285-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Koramangala",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0397",
+    "regNo": "KA-05-G-3332",
+    "routeId": "285-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0398",
+    "regNo": "KA-02-G-4438",
+    "routeId": "285-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0399",
+    "regNo": "KA-01-F-2830",
+    "routeId": "285-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Yeshwantpur Bus Station"
+  },
+  {
+    "_id": "B0400",
+    "regNo": "KA-04-F-8065",
+    "routeId": "500F-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0401",
+    "regNo": "KA-01-K-1537",
+    "routeId": "500F-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0402",
+    "regNo": "KA-01-H-2948",
+    "routeId": "500F-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0403",
+    "regNo": "KA-02-F-5942",
+    "routeId": "500F-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Yeshwantpur",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0404",
+    "regNo": "KA-04-K-4365",
+    "routeId": "500F-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0405",
+    "regNo": "KA-02-F-6759",
+    "routeId": "500F-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0406",
+    "regNo": "KA-41-K-5544",
+    "routeId": "500F-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0407",
+    "regNo": "KA-04-K-3630",
+    "routeId": "500F-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0408",
+    "regNo": "KA-01-F-2119",
+    "routeId": "500F-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0409",
+    "regNo": "KA-05-G-4555",
+    "routeId": "500F-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Electronic City",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0410",
+    "regNo": "KA-02-F-9800",
+    "routeId": "500F-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0411",
+    "regNo": "KA-41-J-9260",
+    "routeId": "500F-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Banashankari",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0412",
+    "regNo": "KA-02-J-4033",
+    "routeId": "500F-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Hebbal",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0413",
+    "regNo": "KA-53-J-6813",
+    "routeId": "500F-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0414",
+    "regNo": "KA-53-G-9425",
+    "routeId": "310-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "Marathahalli Bridge"
+  },
+  {
+    "_id": "B0415",
+    "regNo": "KA-57-F-6149",
+    "routeId": "310-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Indiranagar Bus Stop"
+  },
+  {
+    "_id": "B0416",
+    "regNo": "KA-57-G-9515",
+    "routeId": "310-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Marathahalli Bridge"
+  },
+  {
+    "_id": "B0417",
+    "regNo": "KA-01-K-5723",
+    "routeId": "310-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Indiranagar Bus Stop"
+  },
+  {
+    "_id": "B0418",
+    "regNo": "KA-02-J-6375",
+    "routeId": "310-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Marathahalli Bridge"
+  },
+  {
+    "_id": "B0419",
+    "regNo": "KA-05-J-5646",
+    "routeId": "310-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Indiranagar Bus Stop"
+  },
+  {
+    "_id": "B0420",
+    "regNo": "KA-53-K-4700",
+    "routeId": "310-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Marathahalli Bridge"
+  },
+  {
+    "_id": "B0421",
+    "regNo": "KA-02-G-8011",
+    "routeId": "310-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Koramangala",
+    "destination": "Indiranagar Bus Stop"
+  },
+  {
+    "_id": "B0422",
+    "regNo": "KA-01-G-7020",
+    "routeId": "310-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Marathahalli Bridge"
+  },
+  {
+    "_id": "B0423",
+    "regNo": "KA-57-J-2723",
+    "routeId": "310-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Whitefield",
+    "destination": "Indiranagar Bus Stop"
+  },
+  {
+    "_id": "B0424",
+    "regNo": "KA-03-F-2392",
+    "routeId": "310-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Marathahalli Bridge"
+  },
+  {
+    "_id": "B0425",
+    "regNo": "KA-02-K-7563",
+    "routeId": "310-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "KR Puram",
+    "destination": "Indiranagar Bus Stop"
+  },
+  {
+    "_id": "B0426",
+    "regNo": "KA-04-H-2060",
+    "routeId": "310-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Marathahalli Bridge"
+  },
+  {
+    "_id": "B0427",
+    "regNo": "KA-53-K-4281",
+    "routeId": "310-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yelahanka",
+    "destination": "Indiranagar Bus Stop"
+  },
+  {
+    "_id": "B0428",
+    "regNo": "KA-57-J-4815",
+    "routeId": "310-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Yeshwantpur",
+    "destination": "Marathahalli Bridge"
+  },
+  {
+    "_id": "B0429",
+    "regNo": "KA-41-J-5472",
+    "routeId": "310-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Koramangala",
+    "destination": "Indiranagar Bus Stop"
+  },
+  {
+    "_id": "B0430",
+    "regNo": "KA-05-J-7626",
+    "routeId": "310-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Marathahalli Bridge"
+  },
+  {
+    "_id": "B0431",
+    "regNo": "KA-02-F-8448",
+    "routeId": "310-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Indiranagar Bus Stop"
+  },
+  {
+    "_id": "B0432",
+    "regNo": "KA-04-J-9017",
+    "routeId": "370-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0433",
+    "regNo": "KA-01-F-1486",
+    "routeId": "370-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Peenya",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0434",
+    "regNo": "KA-03-F-9161",
+    "routeId": "370-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0435",
+    "regNo": "KA-05-G-6356",
+    "routeId": "370-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "KR Puram",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0436",
+    "regNo": "KA-57-F-2578",
+    "routeId": "370-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0437",
+    "regNo": "KA-57-H-4308",
+    "routeId": "370-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0438",
+    "regNo": "KA-41-H-9270",
+    "routeId": "370-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0439",
+    "regNo": "KA-01-F-9955",
+    "routeId": "370-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0440",
+    "regNo": "KA-57-J-2951",
+    "routeId": "370-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0441",
+    "regNo": "KA-57-J-7165",
+    "routeId": "370-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yelahanka",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0442",
+    "regNo": "KA-05-G-1538",
+    "routeId": "370-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Shantinagar",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0443",
+    "regNo": "KA-03-J-9052",
+    "routeId": "370-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Peenya",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0444",
+    "regNo": "KA-02-J-7374",
+    "routeId": "370-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Koramangala",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0445",
+    "regNo": "KA-57-K-9037",
+    "routeId": "370-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0446",
+    "regNo": "KA-01-K-3560",
+    "routeId": "370-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0447",
+    "regNo": "KA-53-J-5315",
+    "routeId": "550-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0448",
+    "regNo": "KA-41-H-6779",
+    "routeId": "550-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Basavanagudi Bus Stop"
+  },
+  {
+    "_id": "B0449",
+    "regNo": "KA-01-K-1461",
+    "routeId": "550-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0450",
+    "regNo": "KA-01-H-7003",
+    "routeId": "550-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Basavanagudi Bus Stop"
+  },
+  {
+    "_id": "B0451",
+    "regNo": "KA-53-F-7235",
+    "routeId": "550-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0452",
+    "regNo": "KA-41-J-6855",
+    "routeId": "550-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Basavanagudi Bus Stop"
+  },
+  {
+    "_id": "B0453",
+    "regNo": "KA-04-G-5001",
+    "routeId": "550-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0454",
+    "regNo": "KA-05-F-2391",
+    "routeId": "550-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Koramangala",
+    "destination": "Basavanagudi Bus Stop"
+  },
+  {
+    "_id": "B0455",
+    "regNo": "KA-01-G-6531",
+    "routeId": "550-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0456",
+    "regNo": "KA-57-F-6343",
+    "routeId": "550-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Electronic City",
+    "destination": "Basavanagudi Bus Stop"
+  },
+  {
+    "_id": "B0457",
+    "regNo": "KA-05-J-9433",
+    "routeId": "550-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0458",
+    "regNo": "KA-01-K-8695",
+    "routeId": "550-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Shantinagar",
+    "destination": "Basavanagudi Bus Stop"
+  },
+  {
+    "_id": "B0459",
+    "regNo": "KA-53-K-7188",
+    "routeId": "550-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0460",
+    "regNo": "KA-02-J-2601",
+    "routeId": "550-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Basavanagudi Bus Stop"
+  },
+  {
+    "_id": "B0461",
+    "regNo": "KA-41-J-6504",
+    "routeId": "550-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Banashankari",
+    "destination": "Electronic City Bus Station"
+  },
+  {
+    "_id": "B0462",
+    "regNo": "KA-53-H-5907",
+    "routeId": "550-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Peenya",
+    "destination": "Basavanagudi Bus Stop"
+  },
+  {
+    "_id": "B0463",
+    "regNo": "KA-04-F-9142",
+    "routeId": "177-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Banashankari",
+    "destination": "ITPL Bus Stop"
+  },
+  {
+    "_id": "B0464",
+    "regNo": "KA-05-F-5344",
+    "routeId": "177-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0465",
+    "regNo": "KA-02-G-7586",
+    "routeId": "177-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Hebbal",
+    "destination": "ITPL Bus Stop"
+  },
+  {
+    "_id": "B0466",
+    "regNo": "KA-41-K-2552",
+    "routeId": "177-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0467",
+    "regNo": "KA-57-K-2102",
+    "routeId": "177-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "ITPL Bus Stop"
+  },
+  {
+    "_id": "B0468",
+    "regNo": "KA-02-H-4436",
+    "routeId": "177-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "KR Puram",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0469",
+    "regNo": "KA-53-H-9268",
+    "routeId": "177-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "ITPL Bus Stop"
+  },
+  {
+    "_id": "B0470",
+    "regNo": "KA-53-G-6133",
+    "routeId": "177-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Electronic City",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0471",
+    "regNo": "KA-57-K-5116",
+    "routeId": "177-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "KR Puram",
+    "destination": "ITPL Bus Stop"
+  },
+  {
+    "_id": "B0472",
+    "regNo": "KA-03-F-3958",
+    "routeId": "177-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Electronic City",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0473",
+    "regNo": "KA-57-G-9178",
+    "routeId": "177-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "ITPL Bus Stop"
+  },
+  {
+    "_id": "B0474",
+    "regNo": "KA-53-K-9728",
+    "routeId": "177-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0475",
+    "regNo": "KA-04-K-1981",
+    "routeId": "177-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "ITPL Bus Stop"
+  },
+  {
+    "_id": "B0476",
+    "regNo": "KA-04-G-8577",
+    "routeId": "177-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yelahanka",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0477",
+    "regNo": "KA-53-J-5919",
+    "routeId": "350-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0478",
+    "regNo": "KA-53-G-2055",
+    "routeId": "350-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0479",
+    "regNo": "KA-05-G-5702",
+    "routeId": "350-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0480",
+    "regNo": "KA-04-J-4868",
+    "routeId": "350-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0481",
+    "regNo": "KA-01-G-3456",
+    "routeId": "350-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0482",
+    "regNo": "KA-57-J-6087",
+    "routeId": "350-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Banashankari",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0483",
+    "regNo": "KA-01-J-8145",
+    "routeId": "350-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0484",
+    "regNo": "KA-03-H-3610",
+    "routeId": "350-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Banashankari",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0485",
+    "regNo": "KA-03-H-5233",
+    "routeId": "350-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0486",
+    "regNo": "KA-01-F-8960",
+    "routeId": "350-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0487",
+    "regNo": "KA-05-K-6143",
+    "routeId": "350-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yeshwantpur",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0488",
+    "regNo": "KA-02-H-7668",
+    "routeId": "350-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0489",
+    "regNo": "KA-02-G-3302",
+    "routeId": "KIAS-7-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "KR Puram",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0490",
+    "regNo": "KA-05-F-9196",
+    "routeId": "KIAS-7-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Hebbal",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0491",
+    "regNo": "KA-02-G-2478",
+    "routeId": "KIAS-7-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0492",
+    "regNo": "KA-53-K-6395",
+    "routeId": "KIAS-7-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0493",
+    "regNo": "KA-03-G-7928",
+    "routeId": "KIAS-7-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0494",
+    "regNo": "KA-05-G-3869",
+    "routeId": "KIAS-7-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0495",
+    "regNo": "KA-01-H-7690",
+    "routeId": "KIAS-7-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0496",
+    "regNo": "KA-02-H-9740",
+    "routeId": "KIAS-7-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0497",
+    "regNo": "KA-57-J-9941",
+    "routeId": "KIAS-7-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0498",
+    "regNo": "KA-41-G-5550",
+    "routeId": "KIAS-7-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0499",
+    "regNo": "KA-01-H-7025",
+    "routeId": "KIAS-7-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0500",
+    "regNo": "KA-04-F-1570",
+    "routeId": "KIAS-7-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0501",
+    "regNo": "KA-41-H-7302",
+    "routeId": "KIAS-7-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0502",
+    "regNo": "KA-57-G-9763",
+    "routeId": "KIAS-7-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0503",
+    "regNo": "KA-05-J-1128",
+    "routeId": "KIAS-7-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "KR Puram",
+    "destination": "Yelahanka Bus Station"
+  },
+  {
+    "_id": "B0504",
+    "regNo": "KA-05-G-2478",
+    "routeId": "KIAS-7-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0505",
+    "regNo": "KA-41-J-3625",
+    "routeId": "155-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "KR Puram Bus Station"
+  },
+  {
+    "_id": "B0506",
+    "regNo": "KA-02-H-1555",
+    "routeId": "155-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0507",
+    "regNo": "KA-41-J-8718",
+    "routeId": "155-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "KR Puram Bus Station"
+  },
+  {
+    "_id": "B0508",
+    "regNo": "KA-05-G-2644",
+    "routeId": "155-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "KR Puram",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0509",
+    "regNo": "KA-53-H-2087",
+    "routeId": "155-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Electronic City",
+    "destination": "KR Puram Bus Station"
+  },
+  {
+    "_id": "B0510",
+    "regNo": "KA-57-H-9973",
+    "routeId": "155-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0511",
+    "regNo": "KA-57-G-1853",
+    "routeId": "155-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "KR Puram Bus Station"
+  },
+  {
+    "_id": "B0512",
+    "regNo": "KA-04-J-1050",
+    "routeId": "155-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0513",
+    "regNo": "KA-02-K-6140",
+    "routeId": "155-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "KR Puram Bus Station"
+  },
+  {
+    "_id": "B0514",
+    "regNo": "KA-03-G-3585",
+    "routeId": "155-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0515",
+    "regNo": "KA-57-H-7722",
+    "routeId": "155-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "KR Puram Bus Station"
+  },
+  {
+    "_id": "B0516",
+    "regNo": "KA-03-H-3187",
+    "routeId": "155-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Whitefield",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0517",
+    "regNo": "KA-04-H-6367",
+    "routeId": "155-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "KR Puram Bus Station"
+  },
+  {
+    "_id": "B0518",
+    "regNo": "KA-03-H-7791",
+    "routeId": "500G-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0519",
+    "regNo": "KA-04-K-7182",
+    "routeId": "500G-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "KR Puram",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0520",
+    "regNo": "KA-04-K-1376",
+    "routeId": "500G-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0521",
+    "regNo": "KA-05-G-8576",
+    "routeId": "500G-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0522",
+    "regNo": "KA-53-J-1815",
+    "routeId": "500G-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0523",
+    "regNo": "KA-02-G-5262",
+    "routeId": "500G-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Hebbal",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0524",
+    "regNo": "KA-02-K-3787",
+    "routeId": "500G-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0525",
+    "regNo": "KA-57-J-9615",
+    "routeId": "500G-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0526",
+    "regNo": "KA-04-G-2941",
+    "routeId": "500G-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Whitefield",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0527",
+    "regNo": "KA-57-H-5361",
+    "routeId": "500G-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0528",
+    "regNo": "KA-04-J-3133",
+    "routeId": "500G-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0529",
+    "regNo": "KA-04-H-4531",
+    "routeId": "500G-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0530",
+    "regNo": "KA-03-J-3955",
+    "routeId": "500G-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0531",
+    "regNo": "KA-04-H-5754",
+    "routeId": "500G-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0532",
+    "regNo": "KA-41-G-8388",
+    "routeId": "500G-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Hebbal",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0533",
+    "regNo": "KA-01-F-8506",
+    "routeId": "502-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Hebbal",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0534",
+    "regNo": "KA-53-H-3182",
+    "routeId": "502-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0535",
+    "regNo": "KA-05-J-7283",
+    "routeId": "502-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Banashankari",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0536",
+    "regNo": "KA-01-K-2561",
+    "routeId": "502-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yeshwantpur",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0537",
+    "regNo": "KA-57-G-6453",
+    "routeId": "502-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Shantinagar",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0538",
+    "regNo": "KA-05-F-1745",
+    "routeId": "502-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0539",
+    "regNo": "KA-53-H-7241",
+    "routeId": "502-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Electronic City",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0540",
+    "regNo": "KA-01-K-3166",
+    "routeId": "502-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0541",
+    "regNo": "KA-03-H-3938",
+    "routeId": "502-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0542",
+    "regNo": "KA-57-H-9074",
+    "routeId": "502-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0543",
+    "regNo": "KA-53-H-2468",
+    "routeId": "502-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0544",
+    "regNo": "KA-41-F-5266",
+    "routeId": "502-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Peenya",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0545",
+    "regNo": "KA-05-J-3095",
+    "routeId": "502-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0546",
+    "regNo": "KA-05-H-8046",
+    "routeId": "502-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0547",
+    "regNo": "KA-41-K-5321",
+    "routeId": "502-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0548",
+    "regNo": "KA-57-H-3703",
+    "routeId": "502-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0549",
+    "regNo": "KA-04-F-8208",
+    "routeId": "502-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Peenya",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0550",
+    "regNo": "KA-03-G-1894",
+    "routeId": "502-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Peenya",
+    "destination": "Vijayanagar Bus Stop"
+  },
+  {
+    "_id": "B0551",
+    "regNo": "KA-03-H-8704",
+    "routeId": "375-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0552",
+    "regNo": "KA-57-F-8150",
+    "routeId": "375-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0553",
+    "regNo": "KA-57-H-8233",
+    "routeId": "375-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0554",
+    "regNo": "KA-03-F-9077",
+    "routeId": "375-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0555",
+    "regNo": "KA-04-F-6727",
+    "routeId": "375-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0556",
+    "regNo": "KA-05-G-3959",
+    "routeId": "375-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Koramangala",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0557",
+    "regNo": "KA-01-K-4479",
+    "routeId": "375-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0558",
+    "regNo": "KA-02-J-3958",
+    "routeId": "375-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Electronic City",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0559",
+    "regNo": "KA-41-F-9161",
+    "routeId": "375-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Banashankari",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0560",
+    "regNo": "KA-53-F-5657",
+    "routeId": "375-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Shantinagar",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0561",
+    "regNo": "KA-03-H-2737",
+    "routeId": "375-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0562",
+    "regNo": "KA-57-J-2328",
+    "routeId": "375-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Shantinagar",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0563",
+    "regNo": "KA-01-K-5412",
+    "routeId": "375-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Whitefield",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0564",
+    "regNo": "KA-57-K-1718",
+    "routeId": "375-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0565",
+    "regNo": "KA-01-G-3118",
+    "routeId": "375-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Yelahanka",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0566",
+    "regNo": "KA-02-F-6294",
+    "routeId": "375-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Silk Board Junction"
+  },
+  {
+    "_id": "B0567",
+    "regNo": "KA-53-F-7248",
+    "routeId": "375-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Whitefield Bus Station"
+  },
+  {
+    "_id": "B0568",
+    "regNo": "KA-53-G-3916",
+    "routeId": "500H-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Basavanagudi Bus Stop"
+  },
+  {
+    "_id": "B0569",
+    "regNo": "KA-03-G-1336",
+    "routeId": "500H-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yeshwantpur",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0570",
+    "regNo": "KA-03-H-7592",
+    "routeId": "500H-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Basavanagudi Bus Stop"
+  },
+  {
+    "_id": "B0571",
+    "regNo": "KA-53-J-5891",
+    "routeId": "500H-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0572",
+    "regNo": "KA-02-H-3151",
+    "routeId": "500H-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Basavanagudi Bus Stop"
+  },
+  {
+    "_id": "B0573",
+    "regNo": "KA-57-G-9399",
+    "routeId": "500H-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Yelahanka",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0574",
+    "regNo": "KA-05-J-7358",
+    "routeId": "500H-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Basavanagudi Bus Stop"
+  },
+  {
+    "_id": "B0575",
+    "regNo": "KA-53-F-7931",
+    "routeId": "500H-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Hebbal",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0576",
+    "regNo": "KA-53-J-4053",
+    "routeId": "500H-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Basavanagudi Bus Stop"
+  },
+  {
+    "_id": "B0577",
+    "regNo": "KA-41-K-1662",
+    "routeId": "500H-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yeshwantpur",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0578",
+    "regNo": "KA-57-G-4673",
+    "routeId": "500H-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Basavanagudi Bus Stop"
+  },
+  {
+    "_id": "B0579",
+    "regNo": "KA-05-F-9596",
+    "routeId": "500H-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0580",
+    "regNo": "KA-57-F-8165",
+    "routeId": "500H-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Basavanagudi Bus Stop"
+  },
+  {
+    "_id": "B0581",
+    "regNo": "KA-05-G-3434",
+    "routeId": "500H-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0582",
+    "regNo": "KA-05-J-9570",
+    "routeId": "500H-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "Basavanagudi Bus Stop"
+  },
+  {
+    "_id": "B0583",
+    "regNo": "KA-02-K-1781",
+    "routeId": "500H-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Majestic (Kempegowda Bus Station)"
+  },
+  {
+    "_id": "B0584",
+    "regNo": "KA-53-F-9411",
+    "routeId": "343-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0585",
+    "regNo": "KA-05-J-2548",
+    "routeId": "343-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "KR Puram",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0586",
+    "regNo": "KA-02-K-5175",
+    "routeId": "343-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yelahanka",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0587",
+    "regNo": "KA-57-F-1266",
+    "routeId": "343-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0588",
+    "regNo": "KA-01-J-3985",
+    "routeId": "343-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Peenya",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0589",
+    "regNo": "KA-41-H-7819",
+    "routeId": "343-DN",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Yeshwantpur",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0590",
+    "regNo": "KA-05-J-8454",
+    "routeId": "343-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Hebbal",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0591",
+    "regNo": "KA-03-G-4066",
+    "routeId": "343-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Yelahanka",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0592",
+    "regNo": "KA-53-F-5248",
+    "routeId": "343-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yeshwantpur",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0593",
+    "regNo": "KA-53-F-1293",
+    "routeId": "343-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Electronic City",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0594",
+    "regNo": "KA-57-G-1217",
+    "routeId": "343-UP",
+    "type": "EV",
+    "capacity": 45,
+    "depot": "Yeshwantpur",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0595",
+    "regNo": "KA-57-K-7637",
+    "routeId": "343-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Whitefield",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0596",
+    "regNo": "KA-05-J-6910",
+    "routeId": "343-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Koramangala",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0597",
+    "regNo": "KA-01-G-3049",
+    "routeId": "343-DN",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Yeshwantpur",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0598",
+    "regNo": "KA-04-F-2833",
+    "routeId": "343-UP",
+    "type": "AC",
+    "capacity": 52,
+    "depot": "Banashankari",
+    "destination": "Banashankari Bus Station"
+  },
+  {
+    "_id": "B0599",
+    "regNo": "KA-03-J-4428",
+    "routeId": "343-DN",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Shantinagar",
+    "destination": "Hebbal Flyover"
+  },
+  {
+    "_id": "B0600",
+    "regNo": "KA-04-K-8139",
+    "routeId": "343-UP",
+    "type": "NON_AC",
+    "capacity": 56,
+    "depot": "Banashankari",
+    "destination": "Banashankari Bus Station"
+  }
+]

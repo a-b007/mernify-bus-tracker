@@ -1,0 +1,52 @@
+[
+  {
+    "routeId": "335E-UP",
+    "routeNo": "335E",
+    "direction": "UP",
+    "origin": "Kempegowda Bus Station",
+    "destination": "ITPL",
+    "type": "AC",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [77.5726, 12.9771],
+        [77.6088, 12.9766],
+        [77.6408, 12.9784],
+        [77.7018, 12.9591],
+        [77.7320, 12.9857]
+      ]
+    },
+    "lengthM": 21500,
+    "stops": [
+      { "stopId": "S0001", "name": "Majestic", "distanceM": 0 },
+      { "stopId": "S0014", "name": "Indiranagar", "distanceM": 7500 },
+      { "stopId": "S0017", "name": "Marathahalli", "distanceM": 15000 },
+      { "stopId": "S0003", "name": "ITPL", "distanceM": 21500 }
+    ]
+  },
+  {
+    "routeId": "335E-DN",
+    "routeNo": "335E",
+    "direction": "DN",
+    "origin": "ITPL",
+    "destination": "Kempegowda Bus Station",
+    "type": "AC",
+    "geometry": {
+      "type": "LineString",
+      "coordinates": [
+        [77.7320, 12.9857],
+        [77.7018, 12.9591],
+        [77.6408, 12.9784],
+        [77.6088, 12.9766],
+        [77.5726, 12.9771]
+      ]
+    },
+    "lengthM": 21500,
+    "stops": [
+      { "stopId": "S0003", "name": "ITPL", "distanceM": 0 },
+      { "stopId": "S0017", "name": "Marathahalli", "distanceM": 6500 },
+      { "stopId": "S0014", "name": "Indiranagar", "distanceM": 14000 },
+      { "stopId": "S0001", "name": "Majestic", "distanceM": 21500 }
+    ]
+  }
+]
