@@ -8,6 +8,11 @@ import {
 } from 'react';
 import * as maplibregl from 'maplibre-gl';
 import type { Map as MapLibreMap } from 'maplibre-gl';
+
+// Configure self-hosted worker to guarantee zero worker loading errors in Vite
+if (typeof window !== 'undefined' && (maplibregl as any).setWorkerUrl) {
+  (maplibregl as any).setWorkerUrl('/maplibre-gl-worker.mjs');
+}
 import lightStyle from './style.light.json';
 import darkStyle from './style.dark.json';
 import { useTheme } from '../hooks/useTheme';
