@@ -1,7 +1,8 @@
 import { Server } from 'socket.io';
 import jwt from 'jsonwebtoken';
 import env from '../config/env.js';
-import { ROOM, DELTA_INTERVAL_MS, encodeCoord } from '../utils/constants.js';
+import { ROOM, DELTA_INTERVAL_MS } from '../utils/constants.js';
+import { encodeCoord } from '../utils/geo.js';
 import {
   viewportSchema,
   stopSubSchema,

@@ -215,6 +215,7 @@ export function tickBus(bus, dt, simHour) {
         if (prevProgressM < stopM && bus.progressM >= stopM) {
           // Arrived at a stop → dwell
           bus.state = "DWELLING";
+          bus.speed = 0;
           bus.dwellTimer = randomBetween(DWELL_MIN_S, DWELL_MAX_S);
           bus.progressM = stopM;
 
@@ -232,6 +233,7 @@ export function tickBus(bus, dt, simHour) {
       if (bus.progressM >= len) {
         bus.progressM = len - 1; // clamp
         bus.state = "RESTING";
+        bus.speed = 0;
         bus.restTimer = randomBetween(REST_MIN_S, REST_MAX_S);
       }
 

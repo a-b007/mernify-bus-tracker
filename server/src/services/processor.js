@@ -6,9 +6,8 @@ import {
   EMA_ALPHA,
   ARRIVAL_THRESHOLD_M,
   MAX_BACKWARD_JUMP_M,
-  latLngToCellId,
-  encodeCoord,
 } from '../utils/constants.js';
+import { latLngToCellId, encodeCoord } from '../utils/geo.js';
 import {
   checkStuck,
   checkBunching,
@@ -42,6 +41,18 @@ const recordedArrivals = new Set();
 
 // Sequence counter for delta batches
 let deltaBatchSeq = 0;
+
+/**
+ * Reset live runtime state (used for testing or clean restarts).
+ */
+export function resetState() {
+  busStates.clear();
+  dirtyBuses.clear();
+  arrivalQueue.length = 0;
+  historyQueue.length = 0;
+  recordedArrivals.clear();
+  deltaBatchSeq = 0;
+}
 
 /**
  * Load static stops, routes, and buses into memory.
@@ -87,6 +98,7 @@ export function loadStaticData(dataDir = null) {
  * Explicitly set static data from in-memory arrays (used by tests or seed).
  */
 export function setStaticData({ stops = [], routes = [], buses = [] }) {
+  resetState();
   stopsMap.clear();
   for (const stop of stops) {
     stopsMap.set(stop._id, stop);
@@ -212,7 +224,7 @@ export function processEvent(event) {
     // Forward jump > speed * elapsed * 2
     // Convert speed km/h to m/s: (speed / 3.6)
     const maxSpeedMs = Math.max(speed, prevState.speed, 20) / 3.6;
-    const maxAllowedForward = (maxSpeedMs * elapsedS * 2) + 60; // 60m margin
+    const maxAllowedForward = (maxSpeedMs * elapsedS * 2) + 100; // 100m margin for GPS jitter
     if (deltaProgress > maxAllowedForward) {
       return { success: false, reason: `Impossible forward jump: ${deltaProgress}m in ${elapsedS}s (max ${maxAllowedForward}m)` };
     }

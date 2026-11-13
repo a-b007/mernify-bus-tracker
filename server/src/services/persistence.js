@@ -1,4 +1,4 @@
-import { getDB } from '../config/db.js';
+import { getDB, isDBConnected } from '../config/db.js';
 import env from '../config/env.js';
 import { getState, drainPositions, drainArrivals } from './processor.js';
 import { drainAlerts } from './alerts.js';
@@ -16,6 +16,7 @@ const pendingRollups = new Map();
  * Flush live bus_state to MongoDB via bulkWrite upserts every 10s.
  */
 export async function flushBusState() {
+  if (!isDBConnected()) return;
   try {
     const db = getDB();
     const states = getState();
@@ -57,6 +58,7 @@ export async function flushBusState() {
  * Flush sampled position history to MongoDB (time-series) every 30s.
  */
 export async function flushPositions() {
+  if (!isDBConnected()) return;
   try {
     const db = getDB();
     const positions = drainPositions();
@@ -73,6 +75,7 @@ export async function flushPositions() {
  * Flush detected stop arrivals to MongoDB every 5s.
  */
 export async function flushArrivals() {
+  if (!isDBConnected()) return;
   try {
     const db = getDB();
     const arrivals = drainArrivals();
@@ -126,6 +129,7 @@ export async function flushArrivals() {
  * Flush hourly stats roll-ups to MongoDB every 60s using bulkWrite $inc.
  */
 export async function flushHourlyStats() {
+  if (!isDBConnected()) return;
   try {
     const db = getDB();
     if (pendingRollups.size === 0) return;
@@ -169,6 +173,7 @@ export async function flushHourlyStats() {
  * Flush alerts to MongoDB.
  */
 export async function flushAlerts() {
+  if (!isDBConnected()) return;
   try {
     const db = getDB();
     const alerts = drainAlerts();

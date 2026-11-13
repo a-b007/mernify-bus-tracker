@@ -9,7 +9,9 @@ let db;
  * Returns { db, client }.
  */
 export async function connectDB() {
-  client = new MongoClient(env.MONGODB_URI);
+  client = new MongoClient(env.MONGODB_URI, {
+    serverSelectionTimeoutMS: 2000,
+  });
   await client.connect();
   db = client.db(env.DB_NAME);
 
@@ -86,6 +88,10 @@ async function ensureIndexes(db) {
 
   // users
   await db.collection('users').createIndex({ email: 1 }, { unique: true });
+}
+
+export function isDBConnected() {
+  return !!db;
 }
 
 export function getDB() {

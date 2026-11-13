@@ -27,7 +27,7 @@ const SEND_INTERVAL_MS = parseInt(process.env.SEND_INTERVAL_MS ?? "2000", 10);
 const TIME_SCALE = parseFloat(process.env.TIME_SCALE ?? "1");
 const INGEST_URL =
   process.env.INGEST_URL ?? "http://localhost:3001/api/ingest/batch";
-const INGEST_API_KEY = process.env.INGEST_API_KEY ?? "dev-key";
+const INGEST_API_KEY = process.env.INGEST_API_KEY ?? "dev-ingest-key-change-me";
 
 // ─── Load Data ───────────────────────────────────────────────────────
 function tryLoadJSON(relPath) {
