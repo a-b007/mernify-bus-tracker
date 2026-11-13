@@ -4,6 +4,7 @@ import FilterBar from '../FilterBar';
 import BusRow from '../BusRow';
 import { useJourneyStore } from '../../stores/journey';
 import type { Stop, Route, Bus } from '../../types/transit';
+import { normalizeBusType } from '../../types/transit';
 
 interface NearbyPanelProps {
   stops: Stop[];
@@ -66,9 +67,10 @@ export default function NearbyPanel({
 
             // Apply active filters
             const filteredBuses = candidateBuses.filter(({ bus, etaMin }) => {
-              if (filters.ac && bus.type !== 'AC') return false;
-              if (filters.nonAc && bus.type !== 'NonAC') return false;
-              if (filters.electric && bus.type !== 'Electric') return false;
+              const bType = normalizeBusType(bus.type);
+              if (filters.ac && bType !== 'AC') return false;
+              if (filters.nonAc && bType !== 'NonAC') return false;
+              if (filters.electric && bType !== 'Electric') return false;
               if (filters.within10m && etaMin > 10) return false;
               return true;
             });
@@ -103,7 +105,7 @@ export default function NearbyPanel({
                       <BusRow
                         key={bus._id}
                         routeNo={route.routeNo}
-                        type={bus.type}
+                        type={normalizeBusType(bus.type)}
                         destination={route.destination}
                         etaMinutes={etaMin}
                         walkMinutes={walkMin}

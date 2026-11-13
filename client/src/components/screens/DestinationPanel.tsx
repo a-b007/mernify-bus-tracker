@@ -3,6 +3,7 @@ import FilterBar from '../FilterBar';
 import BusRow from '../BusRow';
 import { useJourneyStore } from '../../stores/journey';
 import type { Stop, Route, Bus } from '../../types/transit';
+import { normalizeBusType } from '../../types/transit';
 
 interface DestinationPanelProps {
   onBack: () => void;
@@ -75,9 +76,10 @@ export default function DestinationPanel({
 
           const etaMin = 4 + idx * 5;
 
-          if (filters.ac && route.type !== 'AC') return null;
-          if (filters.nonAc && route.type !== 'NonAC') return null;
-          if (filters.electric && route.type !== 'Electric') return null;
+          const rType = normalizeBusType(route.type);
+          if (filters.ac && rType !== 'AC') return null;
+          if (filters.nonAc && rType !== 'NonAC') return null;
+          if (filters.electric && rType !== 'Electric') return null;
           if (filters.within10m && etaMin > 10) return null;
 
           return (
@@ -87,7 +89,7 @@ export default function DestinationPanel({
               </div>
               <BusRow
                 routeNo={route.routeNo}
-                type={route.type}
+                type={rType}
                 destination={route.destination}
                 etaMinutes={etaMin}
                 walkMinutes={4}

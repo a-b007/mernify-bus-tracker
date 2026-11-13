@@ -33,7 +33,7 @@ export default function BottomSheet({
             aria-describedby={undefined}
             className={[
               'fixed bottom-0 left-0 right-0 z-20 flex flex-col',
-              'bg-[var(--surface)]',
+              'bg-[var(--surface)] backdrop-blur-md',
               'border-t border-x border-[var(--border)]',
               'rounded-t-[var(--r-lg)]',
               'shadow-[var(--shadow-sheet)]',

@@ -3,6 +3,7 @@ import { ArrowLeft, Bell, CaretDown, CaretUp } from '@phosphor-icons/react';
 import RouteChip from '../RouteChip';
 import { useJourneyStore } from '../../stores/journey';
 import type { Stop, Route, Bus } from '../../types/transit';
+import { normalizeBusType } from '../../types/transit';
 
 interface BusDetailPanelProps {
   onBack: () => void;
@@ -42,7 +43,7 @@ export default function BusDetailPanel({
           <ArrowLeft size={18} />
         </button>
 
-        <RouteChip routeNo={route.routeNo} type={bus.type} />
+        <RouteChip routeNo={route.routeNo} type={normalizeBusType(bus.type)} />
         <span className="text-sm font-semibold text-[var(--text)] truncate">
           towards {route.destination}
         </span>

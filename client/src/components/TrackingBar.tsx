@@ -3,6 +3,7 @@ import { X } from '@phosphor-icons/react';
 import RouteChip from './RouteChip';
 import { useJourneyStore } from '../stores/journey';
 import type { Route, Bus, Stop } from '../types/transit';
+import { normalizeBusType } from '../types/transit';
 
 interface TrackingBarProps {
   bus: Bus;
@@ -50,7 +51,7 @@ export default function TrackingBar({
     if (isApproaching) {
       return 'bg-[var(--amber-100)] text-[var(--text)] border-[var(--amber-500)]';
     }
-    return 'bg-[var(--surface)] text-[var(--text)] border-[var(--border)]';
+    return 'bg-[var(--surface)] backdrop-blur-md text-[var(--text)] border-[var(--border)]';
   };
 
   return (
@@ -58,14 +59,14 @@ export default function TrackingBar({
       role="region"
       aria-live="polite"
       className={[
-        'p-3 rounded-[var(--r-md)] border shadow-[var(--shadow-panel)]',
+        'p-3.5 rounded-[var(--r-md)] border shadow-[var(--shadow-panel)]',
         'flex items-center justify-between gap-3 select-none transition-colors duration-[var(--dur-2)]',
         getContainerStyle(),
         className,
       ].join(' ')}
     >
       <div className="flex items-center gap-3 min-w-0">
-        <RouteChip routeNo={route.routeNo} type={bus.type} tracked={true} />
+        <RouteChip routeNo={route.routeNo} type={normalizeBusType(bus.type)} tracked={true} />
         <div className="flex flex-col min-w-0">
           <div className="text-xs font-semibold truncate">
             {isDone

@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
-import MapContainer, { useMap } from './map/MapContainer';
+import MapContainer from './map/MapContainer';
 import Panel from './components/Panel';
 import BottomSheet from './components/BottomSheet';
 import DemoDataPill from './components/DemoDataPill';
@@ -15,11 +15,16 @@ import type { SearchItem } from './components/SearchField';
 
 import { useBreakpoint } from './hooks/useBreakpoint';
 import { useJourneyStore } from './stores/journey';
+import { useMapStore } from './stores/map';
 import { fetchRoutes, fetchStops, fetchBuses } from './services/api';
 import {
   setBusCatalog,
+  setRoutesCatalog,
+  setVehicleFilters,
   setupVehicleMapLayers,
   setTrackedBus,
+  setSelectedRouteLine,
+  updateUserLocationMarker,
 } from './services/vehicleStore';
 import { connectSocket, disconnectSocket, subscribeToRoute } from './services/socket';
 import type { Stop, Route, Bus } from './types/transit';
@@ -34,13 +39,14 @@ const queryClient = new QueryClient({
 });
 
 function BusTwinApp() {
-  const map = useMap();
+  const map = useMapStore((s) => s.map);
   const breakpoint = useBreakpoint();
   const [isLocating, setIsLocating] = useState(false);
 
   const {
     step,
     setStep,
+    userLocation,
     setUserLocation,
     setDestination,
     selectedStop,
@@ -52,6 +58,7 @@ function BusTwinApp() {
     trackedBusId,
     stopTracking,
     setLocatingError,
+    filters,
   } = useJourneyStore();
 
   // Queries for static transit data
@@ -70,12 +77,23 @@ function BusTwinApp() {
     queryFn: fetchBuses,
   });
 
-  // Load bus catalog into vehicle store
+  // Load catalogs into vehicle store
   useEffect(() => {
     if (buses.length > 0) {
       setBusCatalog(buses);
     }
   }, [buses]);
+
+  useEffect(() => {
+    if (routes.length > 0) {
+      setRoutesCatalog(routes);
+    }
+  }, [routes]);
+
+  // Sync active filters to vehicle store (removes filtered buses from map)
+  useEffect(() => {
+    setVehicleFilters(filters);
+  }, [filters]);
 
   // Connect socket and initialize map layers
   useEffect(() => {
@@ -90,10 +108,27 @@ function BusTwinApp() {
     setupVehicleMapLayers(map);
   }, [map]);
 
-  // Sync tracked bus ID to vehicleStore
+  // Sync tracked bus ID and stop coordinates for pulse animation
   useEffect(() => {
-    setTrackedBus(trackedBusId);
-  }, [trackedBusId]);
+    const targetStopCoords = selectedStop?.loc?.coordinates;
+    setTrackedBus(trackedBusId, targetStopCoords);
+  }, [trackedBusId, selectedStop]);
+
+  // Sync selected route highlight line
+  useEffect(() => {
+    if (selectedRoute?.geometry?.coordinates) {
+      setSelectedRouteLine(selectedRoute.geometry.coordinates);
+    } else {
+      setSelectedRouteLine([]);
+    }
+  }, [selectedRoute]);
+
+  // Sync user location to Google Maps-style location marker
+  useEffect(() => {
+    if (userLocation) {
+      updateUserLocationMarker(userLocation.lng, userLocation.lat, 45);
+    }
+  }, [userLocation]);
 
   // Prepare searchable items from stops and routes
   const searchItems = useMemo<SearchItem[]>(() => {
@@ -132,7 +167,7 @@ function BusTwinApp() {
       },
     ];
 
-    // Add unique routes
+    // Add routes
     routes.slice(0, 30).forEach((r) => {
       list.push({
         id: `route-${r._id}`,
@@ -173,7 +208,7 @@ function BusTwinApp() {
 
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        const { latitude, longitude, accuracy } = pos.coords;
+        const { latitude, longitude, accuracy, heading } = pos.coords;
         setIsLocating(false);
 
         // Check if within Bengaluru bounding box (12.7-13.2 N, 77.3-77.9 E)
@@ -186,13 +221,14 @@ function BusTwinApp() {
         }
 
         setUserLocation({ lat: latitude, lng: longitude, accuracy });
+        updateUserLocationMarker(longitude, latitude, heading || 45);
         setStep('nearby');
 
         if (map) {
           map.flyTo({
             center: [longitude, latitude],
             zoom: 15.5,
-            duration: 900,
+            duration: 800,
           });
         }
       },
@@ -211,12 +247,13 @@ function BusTwinApp() {
   const handleUseMajestic = useCallback(() => {
     const majesticCoords = { lat: 12.9771, lng: 77.5726 };
     setUserLocation(majesticCoords);
+    updateUserLocationMarker(majesticCoords.lng, majesticCoords.lat, 45);
     setStep('nearby');
     if (map) {
       map.flyTo({
         center: [majesticCoords.lng, majesticCoords.lat],
-        zoom: 14.5,
-        duration: 900,
+        zoom: 15,
+        duration: 800,
       });
     }
   }, [map, setStep, setUserLocation]);
@@ -234,7 +271,7 @@ function BusTwinApp() {
           map.flyTo({
             center: firstCoord,
             zoom: 13.5,
-            duration: 800,
+            duration: 700,
           });
         }
         setStep('destination');
@@ -244,8 +281,8 @@ function BusTwinApp() {
         if (map && stop.loc?.coordinates) {
           map.flyTo({
             center: stop.loc.coordinates,
-            zoom: 15,
-            duration: 800,
+            zoom: 15.5,
+            duration: 700,
           });
         }
         setStep('nearby');
@@ -256,8 +293,8 @@ function BusTwinApp() {
         if (map && coords?.lng && coords?.lat) {
           map.flyTo({
             center: [coords.lng, coords.lat],
-            zoom: 14,
-            duration: 800,
+            zoom: 14.5,
+            duration: 700,
           });
         }
         setStep('destination');
@@ -277,7 +314,7 @@ function BusTwinApp() {
       if (map && stop.loc?.coordinates) {
         map.flyTo({
           center: stop.loc.coordinates,
-          zoom: 15,
+          zoom: 15.5,
           duration: 600,
         });
       }
@@ -364,7 +401,7 @@ function BusTwinApp() {
             <button
               type="button"
               onClick={() => setStep('nearby')}
-              className="text-xs text-[var(--text-2)] hover:text-[var(--text)] underline text-center"
+              className="text-xs font-semibold text-[var(--text-2)] hover:text-[var(--text)] underline text-center cursor-pointer"
             >
               Explore other buses
             </button>
@@ -384,8 +421,8 @@ function BusTwinApp() {
 
         {/* Floating Map Controls (Bottom Right) */}
         <MapControls
-          onZoomIn={() => map?.zoomIn()}
-          onZoomOut={() => map?.zoomOut()}
+          onZoomIn={() => map?.zoomIn({ duration: 300 })}
+          onZoomOut={() => map?.zoomOut({ duration: 300 })}
           onLocate={handleLocateMe}
           isLocating={isLocating}
           className={

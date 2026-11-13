@@ -1,5 +1,12 @@
 export type BusType = 'AC' | 'Electric' | 'NonAC';
 
+export function normalizeBusType(type?: string): BusType {
+  const t = (type || '').toUpperCase();
+  if (t === 'EV' || t === 'ELECTRIC') return 'Electric';
+  if (t === 'AC') return 'AC';
+  return 'NonAC';
+}
+
 export interface Stop {
   _id: string;
   name: string;

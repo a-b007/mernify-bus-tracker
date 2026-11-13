@@ -17,11 +17,14 @@ import lightStyle from './style.light.json';
 import darkStyle from './style.dark.json';
 import { useTheme } from '../hooks/useTheme';
 import { useBreakpoint } from '../hooks/useBreakpoint';
+import { useMapStore } from '../stores/map';
 
 const MapContext = createContext<MapLibreMap | null>(null);
 
 export function useMap(): MapLibreMap | null {
-  return useContext(MapContext);
+  const contextMap = useContext(MapContext);
+  const storeMap = useMapStore((s) => s.map);
+  return contextMap || storeMap;
 }
 
 interface MapContainerProps {
@@ -67,6 +70,7 @@ export default function MapContainer({
     mapInstance.on('load', () => {
       mapRef.current = mapInstance;
       setMap(mapInstance);
+      useMapStore.getState().setMap(mapInstance);
       onMapReady?.(mapInstance);
     });
 
@@ -74,6 +78,7 @@ export default function MapContainer({
       mapInstance.remove();
       mapRef.current = null;
       setMap(null);
+      useMapStore.getState().setMap(null);
     };
   }, []);
 

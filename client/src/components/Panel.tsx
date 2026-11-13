@@ -30,7 +30,7 @@ export default function Panel({
         // Constraints
         'max-h-[calc(100dvh-24px)]',
         // Visual treatment
-        'bg-[var(--surface)]',
+        'bg-[var(--surface)] backdrop-blur-md',
         'border border-[var(--border)]',
         'rounded-[var(--r-lg)]',
         'shadow-[var(--shadow-panel)]',

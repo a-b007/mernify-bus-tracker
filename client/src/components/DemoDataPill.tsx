@@ -17,11 +17,11 @@ export default function DemoDataPill({ className = '' }: DemoDataPillProps) {
         onClick={toggle}
         aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
         className={[
-          'flex items-center justify-center w-8 h-8',
-          'bg-[var(--surface)] text-[var(--text-2)]',
+          'flex items-center justify-center w-8 h-8 cursor-pointer',
+          'bg-[var(--surface)] backdrop-blur-md text-[var(--text)]',
           'border border-[var(--border)] rounded-[var(--r-md)]',
           'shadow-[var(--shadow-panel)]',
-          'hover:bg-[var(--surface-2)] active:bg-[var(--primary-50)]',
+          'hover:bg-[var(--surface-2)] active:bg-[var(--primary-100)]',
           'transition-colors duration-[var(--dur-1)]',
         ].join(' ')}
       >
@@ -38,10 +38,10 @@ export default function DemoDataPill({ className = '' }: DemoDataPillProps) {
           <button
             type="button"
             className={[
-              'inline-flex items-center gap-1.5 px-2.5 py-1',
-              'bg-[var(--amber-100)] text-[var(--text)]',
+              'inline-flex items-center gap-1.5 px-3 py-1.5',
+              'bg-[var(--amber-100)] backdrop-blur-md text-[var(--text)]',
               'border border-[var(--amber-500)] rounded-[var(--r-pill)]',
-              'text-[12px] font-medium tracking-wide cursor-pointer',
+              'text-[12px] font-semibold tracking-wide cursor-pointer',
               'shadow-[var(--shadow-panel)]',
               'hover:opacity-90 active:opacity-80 transition-opacity duration-[var(--dur-1)]',
             ].join(' ')}
