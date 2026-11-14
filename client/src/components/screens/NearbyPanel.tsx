@@ -1,8 +1,10 @@
+import { useState, useEffect } from 'react';
 import { MapPin } from '@phosphor-icons/react';
 import SearchField, { type SearchItem } from '../SearchField';
 import FilterBar from '../FilterBar';
 import BusRow from '../BusRow';
 import { useJourneyStore } from '../../stores/journey';
+import { getBusLiveEta } from '../../services/vehicleStore';
 import type { Stop, Route, Bus } from '../../types/transit';
 import { normalizeBusType } from '../../types/transit';
 
@@ -26,6 +28,15 @@ export default function NearbyPanel({
   onFocusStop,
 }: NearbyPanelProps) {
   const { filters, selectedStop } = useJourneyStore();
+  const [, setTick] = useState(0);
+
+  // Re-calculate live ETAs every 1.5s as buses move on the map
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTick((t) => t + 1);
+    }, 1500);
+    return () => clearInterval(interval);
+  }, []);
 
   // If a stop is focused, show only that stop; otherwise show nearest 3-5 stops
   const displayStops = selectedStop ? [selectedStop] : stops.slice(0, 4);
@@ -54,26 +65,34 @@ export default function NearbyPanel({
             const walkMin = 3 + stopIndex * 2;
             const walkDistM = walkMin * 75;
 
-            // Generate representative buses for these routes
+            // Live calculated buses for these routes
             const candidateBuses = stopRoutes.flatMap((route, rIdx) => {
               const routeBuses = buses.filter((b) => b.routeId === route._id);
-              return routeBuses.slice(0, 2).map((bus, bIdx) => ({
-                bus,
-                route,
-                stop,
-                etaMin: walkMin + 2 + (rIdx * 3) + (bIdx * 7),
-              }));
+              return routeBuses.slice(0, 2).map((bus, bIdx) => {
+                const live = stop.loc?.coordinates
+                  ? getBusLiveEta(bus._id, stop.loc.coordinates)
+                  : null;
+                const etaMin = live ? live.etaMinutes : (3 + (rIdx * 3) + (bIdx * 5));
+                return {
+                  bus,
+                  route,
+                  stop,
+                  etaMin,
+                };
+              });
             });
 
-            // Apply active filters
-            const filteredBuses = candidateBuses.filter(({ bus, etaMin }) => {
-              const bType = normalizeBusType(bus.type);
-              if (filters.ac && bType !== 'AC') return false;
-              if (filters.nonAc && bType !== 'NonAC') return false;
-              if (filters.electric && bType !== 'Electric') return false;
-              if (filters.within10m && etaMin > 10) return false;
-              return true;
-            });
+            // Apply active filters and sort by arrival time
+            const filteredBuses = candidateBuses
+              .filter(({ bus, etaMin }) => {
+                const bType = normalizeBusType(bus.type);
+                if (filters.ac && bType !== 'AC') return false;
+                if (filters.nonAc && bType !== 'NonAC') return false;
+                if (filters.electric && bType !== 'Electric') return false;
+                if (filters.within10m && etaMin > 10) return false;
+                return true;
+              })
+              .sort((a, b) => a.etaMin - b.etaMin);
 
             return (
               <div key={stop._id} className="flex flex-col gap-1">

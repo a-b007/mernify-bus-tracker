@@ -29,11 +29,12 @@ export default function Panel({
         'w-[384px] md:max-lg:w-[340px]',
         // Constraints
         'max-h-[calc(100dvh-24px)]',
-        // Visual treatment
-        'bg-[var(--surface)] backdrop-blur-md',
-        'border border-[var(--border)]',
+        // Visual treatment: Felt-like translucent gradient with subtle border & glass blur
+        'bg-gradient-to-b from-[rgba(255,255,255,0.88)] to-[rgba(240,245,252,0.76)] dark:from-[rgba(52,63,80,0.80)] dark:to-[rgba(36,44,58,0.72)]',
+        'backdrop-blur-xl',
+        'border border-[rgba(255,255,255,0.6)] dark:border-[rgba(255,255,255,0.18)]',
         'rounded-[var(--r-lg)]',
-        'shadow-[var(--shadow-panel)]',
+        'shadow-[0_12px_40px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.2)] dark:shadow-[0_16px_48px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.15)]',
         className,
       ].join(' ')}
     >

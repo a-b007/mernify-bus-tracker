@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ArrowLeft, Bell, CaretDown, CaretUp } from '@phosphor-icons/react';
 import RouteChip from '../RouteChip';
 import { useJourneyStore } from '../../stores/journey';
+import { useLiveBusEta } from '../../hooks/useLiveEta';
 import type { Stop, Route, Bus } from '../../types/transit';
 import { normalizeBusType } from '../../types/transit';
 
@@ -24,6 +25,7 @@ export default function BusDetailPanel({
   const [notifyThreshold, setNotifyThreshold] = useState<2 | 5 | 10>(2);
   const [isPickerOpen, setIsPickerOpen] = useState(false);
   const { startTracking } = useJourneyStore();
+  const eta = useLiveBusEta(bus._id, stop);
 
   const handleNotifyConfirm = () => {
     startTracking(bus._id, notifyThreshold);
@@ -57,16 +59,26 @@ export default function BusDetailPanel({
               className="text-[36px] leading-[40px] font-semibold text-[var(--text)] tracking-tight"
               style={{ fontVariantNumeric: 'tabular-nums' }}
             >
-              4 min
+              {eta.status === 'arrived' ? 'Arrived' : `${eta.etaMinutes} min`}
             </span>
-            <span className="text-xs text-[var(--text-2)]">· 3 stops away</span>
+            <span className="text-xs text-[var(--text-2)]">
+              {eta.status === 'arrived'
+                ? '· at stop'
+                : `· ${eta.stopsAway} stops away (${eta.distanceM} m)`}
+            </span>
           </div>
-          <span className="text-xs text-[var(--primary-700)] font-medium">On time</span>
+          <span className="text-xs text-[var(--primary-700)] font-medium">
+            {eta.status === 'arrived' ? 'At stop' : eta.status === 'arriving' ? 'Approaching' : 'On time'}
+          </span>
         </div>
 
         {/* Walking hint */}
         <p className="text-xs text-[var(--text-2)] font-medium mt-1">
-          Leave in 2 min to catch it at {stop.name}.
+          {eta.status === 'arrived'
+            ? `Bus has arrived at ${stop.name}. Board now!`
+            : eta.status === 'arriving'
+            ? `Bus is arriving now at ${stop.name} (${eta.distanceM} m).`
+            : `Leave in ${Math.max(1, eta.etaMinutes - 2)} min to catch it at ${stop.name}.`}
         </p>
       </div>
 
@@ -143,7 +155,7 @@ export default function BusDetailPanel({
             </div>
             <div>
               <span className="text-[var(--text-3)] block">Speed:</span>
-              <span className="text-[var(--text)]">28 km/h (live)</span>
+              <span className="text-[var(--text)]">{eta.speedKmh} km/h (live)</span>
             </div>
           </div>
         )}

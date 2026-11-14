@@ -1,7 +1,9 @@
+import { useState, useEffect } from 'react';
 import { ArrowLeft } from '@phosphor-icons/react';
 import FilterBar from '../FilterBar';
 import BusRow from '../BusRow';
 import { useJourneyStore } from '../../stores/journey';
+import { getBusLiveEta } from '../../services/vehicleStore';
 import type { Stop, Route, Bus } from '../../types/transit';
 import { normalizeBusType } from '../../types/transit';
 
@@ -21,6 +23,12 @@ export default function DestinationPanel({
   buses,
 }: DestinationPanelProps) {
   const { destination, filters } = useJourneyStore();
+  const [, setTick] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => setTick((t) => t + 1), 1500);
+    return () => clearInterval(interval);
+  }, []);
 
   const destName = destination?.name || 'Selected Destination';
 
@@ -67,14 +75,17 @@ export default function DestinationPanel({
             destination: route.destination,
           };
 
-          const boardingStop = stops[0] || {
+          const boardingStop = stops.find((s) => s.routeIds?.includes(route._id)) || stops[0] || {
             _id: 'S0001',
             name: 'Kempegowda Bus Station',
             loc: { type: 'Point', coordinates: [77.5726, 12.9771] },
             routeIds: [route._id],
           };
 
-          const etaMin = 4 + idx * 5;
+          const live = boardingStop?.loc?.coordinates
+            ? getBusLiveEta(candidateBus._id, boardingStop.loc.coordinates)
+            : null;
+          const etaMin = live ? live.etaMinutes : (4 + idx * 3);
 
           const rType = normalizeBusType(route.type);
           if (filters.ac && rType !== 'AC') return null;

@@ -20,6 +20,7 @@ import { fetchRoutes, fetchStops, fetchBuses } from './services/api';
 import {
   setBusCatalog,
   setRoutesCatalog,
+  setStopsCatalog,
   setVehicleFilters,
   setupVehicleMapLayers,
   setTrackedBus,
@@ -89,6 +90,12 @@ function BusTwinApp() {
       setRoutesCatalog(routes);
     }
   }, [routes]);
+
+  useEffect(() => {
+    if (stops.length > 0) {
+      setStopsCatalog(stops);
+    }
+  }, [stops]);
 
   // Sync active filters to vehicle store (removes filtered buses from map)
   useEffect(() => {

@@ -1,5 +1,5 @@
 import type { Map as MapLibreMap, GeoJSONSource } from 'maplibre-gl';
-import type { Bus, BusLiveState, Route, JourneyFilters } from '../types/transit';
+import type { Bus, BusLiveState, Route, Stop, JourneyFilters } from '../types/transit';
 import { normalizeBusType } from '../types/transit';
 import { getDistanceMetres, getBearing } from '../utils/geo';
 
@@ -7,6 +7,7 @@ const busMetadata = new Map<string, Bus>();
 const busIdByIndex: string[] = [];
 const liveBuses = new Map<string, BusLiveState>();
 const routeCatalog = new Map<string, Route>();
+let stopsData: Stop[] = [];
 
 // Active simulation state for local vehicles along real routes
 interface SimVehicle {
@@ -35,67 +36,146 @@ let activeFilters: JourneyFilters = {
   within10m: false,
 };
 
-// SVG Icons
+// SVG Icons — Vivid colors matching reference top-down bus design
 const SVG_DEFAULT_BUS = `
-<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
-  <filter id="sh" x="-20%" y="-20%" width="140%" height="140%">
-    <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.35"/>
-  </filter>
-  <g filter="url(#sh)">
-    <circle cx="24" cy="24" r="18" fill="#246153" stroke="#FFFFFF" stroke-width="3"/>
-    <polygon points="24,3 30,11 18,11" fill="#FFFFFF"/>
-    <rect x="16" y="14" width="16" height="20" rx="3.5" fill="#FFFFFF"/>
-    <rect x="18" y="16" width="12" height="5" rx="1.5" fill="#246153"/>
-    <rect x="18" y="23" width="12" height="3" rx="0.5" fill="#246153"/>
-    <circle cx="18.5" cy="30" r="1.5" fill="#246153"/>
-    <circle cx="27.5" cy="30" r="1.5" fill="#246153"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52">
+  <defs>
+    <filter id="bus-sh-def" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  <g filter="url(#bus-sh-def)">
+    <!-- Direction chevron -->
+    <polygon points="26,1 32,8 26,6 20,8" fill="#FFB800" stroke="#000000" stroke-width="1" stroke-linejoin="round"/>
+    <!-- Side wing mirrors -->
+    <rect x="14" y="13" width="2.5" height="5" rx="1" fill="#FFB800" stroke="#0F172A" stroke-width="1"/>
+    <rect x="35.5" y="13" width="2.5" height="5" rx="1" fill="#FFB800" stroke="#0F172A" stroke-width="1"/>
+    <!-- Main Bus Body (Vivid Yellow Non-AC) -->
+    <rect x="16.5" y="9" width="19" height="34" rx="4.5" fill="#FFB800" stroke="#0F172A" stroke-width="2"/>
+    <!-- Windshield -->
+    <rect x="18.5" y="12" width="15" height="6" rx="1.5" fill="#0F172A"/>
+    <line x1="20" y1="13.5" x2="25" y2="13.5" stroke="#94A3B8" stroke-width="1.2" stroke-linecap="round"/>
+    <!-- Headlights -->
+    <rect x="17.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#FEF08A"/>
+    <rect x="31.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#FEF08A"/>
+    <!-- Roof Details -->
+    <rect x="20" y="21" width="12" height="2" rx="0.8" fill="#D97706" opacity="0.9"/>
+    <rect x="20" y="25" width="12" height="2" rx="0.8" fill="#D97706" opacity="0.9"/>
+    <rect x="20" y="29" width="12" height="2" rx="0.8" fill="#D97706" opacity="0.9"/>
+    <!-- Rear Window & Tail lights -->
+    <rect x="19" y="38" width="14" height="2" rx="0.8" fill="#0F172A"/>
+    <rect x="17.5" y="41.5" width="3" height="1.5" rx="0.5" fill="#EF4444"/>
+    <rect x="31.5" y="41.5" width="3" height="1.5" rx="0.5" fill="#EF4444"/>
   </g>
 </svg>`;
 
 const SVG_AC_BUS = `
-<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
-  <filter id="sh-ac" x="-20%" y="-20%" width="140%" height="140%">
-    <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.35"/>
-  </filter>
-  <g filter="url(#sh-ac)">
-    <circle cx="24" cy="24" r="18" fill="#1D6F60" stroke="#FFFFFF" stroke-width="3"/>
-    <polygon points="24,3 30,11 18,11" fill="#A7F3D0"/>
-    <rect x="16" y="14" width="16" height="20" rx="3.5" fill="#FFFFFF"/>
-    <rect x="18" y="16" width="12" height="5" rx="1.5" fill="#1D6F60"/>
-    <rect x="18" y="23" width="12" height="3" rx="0.5" fill="#1D6F60"/>
-    <circle cx="18.5" cy="30" r="1.5" fill="#1D6F60"/>
-    <circle cx="27.5" cy="30" r="1.5" fill="#1D6F60"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52">
+  <defs>
+    <filter id="bus-sh-ac" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  <g filter="url(#bus-sh-ac)">
+    <!-- Direction chevron -->
+    <polygon points="26,1 32,8 26,6 20,8" fill="#00E5C9" stroke="#000000" stroke-width="1" stroke-linejoin="round"/>
+    <!-- Side wing mirrors -->
+    <rect x="14" y="13" width="2.5" height="5" rx="1" fill="#00C4B4" stroke="#042F2E" stroke-width="1"/>
+    <rect x="35.5" y="13" width="2.5" height="5" rx="1" fill="#00C4B4" stroke="#042F2E" stroke-width="1"/>
+    <!-- Main Bus Body (Vivid Teal AC) -->
+    <rect x="16.5" y="9" width="19" height="34" rx="4.5" fill="#00C4B4" stroke="#042F2E" stroke-width="2"/>
+    <!-- Windshield -->
+    <rect x="18.5" y="12" width="15" height="6" rx="1.5" fill="#042F2E"/>
+    <line x1="20" y1="13.5" x2="25" y2="13.5" stroke="#99F6E4" stroke-width="1.2" stroke-linecap="round"/>
+    <!-- Headlights -->
+    <rect x="17.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#FEF08A"/>
+    <rect x="31.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#FEF08A"/>
+    <!-- AC Unit on Roof -->
+    <rect x="19.5" y="21" width="13" height="8" rx="2" fill="#0F766E" stroke="#042F2E" stroke-width="1"/>
+    <circle cx="23" cy="25" r="1.5" fill="#CCFBF1"/>
+    <circle cx="29" cy="25" r="1.5" fill="#CCFBF1"/>
+    <!-- Rear Window & Tail lights -->
+    <rect x="19" y="38" width="14" height="2" rx="0.8" fill="#042F2E"/>
+    <rect x="17.5" y="41.5" width="3" height="1.5" rx="0.5" fill="#EF4444"/>
+    <rect x="31.5" y="41.5" width="3" height="1.5" rx="0.5" fill="#EF4444"/>
   </g>
 </svg>`;
 
 const SVG_ELECTRIC_BUS = `
-<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
-  <filter id="sh-el" x="-20%" y="-20%" width="140%" height="140%">
-    <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.35"/>
-  </filter>
-  <g filter="url(#sh-el)">
-    <circle cx="24" cy="24" r="18" fill="#0E5280" stroke="#FFFFFF" stroke-width="3"/>
-    <polygon points="24,3 30,11 18,11" fill="#BAE6FD"/>
-    <rect x="16" y="14" width="16" height="20" rx="3.5" fill="#FFFFFF"/>
-    <rect x="18" y="16" width="12" height="5" rx="1.5" fill="#0E5280"/>
-    <polygon points="25,22 22,26 24,26 23,29 27,25 25,25" fill="#0E5280"/>
-    <circle cx="18.5" cy="30" r="1.5" fill="#0E5280"/>
-    <circle cx="27.5" cy="30" r="1.5" fill="#0E5280"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52">
+  <defs>
+    <filter id="bus-sh-el" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  <g filter="url(#bus-sh-el)">
+    <!-- Direction chevron -->
+    <polygon points="26,1 32,8 26,6 20,8" fill="#38BDF8" stroke="#000000" stroke-width="1" stroke-linejoin="round"/>
+    <!-- Side wing mirrors -->
+    <rect x="14" y="13" width="2.5" height="5" rx="1" fill="#0E90FF" stroke="#07305A" stroke-width="1"/>
+    <rect x="35.5" y="13" width="2.5" height="5" rx="1" fill="#0E90FF" stroke="#07305A" stroke-width="1"/>
+    <!-- Main Bus Body (Vivid Blue Electric) -->
+    <rect x="16.5" y="9" width="19" height="34" rx="4.5" fill="#0E90FF" stroke="#07305A" stroke-width="2"/>
+    <!-- Windshield -->
+    <rect x="18.5" y="12" width="15" height="6" rx="1.5" fill="#07305A"/>
+    <line x1="20" y1="13.5" x2="25" y2="13.5" stroke="#BAE6FD" stroke-width="1.2" stroke-linecap="round"/>
+    <!-- Headlights -->
+    <rect x="17.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#FEF08A"/>
+    <rect x="31.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#FEF08A"/>
+    <!-- Battery / Electric Bolt Symbol -->
+    <polygon points="27,20 23,26 26,26 24.5,31 29,24 26,24" fill="#FDE047" stroke="#07305A" stroke-width="0.8"/>
+    <!-- Rear Window & Tail lights -->
+    <rect x="19" y="38" width="14" height="2" rx="0.8" fill="#07305A"/>
+    <rect x="17.5" y="41.5" width="3" height="1.5" rx="0.5" fill="#EF4444"/>
+    <rect x="31.5" y="41.5" width="3" height="1.5" rx="0.5" fill="#EF4444"/>
   </g>
 </svg>`;
 
 const SVG_TRACKED_BUS = `
-<svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
-  <filter id="sh-tr" x="-25%" y="-25%" width="150%" height="150%">
-    <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#F59E0B" flood-opacity="0.6"/>
-  </filter>
-  <g filter="url(#sh-tr)">
-    <circle cx="28" cy="28" r="22" fill="#18202A" stroke="#F59E0B" stroke-width="4"/>
-    <polygon points="28,2 35,12 21,12" fill="#F59E0B"/>
-    <rect x="19" y="17" width="18" height="23" rx="4" fill="#FFFFFF"/>
-    <rect x="21" y="19" width="14" height="6" rx="1.5" fill="#18202A"/>
-    <circle cx="22" cy="35" r="1.8" fill="#F59E0B"/>
-    <circle cx="32" cy="35" r="1.8" fill="#F59E0B"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="58" height="58" viewBox="0 0 58 58">
+  <defs>
+    <filter id="bus-sh-tr" x="-35%" y="-35%" width="170%" height="170%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#F59E0B" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+  <g filter="url(#bus-sh-tr)">
+    <!-- Glowing pulse outer ring -->
+    <rect x="17.5" y="9" width="23" height="40" rx="7" fill="none" stroke="#F59E0B" stroke-width="3" opacity="0.9"/>
+    <!-- Direction chevron -->
+    <polygon points="29,1 36,9 29,7 22,9" fill="#FBBF24" stroke="#000000" stroke-width="1.2" stroke-linejoin="round"/>
+    <!-- Side wing mirrors -->
+    <rect x="16.5" y="15" width="3" height="6" rx="1.2" fill="#F59E0B" stroke="#000000" stroke-width="1.2"/>
+    <rect x="38.5" y="15" width="3" height="6" rx="1.2" fill="#F59E0B" stroke="#000000" stroke-width="1.2"/>
+    <!-- Main Body -->
+    <rect x="19.5" y="11" width="19" height="36" rx="5" fill="#0F172A" stroke="#F59E0B" stroke-width="2.5"/>
+    <!-- Windshield -->
+    <rect x="21.5" y="14" width="15" height="7" rx="2" fill="#F59E0B"/>
+    <line x1="23" y1="16" x2="28" y2="16" stroke="#FFFFFF" stroke-width="1.2" stroke-linecap="round"/>
+    <!-- Center Beacon -->
+    <circle cx="29" cy="29" r="3.5" fill="#F59E0B"/>
+    <circle cx="29" cy="29" r="1.5" fill="#FFFFFF"/>
+    <!-- Tail lights -->
+    <rect x="21" y="44" width="3.5" height="1.8" rx="0.5" fill="#EF4444"/>
+    <rect x="33.5" y="44" width="3.5" height="1.8" rx="0.5" fill="#EF4444"/>
+  </g>
+</svg>`;
+
+const SVG_STOP_MARKER = `
+<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+  <defs>
+    <filter id="stop-sh" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="1.5" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <g filter="url(#stop-sh)">
+    <circle cx="18" cy="18" r="15" fill="#FA4B4B" stroke="#FFFFFF" stroke-width="2.5"/>
+    <!-- White bus silhouette inside -->
+    <rect x="11.5" y="10.5" width="13" height="13" rx="2.5" fill="#FFFFFF"/>
+    <rect x="13" y="12" width="10" height="4" rx="1" fill="#FA4B4B"/>
+    <circle cx="14" cy="21" r="1.3" fill="#FA4B4B"/>
+    <circle cx="22" cy="21" r="1.3" fill="#FA4B4B"/>
+    <circle cx="14" cy="17.5" r="0.9" fill="#FA4B4B"/>
+    <circle cx="22" cy="17.5" r="0.9" fill="#FA4B4B"/>
   </g>
 </svg>`;
 
@@ -148,6 +228,90 @@ export function setRoutesCatalog(routes: Route[]) {
     routeCatalog.set(r._id, r);
   }
   initializeSimVehiclesIfReady();
+}
+
+export interface LiveEtaResult {
+  etaSeconds: number;
+  etaMinutes: number;
+  distanceM: number;
+  stopsAway: number;
+  speedKmh: number;
+  status: 'scheduled' | 'approaching' | 'arriving' | 'arrived';
+}
+
+export function getLiveBus(busId: string): BusLiveState | undefined {
+  return liveBuses.get(busId);
+}
+
+export function getAllLiveBuses(): BusLiveState[] {
+  return Array.from(liveBuses.values());
+}
+
+export function calculateBusToStopEta(
+  busLat: number,
+  busLng: number,
+  busSpeedKmh: number,
+  stopLat: number,
+  stopLng: number
+): LiveEtaResult {
+  const directDistM = getDistanceMetres(busLat, busLng, stopLat, stopLng);
+  // Real road path factor in Bengaluru city grid
+  const roadDistM = Math.max(10, directDistM * 1.25);
+  // City bus speed in m/s (min 3.5 m/s, avg 5.5 m/s = ~20 km/h)
+  const speedMps = busSpeedKmh > 3 ? Math.max(3.5, Math.min(12, busSpeedKmh * (1000 / 3600))) : 5.5;
+  const etaSeconds = Math.round(roadDistM / speedMps);
+  const etaMinutes = Math.max(1, Math.ceil(etaSeconds / 60));
+  const stopsAway = Math.max(1, Math.round(roadDistM / 700));
+
+  let status: LiveEtaResult['status'] = 'scheduled';
+  if (roadDistM < 60) {
+    status = 'arrived';
+  } else if (roadDistM < 250 || etaSeconds < 60) {
+    status = 'arriving';
+  } else if (etaSeconds <= 180) {
+    status = 'approaching';
+  }
+
+  return {
+    etaSeconds: roadDistM < 60 ? 0 : etaSeconds,
+    etaMinutes: roadDistM < 60 ? 0 : etaMinutes,
+    distanceM: Math.round(roadDistM),
+    stopsAway,
+    speedKmh: Math.round(busSpeedKmh || 25),
+    status,
+  };
+}
+
+export function getBusLiveEta(busId: string, stopCoords?: [number, number]): LiveEtaResult | null {
+  const bus = liveBuses.get(busId);
+  if (!bus || !stopCoords) return null;
+  const busLat = bus.interpolatedLat ?? bus.lat;
+  const busLng = bus.interpolatedLng ?? bus.lng;
+  return calculateBusToStopEta(busLat, busLng, bus.speed, stopCoords[1], stopCoords[0]);
+}
+
+export function setStopsCatalog(stops: Stop[]) {
+  stopsData = stops;
+  if (mapInstance) {
+    updateStopsSource();
+  }
+}
+
+function updateStopsSource() {
+  if (!mapInstance) return;
+  const source = mapInstance.getSource('bus-stops') as GeoJSONSource | undefined;
+  if (!source) return;
+  source.setData({
+    type: 'FeatureCollection',
+    features: stopsData.map((s) => ({
+      type: 'Feature',
+      geometry: s.loc,
+      properties: {
+        id: s._id,
+        name: s.name,
+      },
+    })),
+  });
 }
 
 // Generate active smooth moving fleet along real Bengaluru routes
@@ -306,10 +470,11 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
   mapInstance = map;
 
   // Register all SVG icons
-  registerSvgIcon(map, 'bus-icon-default', SVG_DEFAULT_BUS);
-  registerSvgIcon(map, 'bus-icon-ac', SVG_AC_BUS);
-  registerSvgIcon(map, 'bus-icon-electric', SVG_ELECTRIC_BUS);
-  registerSvgIcon(map, 'bus-icon-tracked', SVG_TRACKED_BUS, 56);
+  registerSvgIcon(map, 'bus-icon-default', SVG_DEFAULT_BUS, 52);
+  registerSvgIcon(map, 'bus-icon-ac', SVG_AC_BUS, 52);
+  registerSvgIcon(map, 'bus-icon-electric', SVG_ELECTRIC_BUS, 52);
+  registerSvgIcon(map, 'bus-icon-tracked', SVG_TRACKED_BUS, 58);
+  registerSvgIcon(map, 'bus-stop-icon', SVG_STOP_MARKER, 36);
   registerSvgIcon(map, 'user-arrow-icon', SVG_USER_ARROW, 40);
 
   // Selected Route Line Sources
@@ -363,6 +528,87 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
         'line-width': 4,
         'line-dasharray': [2, 2],
       },
+    });
+  }
+
+  // Bus Stops Source & Layers
+  if (!map.getSource('bus-stops')) {
+    map.addSource('bus-stops', {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: stopsData.map((s) => ({
+          type: 'Feature',
+          geometry: s.loc,
+          properties: {
+            id: s._id,
+            name: s.name,
+          },
+        })),
+      },
+    });
+  }
+
+  // Small markers on bus stops (red dots with white border)
+  if (!map.getLayer('bus-stops-circle')) {
+    map.addLayer({
+      id: 'bus-stops-circle',
+      type: 'circle',
+      source: 'bus-stops',
+      minzoom: 12,
+      paint: {
+        'circle-radius': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          12, 2.5,
+          14, 4.5,
+          16, 6.5,
+        ],
+        'circle-color': '#FA4B4B',
+        'circle-stroke-width': 1.5,
+        'circle-stroke-color': '#FFFFFF',
+        'circle-opacity': 0.92,
+      },
+    });
+
+    map.on('mouseenter', 'bus-stops-circle', () => {
+      map.getCanvas().style.cursor = 'pointer';
+    });
+    map.on('mouseleave', 'bus-stops-circle', () => {
+      map.getCanvas().style.cursor = '';
+    });
+  }
+
+  // Bus stop icons with name labels at zoom 14.5+
+  if (!map.getLayer('bus-stops-icon-layer')) {
+    map.addLayer({
+      id: 'bus-stops-icon-layer',
+      type: 'symbol',
+      source: 'bus-stops',
+      minzoom: 14.5,
+      layout: {
+        'icon-image': 'bus-stop-icon',
+        'icon-size': 0.65,
+        'icon-allow-overlap': false,
+        'text-field': ['get', 'name'],
+        'text-size': 11,
+        'text-offset': [0, 1.3],
+        'text-anchor': 'top',
+        'text-optional': true,
+      },
+      paint: {
+        'text-color': '#0F172A',
+        'text-halo-color': '#FFFFFF',
+        'text-halo-width': 2,
+      },
+    });
+
+    map.on('mouseenter', 'bus-stops-icon-layer', () => {
+      map.getCanvas().style.cursor = 'pointer';
+    });
+    map.on('mouseleave', 'bus-stops-icon-layer', () => {
+      map.getCanvas().style.cursor = '';
     });
   }
 

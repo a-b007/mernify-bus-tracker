@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
 import { X } from '@phosphor-icons/react';
 import RouteChip from './RouteChip';
 import { useJourneyStore } from '../stores/journey';
+import { useLiveBusEta } from '../hooks/useLiveEta';
 import type { Route, Bus, Stop } from '../types/transit';
 import { normalizeBusType } from '../types/transit';
 
@@ -20,26 +20,20 @@ export default function TrackingBar({
   onStopTracking,
   className = '',
 }: TrackingBarProps) {
-  const [secondsRemaining, setSecondsRemaining] = useState(180); // 3 minutes initially
   const { trackingThresholdMin } = useJourneyStore();
+  const eta = useLiveBusEta(bus._id, stop);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSecondsRemaining((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
+  const secondsRemaining = eta.etaSeconds;
   const mins = Math.floor(secondsRemaining / 60);
   const secs = secondsRemaining % 60;
 
-  // Escalation logic per DESIGN.md §2:
+  // Escalation logic based on live physical tracking:
+  // arrived: distance < 60m or seconds === 0
+  // arriving: distance < 250m or seconds < 60
   // approaching: seconds <= threshold * 60
-  // arriving: seconds < 60
-  // done: seconds === 0
-  const isArriving = secondsRemaining < 60 && secondsRemaining > 0;
-  const isApproaching = secondsRemaining <= trackingThresholdMin * 60 && secondsRemaining >= 60;
-  const isDone = secondsRemaining === 0;
+  const isDone = eta.status === 'arrived' || secondsRemaining === 0;
+  const isArriving = !isDone && (eta.status === 'arriving' || secondsRemaining < 60);
+  const isApproaching = !isDone && !isArriving && (eta.status === 'approaching' || secondsRemaining <= trackingThresholdMin * 60);
 
   const getContainerStyle = () => {
     if (isDone) {
@@ -72,13 +66,13 @@ export default function TrackingBar({
             {isDone
               ? `Reached ${stop.name}`
               : isArriving
-              ? 'Arriving now · at boarding stop'
+              ? `Arriving now · ${eta.distanceM} m away`
               : isApproaching
               ? `Arriving in ${mins}m ${secs}s · head to ${stop.name}`
-              : `Tracking bus · 2 stops away`}
+              : `Tracking bus · ${eta.stopsAway} stops away (${eta.distanceM} m)`}
           </div>
           <div className="text-[11px] opacity-80 truncate">
-            towards {route.destination}
+            towards {route.destination} · {eta.speedKmh} km/h
           </div>
         </div>
       </div>

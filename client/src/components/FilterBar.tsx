@@ -16,7 +16,7 @@ export default function FilterBar() {
         className={[
           'inline-flex items-center gap-1 px-3 py-1.5 rounded-[var(--r-pill)] border select-none transition-all duration-[var(--dur-1)] shrink-0 cursor-pointer',
           filters.ac
-            ? 'bg-[#1E6B5D] text-white border-[#2C8574] font-semibold shadow-xs'
+            ? 'bg-[#00C4B4] text-[#042F2E] border-[#00A89A] font-bold shadow-xs'
             : 'bg-[var(--surface-2)] text-[var(--text)] border-[var(--border)] hover:border-[var(--border-strong)] font-medium',
         ].join(' ')}
       >
@@ -31,7 +31,7 @@ export default function FilterBar() {
         className={[
           'inline-flex items-center gap-1 px-3 py-1.5 rounded-[var(--r-pill)] border select-none transition-all duration-[var(--dur-1)] shrink-0 cursor-pointer',
           filters.nonAc
-            ? 'bg-[#2D3748] dark:bg-[#4A5568] text-white border-transparent font-semibold shadow-xs'
+            ? 'bg-[#FFB800] text-[#0F172A] border-[#E5A700] font-bold shadow-xs'
             : 'bg-[var(--surface-2)] text-[var(--text)] border-[var(--border)] hover:border-[var(--border-strong)] font-medium',
         ].join(' ')}
       >
@@ -45,7 +45,7 @@ export default function FilterBar() {
         className={[
           'inline-flex items-center gap-1 px-3 py-1.5 rounded-[var(--r-pill)] border select-none transition-all duration-[var(--dur-1)] shrink-0 cursor-pointer',
           filters.electric
-            ? 'bg-[#0E5280] text-white border-[#1A6DA3] font-semibold shadow-xs'
+            ? 'bg-[#0E90FF] text-white border-[#0070E0] font-bold shadow-xs'
             : 'bg-[var(--surface-2)] text-[var(--text)] border-[var(--border)] hover:border-[var(--border-strong)] font-medium',
         ].join(' ')}
       >
