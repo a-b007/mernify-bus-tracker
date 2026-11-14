@@ -1,4 +1,4 @@
-# 🚌 Bengaluru Bus Digital Twin — Live Fleet Map, Stop ETAs & Arrival Analytics
+# BUSDEKHO
 
 > **Track**: MERNIFY — High-Throughput Streams and Telemetry (TraceGrid Concept)  
 > **Target City**: Bengaluru, Karnataka, India (BMTC System)  
