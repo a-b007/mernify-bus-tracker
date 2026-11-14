@@ -21,6 +21,9 @@ import {
   setVehicleFilters,
   setupVehicleMapLayers,
   setTrackedBus,
+  setTrackedRouteContext,
+  startCameraFollow,
+  stopCameraFollow,
   setPinnedStops,
   setOnStopClickListener,
   setSelectedRouteLine,
@@ -265,7 +268,7 @@ export default function HomePage() {
     );
   }, [map, setLocatingError, setUserLocation, setOriginStop, stops]);
 
-  // Handle selecting a particular bus (highlights bus + opens right detail panel)
+  // Handle selecting a particular bus (highlights bus + opens right detail panel + centers and follows bus)
   const handleSelectBus = useCallback(
     (bus: Bus, route: Route, stop: Stop) => {
       selectBus(bus);
@@ -276,19 +279,15 @@ export default function HomePage() {
 
       // Highlight tracked bus and route line on the map
       setTrackedBus(bus._id, stop.loc?.coordinates);
+      setTrackedRouteContext(route._id, stop._id, destStop?._id);
       if (route.geometry?.coordinates) {
         setSelectedRouteLine(route.geometry.coordinates);
       }
 
-      if (map && stop.loc?.coordinates) {
-        map.flyTo({
-          center: stop.loc.coordinates,
-          zoom: 15,
-          duration: 600,
-        });
-      }
+      // Re-center screen on the selected bus from a moderate zoom (14.8) and move along with it until boarding stop is reached
+      startCameraFollow(bus._id, stop._id, stop.loc?.coordinates);
     },
-    [map, selectBus, selectRoute, selectStop, setStep]
+    [selectBus, selectRoute, selectStop, setStep, destStop]
   );
 
   // Map marker click listener (Clicking any bus on the map selects and highlights it)
@@ -482,7 +481,10 @@ export default function HomePage() {
 
   const detail = showDetail ? (
     <BusDetailPanel
-      onBack={() => setStep('nearby')}
+      onBack={() => {
+        setStep('nearby');
+        stopCameraFollow();
+      }}
       onNotifyClick={() => setStep('tracking')}
       bus={selectedBus!}
       route={selectedRoute!}

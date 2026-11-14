@@ -357,17 +357,80 @@ export function setPinnedStops(boarding: Stop | null, dest: Stop | null) {
   });
 }
 
-export function recenterOnBus(busId: string, zoom = 16) {
-  if (!mapInstance) return;
+export function getBusCurrentCoordinates(busId: string): [number, number] | null {
   const sim = simVehicles.get(busId);
+  if (sim && typeof sim.lng === 'number' && typeof sim.lat === 'number') {
+    return [sim.lng, sim.lat];
+  }
   const live = liveBuses.get(busId);
-  const lng = sim?.lng ?? live?.interpolatedLng ?? live?.lng;
-  const lat = sim?.lat ?? live?.interpolatedLat ?? live?.lat;
-  if (lng !== undefined && lat !== undefined) {
+  if (live) {
+    const lng = live.interpolatedLng ?? live.lng;
+    const lat = live.interpolatedLat ?? live.lat;
+    if (typeof lng === 'number' && typeof lat === 'number') {
+      return [lng, lat];
+    }
+  }
+  return null;
+}
+
+let cameraFollowBusId: string | null = null;
+let cameraFollowStopId: string | null = null;
+let cameraFollowActive = false;
+let lastCameraFollowTime = 0;
+
+export function startCameraFollow(
+  busId: string,
+  untilStopId?: string | null,
+  fallbackCoords?: [number, number],
+  moderateZoom = 14.8
+) {
+  cameraFollowBusId = busId;
+  cameraFollowStopId = untilStopId ?? null;
+  cameraFollowActive = true;
+  lastCameraFollowTime = 0;
+
+  if (mapInstance) {
+    const coords = getBusCurrentCoordinates(busId) || fallbackCoords;
+    if (coords) {
+      // Re-center on the selected bus from a moderate zoom
+      mapInstance.flyTo({
+        center: coords,
+        zoom: moderateZoom,
+        duration: 750,
+        essential: true,
+      });
+    }
+
+    if (!(mapInstance as any)._hasDragFollowListener) {
+      (mapInstance as any)._hasDragFollowListener = true;
+      mapInstance.on('dragstart', () => {
+        cameraFollowActive = false;
+      });
+    }
+  }
+}
+
+export function stopCameraFollow() {
+  cameraFollowActive = false;
+  cameraFollowBusId = null;
+  cameraFollowStopId = null;
+}
+
+export function isCameraFollowingBus(busId?: string): boolean {
+  if (!cameraFollowActive) return false;
+  if (busId) return cameraFollowBusId === busId;
+  return true;
+}
+
+export function recenterOnBus(busId: string, zoom = 14.8) {
+  if (!mapInstance) return;
+  const coords = getBusCurrentCoordinates(busId);
+  if (coords) {
     mapInstance.flyTo({
-      center: [lng, lat],
+      center: coords,
       zoom,
-      duration: 600,
+      duration: 650,
+      essential: true,
     });
   }
 }
@@ -1544,6 +1607,44 @@ function startRafLoop() {
         }
       } else {
         pulseSource.setData({ type: 'FeatureCollection', features: [] });
+      }
+    }
+
+    // Smooth camera follow for the selected bus until the boarding stop is reached
+    if (cameraFollowActive && cameraFollowBusId && mapInstance) {
+      let stopReached = false;
+      const coords = getBusCurrentCoordinates(cameraFollowBusId);
+
+      if (cameraFollowStopId) {
+        if (!isStopUpcoming(cameraFollowBusId, cameraFollowStopId)) {
+          stopReached = true;
+        } else if (coords) {
+          const stopObj = stopsData.find((s) => s._id === cameraFollowStopId);
+          if (stopObj?.loc?.coordinates) {
+            const d = getDistanceMetres(
+              coords[1],
+              coords[0],
+              stopObj.loc.coordinates[1],
+              stopObj.loc.coordinates[0]
+            );
+            if (d <= 35) {
+              stopReached = true;
+            }
+          }
+        }
+      }
+
+      if (stopReached) {
+        // Boarding stop reached! Halt camera follow so user can board
+        cameraFollowActive = false;
+      } else if (coords && currentTime - lastCameraFollowTime > 120) {
+        lastCameraFollowTime = currentTime;
+        mapInstance.easeTo({
+          center: coords,
+          duration: 160,
+          easing: (t) => t,
+          essential: true,
+        });
       }
     }
   };

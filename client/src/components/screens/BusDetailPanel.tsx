@@ -11,11 +11,12 @@ import {
   Path,
   Gauge,
   X,
+  Crosshair,
 } from '@phosphor-icons/react';
 import RouteChip from '../RouteChip';
 import { useJourneyStore } from '../../stores/journey';
 import { useLiveBusEta } from '../../hooks/useLiveEta';
-import { isStopUpcoming } from '../../services/vehicleStore';
+import { isStopUpcoming, startCameraFollow } from '../../services/vehicleStore';
 import type { Stop, Route, Bus } from '../../types/transit';
 import { normalizeBusType } from '../../types/transit';
 
@@ -142,6 +143,15 @@ export default function BusDetailPanel({
           <span className="text-xs text-[var(--text-3)]">Towards</span>
           <h2 className="text-md truncate">{route.destination}</h2>
         </div>
+        <button
+          type="button"
+          onClick={() => startCameraFollow(bus._id, stop._id, stop.loc?.coordinates)}
+          aria-label="Recenter and follow bus"
+          title="Recenter and follow bus"
+          className="icon-btn text-[var(--text-2)] hover:text-[var(--primary)]"
+        >
+          <Crosshair size={18} />
+        </button>
         <button type="button" onClick={onBack} aria-label="Close" className="icon-btn -mr-2">
           <X size={20} />
         </button>
