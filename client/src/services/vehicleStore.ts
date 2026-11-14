@@ -33,6 +33,9 @@ let lastTickTime = performance.now();
 let lastSourceUpdateTime = 0;
 let trackedBusId: string | null = null;
 let targetStopLocation: [number, number] | null = null; // [lng, lat]
+let trackedRouteId: string | null = null;
+let trackedBoardingStopId: string | null = null;
+let trackedDestStopId: string | null = null;
 let activeFilters: JourneyFilters = {
   ac: false,
   nonAc: false,
@@ -137,31 +140,48 @@ const SVG_ELECTRIC_BUS = `
 </svg>`;
 
 const SVG_TRACKED_BUS = `
-<svg xmlns="http://www.w3.org/2000/svg" width="58" height="58" viewBox="0 0 58 58">
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
   <defs>
-    <filter id="bus-sh-tr" x="-35%" y="-35%" width="170%" height="170%">
-      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#F59E0B" flood-opacity="0.8"/>
+    <filter id="bus-sh-tr" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#00F0FF" flood-opacity="0.95"/>
     </filter>
   </defs>
   <g filter="url(#bus-sh-tr)">
-    <!-- Glowing pulse outer ring -->
-    <rect x="17.5" y="9" width="23" height="40" rx="7" fill="none" stroke="#F59E0B" stroke-width="3" opacity="0.9"/>
-    <!-- Direction chevron -->
-    <polygon points="29,1 36,9 29,7 22,9" fill="#FBBF24" stroke="#000000" stroke-width="1.2" stroke-linejoin="round"/>
-    <!-- Side wing mirrors -->
-    <rect x="16.5" y="15" width="3" height="6" rx="1.2" fill="#F59E0B" stroke="#000000" stroke-width="1.2"/>
-    <rect x="38.5" y="15" width="3" height="6" rx="1.2" fill="#F59E0B" stroke="#000000" stroke-width="1.2"/>
-    <!-- Main Body -->
-    <rect x="19.5" y="11" width="19" height="36" rx="5" fill="#0F172A" stroke="#F59E0B" stroke-width="2.5"/>
+    <!-- Outer Cyan Glow Halo -->
+    <rect x="17.5" y="6.5" width="29" height="51" rx="8" fill="none" stroke="#00F0FF" stroke-width="3" opacity="0.95"/>
+    <!-- Direction Chevron -->
+    <polygon points="32,0 42,10 32,7.5 22,10" fill="#00F0FF" stroke="#0B132B" stroke-width="1.5" stroke-linejoin="round"/>
+    <!-- Side Mirrors -->
+    <rect x="15.5" y="16" width="3.5" height="7" rx="1.5" fill="#00F0FF" stroke="#0B132B" stroke-width="1.2"/>
+    <rect x="45" y="16" width="3.5" height="7" rx="1.5" fill="#00F0FF" stroke="#0B132B" stroke-width="1.2"/>
+    <!-- Main Body: High contrast Dark Slate with glowing cyan accents -->
+    <rect x="19.5" y="8.5" width="25" height="47" rx="6" fill="#0B132B" stroke="#00F0FF" stroke-width="2.5"/>
     <!-- Windshield -->
-    <rect x="21.5" y="14" width="15" height="7" rx="2" fill="#F59E0B"/>
-    <line x1="23" y1="16" x2="28" y2="16" stroke="#FFFFFF" stroke-width="1.2" stroke-linecap="round"/>
-    <!-- Center Beacon -->
-    <circle cx="29" cy="29" r="3.5" fill="#F59E0B"/>
-    <circle cx="29" cy="29" r="1.5" fill="#FFFFFF"/>
+    <rect x="22" y="12.5" width="20" height="9" rx="2.5" fill="#00F0FF"/>
+    <line x1="24" y1="15.5" x2="31" y2="15.5" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+    <!-- Center Strobe/Beacon -->
+    <circle cx="32" cy="32" r="5" fill="#F59E0B"/>
+    <circle cx="32" cy="32" r="2.5" fill="#FFFFFF"/>
+    <!-- Roof Ribs -->
+    <rect x="23" y="24" width="18" height="2" rx="0.8" fill="#00F0FF" opacity="0.8"/>
+    <rect x="23" y="40" width="18" height="2" rx="0.8" fill="#00F0FF" opacity="0.8"/>
     <!-- Tail lights -->
-    <rect x="21" y="44" width="3.5" height="1.8" rx="0.5" fill="#EF4444"/>
-    <rect x="33.5" y="44" width="3.5" height="1.8" rx="0.5" fill="#EF4444"/>
+    <rect x="22" y="51" width="4.5" height="2" rx="0.8" fill="#EF4444"/>
+    <rect x="37.5" y="51" width="4.5" height="2" rx="0.8" fill="#EF4444"/>
+  </g>
+</svg>`;
+
+// Red Stop Location Pin matching user's uploaded marker design
+const SVG_RED_PIN = `
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="58" viewBox="0 0 48 58">
+  <defs>
+    <filter id="pin-sh" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+  <g filter="url(#pin-sh)">
+    <path d="M24 0C10.745 0 0 10.745 0 24c0 16.5 24 34 24 34s24-17.5 24-34C48 10.745 37.255 0 24 0z" fill="#EF4444"/>
+    <circle cx="24" cy="22" r="9.5" fill="#FFFFFF"/>
   </g>
 </svg>`;
 
@@ -256,6 +276,71 @@ export function setVehicleFilters(filters: JourneyFilters) {
 export function setTrackedBus(busId: string | null, targetStop?: [number, number]) {
   trackedBusId = busId;
   targetStopLocation = targetStop ?? null;
+}
+
+export function setTrackedRouteContext(
+  routeId: string | null,
+  boardingStopId?: string | null,
+  destStopId?: string | null
+) {
+  trackedRouteId = routeId;
+  trackedBoardingStopId = boardingStopId ?? null;
+  trackedDestStopId = destStopId ?? null;
+}
+
+let pinnedBoardingStop: Stop | null = null;
+let pinnedDestStop: Stop | null = null;
+
+export function setPinnedStops(boarding: Stop | null, dest: Stop | null) {
+  pinnedBoardingStop = boarding;
+  pinnedDestStop = dest;
+  if (!mapInstance) return;
+  const source = mapInstance.getSource('pinned-stops') as GeoJSONSource | undefined;
+  if (!source) return;
+
+  const features: any[] = [];
+  if (boarding?.loc?.coordinates) {
+    features.push({
+      type: 'Feature',
+      geometry: { type: 'Point', coordinates: boarding.loc.coordinates },
+      properties: {
+        id: 'boarding',
+        type: 'boarding',
+        title: 'Boarding: ' + boarding.name,
+      },
+    });
+  }
+  if (dest?.loc?.coordinates) {
+    features.push({
+      type: 'Feature',
+      geometry: { type: 'Point', coordinates: dest.loc.coordinates },
+      properties: {
+        id: 'destination',
+        type: 'destination',
+        title: 'Destination: ' + dest.name,
+      },
+    });
+  }
+
+  source.setData({
+    type: 'FeatureCollection',
+    features,
+  });
+}
+
+export function recenterOnBus(busId: string, zoom = 16) {
+  if (!mapInstance) return;
+  const sim = simVehicles.get(busId);
+  const live = liveBuses.get(busId);
+  const lng = sim?.lng ?? live?.interpolatedLng ?? live?.lng;
+  const lat = sim?.lat ?? live?.interpolatedLat ?? live?.lat;
+  if (lng !== undefined && lat !== undefined) {
+    mapInstance.flyTo({
+      center: [lng, lat],
+      zoom,
+      duration: 600,
+    });
+  }
 }
 
 export function setBusCatalog(buses: Bus[]) {
@@ -639,7 +724,8 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
   registerSvgIcon(map, 'bus-icon-default', SVG_DEFAULT_BUS, 52);
   registerSvgIcon(map, 'bus-icon-ac', SVG_AC_BUS, 52);
   registerSvgIcon(map, 'bus-icon-electric', SVG_ELECTRIC_BUS, 52);
-  registerSvgIcon(map, 'bus-icon-tracked', SVG_TRACKED_BUS, 58);
+  registerSvgIcon(map, 'bus-icon-tracked', SVG_TRACKED_BUS, 64);
+  registerSvgIcon(map, 'red-stop-pin', SVG_RED_PIN, 48);
   registerSvgIcon(map, 'bus-stop-icon', SVG_STOP_MARKER, 36);
   registerSvgIcon(map, 'user-arrow-icon', SVG_USER_ARROW, 40);
 
@@ -659,43 +745,80 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
       source: 'selected-route',
       layout: { 'line-join': 'round', 'line-cap': 'round' },
       paint: {
-        'line-color': '#FFFFFF',
-        'line-width': 7,
-        'line-opacity': 0.9,
+        'line-color': '#0F172A',
+        'line-width': 8.5,
+        'line-opacity': 0.85,
       },
     });
   }
 
-  // Selected route main line
-  if (!map.getLayer('selected-route-main')) {
+  // Selected route full path (subtle slate/teal highlighting full route of that bus)
+  if (!map.getLayer('selected-route-full')) {
     map.addLayer({
-      id: 'selected-route-main',
+      id: 'selected-route-full',
       type: 'line',
       source: 'selected-route',
-      filter: ['==', 'type', 'main'],
+      filter: ['any', ['==', 'type', 'full'], ['==', 'type', 'main']],
       layout: { 'line-join': 'round', 'line-cap': 'round' },
       paint: {
-        'line-color': '#2F675B', // --primary-600
+        'line-color': '#64748B',
         'line-width': 4.5,
+        'line-opacity': 0.85,
       },
     });
   }
 
-  // Selected route remaining path to boarding stop (amber dashed)
-  if (!map.getLayer('selected-route-remaining')) {
+  // Selected route active path from bus to boarding and to destination (Deep Blue #1D4ED8 that shortens)
+  if (!map.getLayer('selected-route-active')) {
     map.addLayer({
-      id: 'selected-route-remaining',
+      id: 'selected-route-active',
       type: 'line',
       source: 'selected-route',
-      filter: ['==', 'type', 'remaining'],
+      filter: ['any', ['==', 'type', 'active'], ['==', 'type', 'remaining']],
       layout: { 'line-join': 'round', 'line-cap': 'round' },
       paint: {
-        'line-color': '#F59E0B', // --amber-500
-        'line-width': 4,
-        'line-dasharray': [2, 2],
+        'line-color': '#1D4ED8', // Deep blue as requested
+        'line-width': 6.5,
+        'line-opacity': 1.0,
       },
     });
   }
+
+  // Pinned Stops Source & Red Arrow/Pin Marker Layer (Boarding & Destination)
+  if (!map.getSource('pinned-stops')) {
+    map.addSource('pinned-stops', {
+      type: 'geojson',
+      data: { type: 'FeatureCollection', features: [] },
+    });
+  }
+
+  if (!map.getLayer('pinned-stops-marker')) {
+    map.addLayer({
+      id: 'pinned-stops-marker',
+      type: 'symbol',
+      source: 'pinned-stops',
+      layout: {
+        'icon-image': 'red-stop-pin',
+        'icon-size': 0.85,
+        'icon-anchor': 'bottom',
+        'icon-allow-overlap': true,
+        'icon-ignore-placement': true,
+        'text-field': ['get', 'title'],
+        'text-size': 11.5,
+        'text-offset': [0, 0.4],
+        'text-anchor': 'top',
+        'text-optional': false,
+      },
+      paint: {
+        'text-color': '#FFFFFF',
+        'text-halo-color': '#0F172A',
+        'text-halo-width': 2.5,
+      },
+    });
+  }
+
+  // Restore any existing pinned stops
+  setPinnedStops(pinnedBoardingStop, pinnedDestStop);
 
   // Bus Stops Source & Layers
   if (!map.getSource('bus-stops')) {
@@ -800,19 +923,19 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
     });
   }
 
-  // Soft colored pulse layer when selected bus approaches stop
+  // Vivid cyan glowing pulse layer when selected bus is tracked
   if (!map.getLayer('tracked-bus-pulse-ring')) {
     map.addLayer({
       id: 'tracked-bus-pulse-ring',
       type: 'circle',
       source: 'tracked-bus-pulse',
       paint: {
-        'circle-radius': 16,
-        'circle-color': '#F59E0B',
-        'circle-opacity': 0.5,
-        'circle-stroke-width': 2,
+        'circle-radius': 22,
+        'circle-color': '#00F0FF',
+        'circle-opacity': 0.65,
+        'circle-stroke-width': 2.5,
         'circle-stroke-color': '#FFFFFF',
-        'circle-stroke-opacity': 0.6,
+        'circle-stroke-opacity': 0.9,
       },
     });
   }
@@ -858,7 +981,7 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
     });
   }
 
-  // Tracked bus symbol layer
+  // Tracked bus symbol layer — Noticeably larger and distinct from other buses
   if (!map.getLayer('tracked-bus-icon-layer')) {
     map.addLayer({
       id: 'tracked-bus-icon-layer',
@@ -866,20 +989,21 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
       source: 'tracked-bus',
       layout: {
         'icon-image': 'bus-icon-tracked',
-        'icon-size': 0.9,
+        'icon-size': 1.25, // Noticeably larger than normal 0.72 buses
         'icon-rotate': ['get', 'heading'],
         'icon-rotation-alignment': 'map',
         'icon-allow-overlap': true,
         'icon-ignore-placement': true,
         'text-field': ['get', 'label'],
-        'text-size': 12,
-        'text-offset': [0, 1.4],
+        'text-size': 13,
+        'text-offset': [0, 1.45],
         'text-anchor': 'top',
+        'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
       },
       paint: {
-        'text-color': '#0E1116',
-        'text-halo-color': '#F59E0B',
-        'text-halo-width': 2,
+        'text-color': '#00F0FF',
+        'text-halo-color': '#0F172A',
+        'text-halo-width': 2.5,
       },
     });
 
@@ -1128,6 +1252,75 @@ function startRafLoop() {
         type: 'FeatureCollection',
         features: trackedFeature ? [trackedFeature] : [],
       });
+    }
+
+    // Update dynamically shortening deep blue path for the tracked bus
+    if (trackedBusId && mapInstance.getSource('selected-route')) {
+      const sim = simVehicles.get(trackedBusId);
+      const live = liveBuses.get(trackedBusId);
+      const curLng = sim?.lng ?? live?.interpolatedLng ?? live?.lng;
+      const curLat = sim?.lat ?? live?.interpolatedLat ?? live?.lat;
+
+      const activeRouteId = trackedRouteId || sim?.routeId || (live?.routeId ?? null);
+      const route = activeRouteId ? routeCatalog.get(activeRouteId) : null;
+
+      if (
+        curLng !== undefined &&
+        curLat !== undefined &&
+        route?.geometry?.coordinates &&
+        route.geometry.coordinates.length >= 2
+      ) {
+        const coords = route.geometry.coordinates;
+
+        // Target stop along route: destination if available, otherwise boarding stop
+        let targetStop = route.stops?.find((s) => s.stopId === trackedDestStopId);
+        if (!targetStop && trackedBoardingStopId) {
+          targetStop = route.stops?.find((s) => s.stopId === trackedBoardingStopId);
+        }
+
+        let targetCoordIdx = coords.length - 1;
+        if (targetStop) {
+          const cumDists = getRouteDistances(route._id, coords);
+          const stopOffset = targetStop.offsetM || 0;
+          for (let c = 0; c < cumDists.length; c++) {
+            if (cumDists[c] >= stopOffset) {
+              targetCoordIdx = c;
+              break;
+            }
+          }
+        }
+
+        const curIdx = sim ? sim.coordIndex : 0;
+        const activeLegCoords: [number, number][] = [[curLng, curLat]];
+        if (curIdx < targetCoordIdx) {
+          for (let i = curIdx + 1; i <= targetCoordIdx; i++) {
+            activeLegCoords.push(coords[i]);
+          }
+        }
+
+        const selectedRouteSource = mapInstance.getSource('selected-route') as GeoJSONSource | undefined;
+        if (selectedRouteSource) {
+          selectedRouteSource.setData({
+            type: 'FeatureCollection',
+            features: [
+              {
+                type: 'Feature',
+                geometry: { type: 'LineString', coordinates: coords },
+                properties: { type: 'full' },
+              },
+              ...(activeLegCoords.length >= 2
+                ? [
+                    {
+                      type: 'Feature' as const,
+                      geometry: { type: 'LineString' as const, coordinates: activeLegCoords },
+                      properties: { type: 'active' },
+                    },
+                  ]
+                : []),
+            ],
+          });
+        }
+      }
     }
 
     // Pulse animation when selected bus is near the bus stop

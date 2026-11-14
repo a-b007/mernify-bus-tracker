@@ -1,0 +1,32 @@
+{
+  "name": "mernify-bus-tracker",
+  "version": "1.0.0",
+  "description": "> **Track**: MERNIFY — High-Throughput Streams and Telemetry (TraceGrid Concept)   > **Target City**: Bengaluru, Karnataka, India (BMTC System)   > **Stack**: Node.js 20, Express, Socket.IO 4, MongoDB Native Driver, Turf.js, Zod, React + Vite, MapLibre GL JS",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/a-b007/mernify-bus-tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/a-b007/mernify-bus-tracker/issues"
+  },
+  "homepage": "https://github.com/a-b007/mernify-bus-tracker#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.10",
+    "express": "^5.3.0",
+    "mongoose": "^9.12.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
