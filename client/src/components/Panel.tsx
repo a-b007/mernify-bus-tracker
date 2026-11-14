@@ -11,7 +11,7 @@ interface PanelProps {
   footer?: ReactNode;
   className?: string;
   position?: 'left' | 'right';
-  /** Show the small Bus Twin wordmark above the title */
+  /** Show the small BusDekho wordmark above the title */
   brand?: boolean;
 }
 
@@ -55,7 +55,7 @@ export default function Panel({
             {brand && (
               <div className="flex items-center gap-2 text-[var(--primary-700)]">
                 <Bus size={16} weight="fill" aria-hidden="true" />
-                <span className="heading text-xs">Bus Twin</span>
+                <span className="heading text-xs">BusDekho</span>
               </div>
             )}
             {title && <h2 className="text-md truncate text-[var(--text)]">{title}</h2>}

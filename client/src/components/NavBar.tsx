@@ -23,7 +23,7 @@ export default function NavBar() {
       {!isHome && (
         <div className="hidden sm:flex items-center gap-2 pl-3 pr-4 text-[var(--primary-700)]">
           <Bus size={20} weight="fill" aria-hidden="true" />
-          <span className="heading text-sm text-[var(--text)]">Bus Twin</span>
+          <span className="heading text-sm text-[var(--text)]">BusDekho</span>
         </div>
       )}
 
