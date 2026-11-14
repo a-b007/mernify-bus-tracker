@@ -100,137 +100,96 @@ export default function DualStopSearch({
     onSwap?.();
   };
 
+  const clearBtn = (onClear: () => void, label: string) => (
+    <button type="button" onClick={onClear} className="icon-btn -mr-3" aria-label={label}>
+      <X size={16} />
+    </button>
+  );
+
   return (
-    <div
-      ref={containerRef}
-      className={`relative w-full max-w-2xl bg-white/95 dark:bg-[#1A2332]/95 backdrop-blur-xl border border-slate-200/80 dark:border-slate-700/80 rounded-2xl shadow-[0_12px_36px_rgba(0,0,0,0.18)] dark:shadow-[0_16px_40px_rgba(0,0,0,0.6)] p-2.5 transition-all duration-200 ${className}`}
-    >
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-        {/* Origin Stop Input */}
-        <div className="relative flex-1 flex items-center bg-slate-50 dark:bg-[#243044] rounded-xl px-3 py-2 border border-slate-200/80 dark:border-slate-700/60 focus-within:ring-2 focus-within:ring-emerald-500 focus-within:border-transparent transition-all">
-          <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 ring-4 ring-emerald-500/20 mr-2.5 shrink-0" />
-          <input
-            ref={originInputRef}
-            type="text"
-            value={originQuery}
-            onChange={(e) => {
-              setOriginQuery(e.target.value);
-              setActiveInput('origin');
-              if (originStop && e.target.value !== originStop.name) {
-                onSelectOrigin(null);
-              }
-            }}
-            onFocus={() => setActiveInput('origin')}
-            placeholder="Current bus stop (e.g. Electronic City)"
-            className="w-full bg-transparent text-sm text-[var(--text)] placeholder:text-slate-400 dark:placeholder:text-slate-500 outline-none"
-          />
-          {originQuery && (
-            <button
-              type="button"
-              onClick={() => {
+    <div ref={containerRef} className={`relative w-full ${className}`}>
+      <div className="flex items-stretch gap-3">
+        {/* Route spine: boarding dot → destination pin */}
+        <div className="flex flex-col items-center justify-between pt-4 pb-3 shrink-0" aria-hidden="true">
+          <span className="w-3 h-3 rounded-full bg-[var(--primary-600)] ring-4 ring-[var(--primary-100)]" />
+          <span className="flex-1 my-2 border-l-2 border-dotted border-[var(--border-strong)]" />
+          <MapPin size={20} weight="fill" className="text-[var(--text)]" />
+        </div>
+
+        <div className="flex-1 min-w-0 flex flex-col gap-2">
+          <label className="field">
+            <input
+              ref={originInputRef}
+              type="text"
+              aria-label="Boarding stop"
+              value={originQuery}
+              onChange={(e) => {
+                setOriginQuery(e.target.value);
+                setActiveInput('origin');
+                if (originStop && e.target.value !== originStop.name) onSelectOrigin(null);
+              }}
+              onFocus={() => setActiveInput('origin')}
+              placeholder="Where are you? (e.g. Majestic)"
+            />
+            {originQuery &&
+              clearBtn(() => {
                 setOriginQuery('');
                 onSelectOrigin(null);
                 originInputRef.current?.focus();
+              }, 'Clear boarding stop')}
+          </label>
+
+          <label className="field">
+            <input
+              ref={destInputRef}
+              type="text"
+              aria-label="Destination stop"
+              value={destQuery}
+              onChange={(e) => {
+                setDestQuery(e.target.value);
+                setActiveInput('dest');
+                if (destStop && e.target.value !== destStop.name) onSelectDest(null);
               }}
-              className="p-1 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
-            >
-              <X size={14} weight="bold" />
-            </button>
-          )}
-        </div>
-
-        {/* Swap Button */}
-        <button
-          type="button"
-          onClick={handleSwap}
-          title="Swap Stops"
-          className="self-center p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700/60 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
-        >
-          <ArrowsDownUp size={18} weight="bold" className="rotate-90 sm:rotate-0" />
-        </button>
-
-        {/* Destination Stop Input */}
-        <div className="relative flex-1 flex items-center bg-slate-50 dark:bg-[#243044] rounded-xl px-3 py-2 border border-slate-200/80 dark:border-slate-700/60 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent transition-all">
-          <MapPin size={16} weight="fill" className="text-blue-500 mr-2 shrink-0" />
-          <input
-            ref={destInputRef}
-            type="text"
-            value={destQuery}
-            onChange={(e) => {
-              setDestQuery(e.target.value);
-              setActiveInput('dest');
-              if (destStop && e.target.value !== destStop.name) {
-                onSelectDest(null);
-              }
-            }}
-            onFocus={() => setActiveInput('dest')}
-            placeholder="Destination bus stop (e.g. Majestic)"
-            className="w-full bg-transparent text-sm text-[var(--text)] placeholder:text-slate-400 dark:placeholder:text-slate-500 outline-none"
-          />
-          {destQuery && (
-            <button
-              type="button"
-              onClick={() => {
+              onFocus={() => setActiveInput('dest')}
+              placeholder="Where to? (e.g. ITPL, Silk Board)"
+            />
+            {destQuery &&
+              clearBtn(() => {
                 setDestQuery('');
                 onSelectDest(null);
                 destInputRef.current?.focus();
-              }}
-              className="p-1 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
-            >
-              <X size={14} weight="bold" />
-            </button>
-          )}
+              }, 'Clear destination')}
+          </label>
         </div>
+
+        <button type="button" onClick={handleSwap} aria-label="Swap boarding stop and destination" className="icon-btn self-center -mr-2">
+          <ArrowsDownUp size={20} />
+        </button>
       </div>
 
-      {/* Autocomplete Dropdown */}
       {activeInput && (
-        <div className="absolute top-[calc(100%+8px)] left-0 right-0 z-50 bg-white dark:bg-[#1E293B] border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl max-h-72 overflow-y-auto p-1.5 divide-y divide-slate-100 dark:divide-slate-800">
-          <div className="px-3 py-1.5 text-[11px] font-semibold text-slate-400 uppercase tracking-wider flex items-center justify-between">
-            <span>
-              Select {activeInput === 'origin' ? 'Current (Boarding) Stop' : 'Destination Stop'}
-            </span>
-            <span className="text-[10px] font-normal text-slate-400">
-              {filteredStops.length} stops available
-            </span>
+        <div className="menu">
+          <div className="flex items-center justify-between px-3 pt-2 pb-2">
+            <span className="section-label">{activeInput === 'origin' ? 'Boarding stop' : 'Destination'}</span>
+            <span className="text-xs text-[var(--text-3)] tabular-nums">{filteredStops.length} stops</span>
           </div>
 
           {filteredStops.length === 0 ? (
-            <div className="py-4 text-center text-xs text-slate-400">
-              No bus stops found matching your search
-            </div>
+            <div className="py-6 px-4 text-center text-sm text-[var(--text-2)]">No bus stops match that. Try a landmark or a shorter name.</div>
           ) : (
             filteredStops.map((stop) => {
               const isSelected =
                 (activeInput === 'origin' && originStop?._id === stop._id) ||
                 (activeInput === 'dest' && destStop?._id === stop._id);
-
               return (
-                <div
-                  key={stop._id}
-                  onClick={() => handleSelect(stop)}
-                  className={`flex items-center justify-between px-3 py-2.5 rounded-lg cursor-pointer text-sm transition-colors ${
-                    isSelected
-                      ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 font-medium'
-                      : 'hover:bg-slate-100 dark:hover:bg-slate-700/60 text-slate-800 dark:text-slate-200'
-                  }`}
-                >
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <MapPin
-                      size={16}
-                      weight={isSelected ? 'fill' : 'regular'}
-                      className={activeInput === 'origin' ? 'text-emerald-500' : 'text-blue-500'}
-                    />
-                    <div className="truncate">
-                      <div className="font-medium truncate">{stop.name}</div>
-                      <div className="text-[11px] text-slate-400 truncate">
-                        {stop.zone || 'Bengaluru'} · {stop.routeIds?.length || 0} connecting routes
-                      </div>
+                <div key={stop._id} role="option" aria-selected={isSelected} data-selected={isSelected} onClick={() => handleSelect(stop)} className="menu-item">
+                  <MapPin size={20} weight={isSelected ? 'fill' : 'regular'} className={isSelected ? 'text-[var(--primary-700)] shrink-0' : 'text-[var(--text-3)] shrink-0'} aria-hidden="true" />
+                  <div className="flex-1 min-w-0">
+                    <div className="text-base font-medium text-[var(--text)] truncate">{stop.name}</div>
+                    <div className="text-xs text-[var(--text-2)] truncate">
+                      {stop.zone || 'Bengaluru'} · {stop.routeIds?.length || 0} {stop.routeIds?.length === 1 ? 'route' : 'routes'}
                     </div>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 shrink-0 ml-2">
-                    {stop._id}
-                  </span>
                 </div>
               );
             })

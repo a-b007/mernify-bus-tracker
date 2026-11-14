@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { ArrowLeft, CurrencyInr, MapPin, NavigationArrow } from '@phosphor-icons/react';
+import { ArrowLeft, MapPin } from '@phosphor-icons/react';
 import FilterBar from '../FilterBar';
 import BusRow from '../BusRow';
 import { useJourneyStore } from '../../stores/journey';
@@ -180,56 +180,36 @@ export default function DestinationPanel({
   }, [routes, stops, buses, destName, destCoords, userLat, userLng, filters]);
 
   return (
-    <div className="flex flex-col gap-3">
-      {/* Header bar */}
-      <div className="flex items-center gap-2 pb-1 border-b border-slate-200 dark:border-slate-700/60">
-        <button
-          type="button"
-          onClick={onBack}
-          aria-label="Back to nearby"
-          className="flex items-center justify-center w-8 h-8 rounded-[var(--r-md)] hover:bg-[var(--surface-2)] text-[var(--text-2)] transition-colors duration-[var(--dur-1)]"
-        >
-          <ArrowLeft size={18} />
+    <div className="flex flex-col gap-4">
+      <header className="flex items-center gap-2">
+        <button type="button" onClick={onBack} aria-label="Back to nearby" className="icon-btn -ml-2">
+          <ArrowLeft size={20} />
         </button>
         <div className="flex flex-col min-w-0">
-          <span className="text-[11px] text-[var(--text-3)] font-medium flex items-center gap-1">
-            <NavigationArrow size={12} weight="fill" className="text-[var(--primary-600)]" />
-            Buses to destination
-          </span>
-          <span className="text-sm font-semibold text-[var(--text)] truncate">{destName}</span>
+          <span className="text-xs text-[var(--text-3)]">Buses to</span>
+          <h2 className="text-md truncate">{destName}</h2>
         </div>
-      </div>
+      </header>
 
-      {/* Filter Bar */}
       <FilterBar />
 
-      {/* Info Badge: Fare & Sorting Guarantee */}
-      <div className="flex items-center justify-between px-2.5 py-1.5 rounded-[var(--r-sm)] bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 text-[11px] text-emerald-800 dark:text-emerald-300">
-        <span className="font-medium flex items-center gap-1">
-          <CurrencyInr size={14} weight="bold" />
-          Fares calculated from nearest boarding stop
-        </span>
-        <span className="font-semibold text-emerald-700 dark:text-emerald-400">
-          Sorted by arrival time
-        </span>
-      </div>
+      <p className="text-xs text-[var(--text-3)]">Soonest first. Fares are from the nearest boarding stop.</p>
 
-      {/* Route & Bus Options — Sorted in increasing order of ETA */}
-      <div className="flex flex-col gap-2 divide-y divide-[var(--border)]">
+      <div className="flex flex-col divide-y divide-[var(--border)]">
         {candidateOptions.length === 0 ? (
-          <div className="py-8 text-center text-sm text-[var(--text-2)]">
-            No buses matching active filters towards {destName}.
-          </div>
+          <p className="py-8 text-center text-base text-[var(--text-2)]">No buses to {destName} match your filters right now.</p>
         ) : (
           candidateOptions.map((opt) => (
-            <div key={`${opt.route._id}-${opt.bus._id}`} className="pt-2 first:pt-0">
-              <div className="flex items-center justify-between text-[11px] text-[var(--text-3)] mb-1 px-1">
-                <span className="truncate flex items-center gap-1">
-                  <MapPin size={12} weight="fill" className="text-[var(--primary-600)] shrink-0" />
-                  Board at <strong className="text-[var(--text-2)] font-semibold">{opt.boardingStop.name}</strong>
+            <div key={`${opt.route._id}-${opt.bus._id}`} className="flex flex-col gap-1 py-3 first:pt-0">
+              <div className="flex items-center justify-between gap-4 text-xs text-[var(--text-3)]">
+                <span className="flex items-center gap-2 min-w-0">
+                  <MapPin size={14} weight="fill" className="text-[var(--primary-700)] shrink-0" aria-hidden="true" />
+                  <span className="truncate">
+                    Board at <span className="font-semibold text-[var(--text-2)]">{opt.boardingStop.name}</span>
+                  </span>
                 </span>
-                <span className="shrink-0 ml-1">
-                  {opt.walkMin} min walk ({opt.walkDistM}m)
+                <span className="shrink-0 tabular-nums">
+                  {opt.walkMin} min walk · {opt.walkDistM} m
                 </span>
               </div>
               <BusRow

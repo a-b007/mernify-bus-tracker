@@ -44,36 +44,36 @@ let activeFilters: JourneyFilters = {
   within10m: false,
 };
 
-// SVG Icons — Vivid colors matching reference top-down bus design
+// SVG Icons — palette from DESIGN.md: slate = non-AC, teal = AC, sage = electric, saffron = tracked
 const SVG_DEFAULT_BUS = `
 <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52">
   <defs>
     <filter id="bus-sh-def" x="-30%" y="-30%" width="160%" height="160%">
-      <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#000000" flood-opacity="0.5"/>
+      <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#1E2229" flood-opacity="0.5"/>
     </filter>
   </defs>
   <g filter="url(#bus-sh-def)">
     <!-- Direction chevron -->
-    <polygon points="26,1 32,8 26,6 20,8" fill="#FFB800" stroke="#000000" stroke-width="1" stroke-linejoin="round"/>
+    <polygon points="26,1 32,8 26,6 20,8" fill="#6B7887" stroke="#1E2229" stroke-width="1" stroke-linejoin="round"/>
     <!-- Side wing mirrors -->
-    <rect x="14" y="13" width="2.5" height="5" rx="1" fill="#FFB800" stroke="#0F172A" stroke-width="1"/>
-    <rect x="35.5" y="13" width="2.5" height="5" rx="1" fill="#FFB800" stroke="#0F172A" stroke-width="1"/>
+    <rect x="14" y="13" width="2.5" height="5" rx="1" fill="#6B7887" stroke="#1E2229" stroke-width="1"/>
+    <rect x="35.5" y="13" width="2.5" height="5" rx="1" fill="#6B7887" stroke="#1E2229" stroke-width="1"/>
     <!-- Main Bus Body (Vivid Yellow Non-AC) -->
-    <rect x="16.5" y="9" width="19" height="34" rx="4.5" fill="#FFB800" stroke="#0F172A" stroke-width="2"/>
+    <rect x="16.5" y="9" width="19" height="34" rx="4.5" fill="#6B7887" stroke="#1E2229" stroke-width="2"/>
     <!-- Windshield -->
-    <rect x="18.5" y="12" width="15" height="6" rx="1.5" fill="#0F172A"/>
-    <line x1="20" y1="13.5" x2="25" y2="13.5" stroke="#94A3B8" stroke-width="1.2" stroke-linecap="round"/>
+    <rect x="18.5" y="12" width="15" height="6" rx="1.5" fill="#1E2229"/>
+    <line x1="20" y1="13.5" x2="25" y2="13.5" stroke="#C5D6C9" stroke-width="1.2" stroke-linecap="round"/>
     <!-- Headlights -->
-    <rect x="17.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#FEF08A"/>
-    <rect x="31.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#FEF08A"/>
+    <rect x="17.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#F6E6C8"/>
+    <rect x="31.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#F6E6C8"/>
     <!-- Roof Details -->
-    <rect x="20" y="21" width="12" height="2" rx="0.8" fill="#D97706" opacity="0.9"/>
-    <rect x="20" y="25" width="12" height="2" rx="0.8" fill="#D97706" opacity="0.9"/>
-    <rect x="20" y="29" width="12" height="2" rx="0.8" fill="#D97706" opacity="0.9"/>
+    <rect x="20" y="21" width="12" height="2" rx="0.8" fill="#E9EDE3" opacity="0.9"/>
+    <rect x="20" y="25" width="12" height="2" rx="0.8" fill="#E9EDE3" opacity="0.9"/>
+    <rect x="20" y="29" width="12" height="2" rx="0.8" fill="#E9EDE3" opacity="0.9"/>
     <!-- Rear Window & Tail lights -->
-    <rect x="19" y="38" width="14" height="2" rx="0.8" fill="#0F172A"/>
-    <rect x="17.5" y="41.5" width="3" height="1.5" rx="0.5" fill="#EF4444"/>
-    <rect x="31.5" y="41.5" width="3" height="1.5" rx="0.5" fill="#EF4444"/>
+    <rect x="19" y="38" width="14" height="2" rx="0.8" fill="#1E2229"/>
+    <rect x="17.5" y="41.5" width="3" height="1.5" rx="0.5" fill="#B4493B"/>
+    <rect x="31.5" y="41.5" width="3" height="1.5" rx="0.5" fill="#B4493B"/>
   </g>
 </svg>`;
 
@@ -81,31 +81,31 @@ const SVG_AC_BUS = `
 <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52">
   <defs>
     <filter id="bus-sh-ac" x="-30%" y="-30%" width="160%" height="160%">
-      <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#000000" flood-opacity="0.5"/>
+      <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#1E2229" flood-opacity="0.5"/>
     </filter>
   </defs>
   <g filter="url(#bus-sh-ac)">
     <!-- Direction chevron -->
-    <polygon points="26,1 32,8 26,6 20,8" fill="#00E5C9" stroke="#000000" stroke-width="1" stroke-linejoin="round"/>
+    <polygon points="26,1 32,8 26,6 20,8" fill="#C5D6C9" stroke="#1E2229" stroke-width="1" stroke-linejoin="round"/>
     <!-- Side wing mirrors -->
-    <rect x="14" y="13" width="2.5" height="5" rx="1" fill="#00C4B4" stroke="#042F2E" stroke-width="1"/>
-    <rect x="35.5" y="13" width="2.5" height="5" rx="1" fill="#00C4B4" stroke="#042F2E" stroke-width="1"/>
+    <rect x="14" y="13" width="2.5" height="5" rx="1" fill="#45796D" stroke="#1E2229" stroke-width="1"/>
+    <rect x="35.5" y="13" width="2.5" height="5" rx="1" fill="#45796D" stroke="#1E2229" stroke-width="1"/>
     <!-- Main Bus Body (Vivid Teal AC) -->
-    <rect x="16.5" y="9" width="19" height="34" rx="4.5" fill="#00C4B4" stroke="#042F2E" stroke-width="2"/>
+    <rect x="16.5" y="9" width="19" height="34" rx="4.5" fill="#45796D" stroke="#1E2229" stroke-width="2"/>
     <!-- Windshield -->
-    <rect x="18.5" y="12" width="15" height="6" rx="1.5" fill="#042F2E"/>
-    <line x1="20" y1="13.5" x2="25" y2="13.5" stroke="#99F6E4" stroke-width="1.2" stroke-linecap="round"/>
+    <rect x="18.5" y="12" width="15" height="6" rx="1.5" fill="#1E2229"/>
+    <line x1="20" y1="13.5" x2="25" y2="13.5" stroke="#C5D6C9" stroke-width="1.2" stroke-linecap="round"/>
     <!-- Headlights -->
-    <rect x="17.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#FEF08A"/>
-    <rect x="31.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#FEF08A"/>
+    <rect x="17.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#F6E6C8"/>
+    <rect x="31.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#F6E6C8"/>
     <!-- AC Unit on Roof -->
-    <rect x="19.5" y="21" width="13" height="8" rx="2" fill="#0F766E" stroke="#042F2E" stroke-width="1"/>
-    <circle cx="23" cy="25" r="1.5" fill="#CCFBF1"/>
-    <circle cx="29" cy="25" r="1.5" fill="#CCFBF1"/>
+    <rect x="19.5" y="21" width="13" height="8" rx="2" fill="#2F6358" stroke="#1E2229" stroke-width="1"/>
+    <circle cx="23" cy="25" r="1.5" fill="#E9EDE3"/>
+    <circle cx="29" cy="25" r="1.5" fill="#E9EDE3"/>
     <!-- Rear Window & Tail lights -->
-    <rect x="19" y="38" width="14" height="2" rx="0.8" fill="#042F2E"/>
-    <rect x="17.5" y="41.5" width="3" height="1.5" rx="0.5" fill="#EF4444"/>
-    <rect x="31.5" y="41.5" width="3" height="1.5" rx="0.5" fill="#EF4444"/>
+    <rect x="19" y="38" width="14" height="2" rx="0.8" fill="#1E2229"/>
+    <rect x="17.5" y="41.5" width="3" height="1.5" rx="0.5" fill="#B4493B"/>
+    <rect x="31.5" y="41.5" width="3" height="1.5" rx="0.5" fill="#B4493B"/>
   </g>
 </svg>`;
 
@@ -113,29 +113,29 @@ const SVG_ELECTRIC_BUS = `
 <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52">
   <defs>
     <filter id="bus-sh-el" x="-30%" y="-30%" width="160%" height="160%">
-      <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#000000" flood-opacity="0.5"/>
+      <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#1E2229" flood-opacity="0.5"/>
     </filter>
   </defs>
   <g filter="url(#bus-sh-el)">
     <!-- Direction chevron -->
-    <polygon points="26,1 32,8 26,6 20,8" fill="#38BDF8" stroke="#000000" stroke-width="1" stroke-linejoin="round"/>
+    <polygon points="26,1 32,8 26,6 20,8" fill="#E9EDE3" stroke="#1E2229" stroke-width="1" stroke-linejoin="round"/>
     <!-- Side wing mirrors -->
-    <rect x="14" y="13" width="2.5" height="5" rx="1" fill="#0E90FF" stroke="#07305A" stroke-width="1"/>
-    <rect x="35.5" y="13" width="2.5" height="5" rx="1" fill="#0E90FF" stroke="#07305A" stroke-width="1"/>
+    <rect x="14" y="13" width="2.5" height="5" rx="1" fill="#80A48D" stroke="#1E2229" stroke-width="1"/>
+    <rect x="35.5" y="13" width="2.5" height="5" rx="1" fill="#80A48D" stroke="#1E2229" stroke-width="1"/>
     <!-- Main Bus Body (Vivid Blue Electric) -->
-    <rect x="16.5" y="9" width="19" height="34" rx="4.5" fill="#0E90FF" stroke="#07305A" stroke-width="2"/>
+    <rect x="16.5" y="9" width="19" height="34" rx="4.5" fill="#80A48D" stroke="#1E2229" stroke-width="2"/>
     <!-- Windshield -->
-    <rect x="18.5" y="12" width="15" height="6" rx="1.5" fill="#07305A"/>
-    <line x1="20" y1="13.5" x2="25" y2="13.5" stroke="#BAE6FD" stroke-width="1.2" stroke-linecap="round"/>
+    <rect x="18.5" y="12" width="15" height="6" rx="1.5" fill="#1E2229"/>
+    <line x1="20" y1="13.5" x2="25" y2="13.5" stroke="#E9EDE3" stroke-width="1.2" stroke-linecap="round"/>
     <!-- Headlights -->
-    <rect x="17.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#FEF08A"/>
-    <rect x="31.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#FEF08A"/>
+    <rect x="17.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#F6E6C8"/>
+    <rect x="31.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#F6E6C8"/>
     <!-- Battery / Electric Bolt Symbol -->
-    <polygon points="27,20 23,26 26,26 24.5,31 29,24 26,24" fill="#FDE047" stroke="#07305A" stroke-width="0.8"/>
+    <polygon points="27,20 23,26 26,26 24.5,31 29,24 26,24" fill="#F6E6C8" stroke="#1E2229" stroke-width="0.8"/>
     <!-- Rear Window & Tail lights -->
-    <rect x="19" y="38" width="14" height="2" rx="0.8" fill="#07305A"/>
-    <rect x="17.5" y="41.5" width="3" height="1.5" rx="0.5" fill="#EF4444"/>
-    <rect x="31.5" y="41.5" width="3" height="1.5" rx="0.5" fill="#EF4444"/>
+    <rect x="19" y="38" width="14" height="2" rx="0.8" fill="#1E2229"/>
+    <rect x="17.5" y="41.5" width="3" height="1.5" rx="0.5" fill="#B4493B"/>
+    <rect x="31.5" y="41.5" width="3" height="1.5" rx="0.5" fill="#B4493B"/>
   </g>
 </svg>`;
 
@@ -143,31 +143,31 @@ const SVG_TRACKED_BUS = `
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
   <defs>
     <filter id="bus-sh-tr" x="-40%" y="-40%" width="180%" height="180%">
-      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#00F0FF" flood-opacity="0.95"/>
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#D98E2B" flood-opacity="0.95"/>
     </filter>
   </defs>
   <g filter="url(#bus-sh-tr)">
     <!-- Outer Cyan Glow Halo -->
-    <rect x="17.5" y="6.5" width="29" height="51" rx="8" fill="none" stroke="#00F0FF" stroke-width="3" opacity="0.95"/>
+    <rect x="17.5" y="6.5" width="29" height="51" rx="8" fill="none" stroke="#D98E2B" stroke-width="3" opacity="0.95"/>
     <!-- Direction Chevron -->
-    <polygon points="32,0 42,10 32,7.5 22,10" fill="#00F0FF" stroke="#0B132B" stroke-width="1.5" stroke-linejoin="round"/>
+    <polygon points="32,0 42,10 32,7.5 22,10" fill="#D98E2B" stroke="#1E2229" stroke-width="1.5" stroke-linejoin="round"/>
     <!-- Side Mirrors -->
-    <rect x="15.5" y="16" width="3.5" height="7" rx="1.5" fill="#00F0FF" stroke="#0B132B" stroke-width="1.2"/>
-    <rect x="45" y="16" width="3.5" height="7" rx="1.5" fill="#00F0FF" stroke="#0B132B" stroke-width="1.2"/>
+    <rect x="15.5" y="16" width="3.5" height="7" rx="1.5" fill="#D98E2B" stroke="#1E2229" stroke-width="1.2"/>
+    <rect x="45" y="16" width="3.5" height="7" rx="1.5" fill="#D98E2B" stroke="#1E2229" stroke-width="1.2"/>
     <!-- Main Body: High contrast Dark Slate with glowing cyan accents -->
-    <rect x="19.5" y="8.5" width="25" height="47" rx="6" fill="#0B132B" stroke="#00F0FF" stroke-width="2.5"/>
+    <rect x="19.5" y="8.5" width="25" height="47" rx="6" fill="#1E2229" stroke="#D98E2B" stroke-width="2.5"/>
     <!-- Windshield -->
-    <rect x="22" y="12.5" width="20" height="9" rx="2.5" fill="#00F0FF"/>
-    <line x1="24" y1="15.5" x2="31" y2="15.5" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+    <rect x="22" y="12.5" width="20" height="9" rx="2.5" fill="#D98E2B"/>
+    <line x1="24" y1="15.5" x2="31" y2="15.5" stroke="#FAFBF7" stroke-width="1.5" stroke-linecap="round"/>
     <!-- Center Strobe/Beacon -->
-    <circle cx="32" cy="32" r="5" fill="#F59E0B"/>
-    <circle cx="32" cy="32" r="2.5" fill="#FFFFFF"/>
+    <circle cx="32" cy="32" r="5" fill="#D98E2B"/>
+    <circle cx="32" cy="32" r="2.5" fill="#FAFBF7"/>
     <!-- Roof Ribs -->
-    <rect x="23" y="24" width="18" height="2" rx="0.8" fill="#00F0FF" opacity="0.8"/>
-    <rect x="23" y="40" width="18" height="2" rx="0.8" fill="#00F0FF" opacity="0.8"/>
+    <rect x="23" y="24" width="18" height="2" rx="0.8" fill="#D98E2B" opacity="0.8"/>
+    <rect x="23" y="40" width="18" height="2" rx="0.8" fill="#D98E2B" opacity="0.8"/>
     <!-- Tail lights -->
-    <rect x="22" y="51" width="4.5" height="2" rx="0.8" fill="#EF4444"/>
-    <rect x="37.5" y="51" width="4.5" height="2" rx="0.8" fill="#EF4444"/>
+    <rect x="22" y="51" width="4.5" height="2" rx="0.8" fill="#B4493B"/>
+    <rect x="37.5" y="51" width="4.5" height="2" rx="0.8" fill="#B4493B"/>
   </g>
 </svg>`;
 
@@ -180,7 +180,7 @@ const SVG_RED_PIN = `
     </filter>
   </defs>
   <g filter="url(#pin-sh)">
-    <path d="M24 0C10.745 0 0 10.745 0 24c0 16.5 24 34 24 34s24-17.5 24-34C48 10.745 37.255 0 24 0z" fill="#EF4444"/>
+    <path d="M24 0C10.745 0 0 10.745 0 24c0 16.5 24 34 24 34s24-17.5 24-34C48 10.745 37.255 0 24 0z" fill="#1E2229"/>
     <circle cx="24" cy="22" r="9.5" fill="#FFFFFF"/>
   </g>
 </svg>`;
@@ -193,14 +193,14 @@ const SVG_STOP_MARKER = `
     </filter>
   </defs>
   <g filter="url(#stop-sh)">
-    <circle cx="18" cy="18" r="15" fill="#FA4B4B" stroke="#FFFFFF" stroke-width="2.5"/>
+    <circle cx="18" cy="18" r="15" fill="#45796D" stroke="#FFFFFF" stroke-width="2.5"/>
     <!-- White bus silhouette inside -->
     <rect x="11.5" y="10.5" width="13" height="13" rx="2.5" fill="#FFFFFF"/>
-    <rect x="13" y="12" width="10" height="4" rx="1" fill="#FA4B4B"/>
-    <circle cx="14" cy="21" r="1.3" fill="#FA4B4B"/>
-    <circle cx="22" cy="21" r="1.3" fill="#FA4B4B"/>
-    <circle cx="14" cy="17.5" r="0.9" fill="#FA4B4B"/>
-    <circle cx="22" cy="17.5" r="0.9" fill="#FA4B4B"/>
+    <rect x="13" y="12" width="10" height="4" rx="1" fill="#45796D"/>
+    <circle cx="14" cy="21" r="1.3" fill="#45796D"/>
+    <circle cx="22" cy="21" r="1.3" fill="#45796D"/>
+    <circle cx="14" cy="17.5" r="0.9" fill="#45796D"/>
+    <circle cx="22" cy="17.5" r="0.9" fill="#45796D"/>
   </g>
 </svg>`;
 
@@ -210,8 +210,8 @@ const SVG_USER_ARROW = `
     <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.3"/>
   </filter>
   <g filter="url(#sh-usr)">
-    <circle cx="20" cy="20" r="11" fill="#1A73E8" stroke="#FFFFFF" stroke-width="3"/>
-    <polygon points="20,2 27,14 20,10 13,14" fill="#1A73E8" stroke="#FFFFFF" stroke-width="1.5"/>
+    <circle cx="20" cy="20" r="11" fill="#2D6CDF" stroke="#FFFFFF" stroke-width="3"/>
+    <polygon points="20,2 27,14 20,10 13,14" fill="#2D6CDF" stroke="#FFFFFF" stroke-width="1.5"/>
   </g>
 </svg>`;
 
@@ -745,9 +745,9 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
       source: 'selected-route',
       layout: { 'line-join': 'round', 'line-cap': 'round' },
       paint: {
-        'line-color': '#0F172A',
-        'line-width': 8.5,
-        'line-opacity': 0.85,
+        'line-color': '#FAFBF7',
+        'line-width': 9,
+        'line-opacity': 0.95,
       },
     });
   }
@@ -761,14 +761,14 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
       filter: ['any', ['==', 'type', 'full'], ['==', 'type', 'main']],
       layout: { 'line-join': 'round', 'line-cap': 'round' },
       paint: {
-        'line-color': '#64748B',
-        'line-width': 4.5,
+        'line-color': '#80A48D',
+        'line-width': 5,
         'line-opacity': 0.85,
       },
     });
   }
 
-  // Selected route active path from bus to boarding and to destination (Deep Blue #1D4ED8 that shortens)
+  // Selected route active path from bus to boarding and to destination (teal, shortens as the bus approaches)
   if (!map.getLayer('selected-route-active')) {
     map.addLayer({
       id: 'selected-route-active',
@@ -777,8 +777,8 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
       filter: ['any', ['==', 'type', 'active'], ['==', 'type', 'remaining']],
       layout: { 'line-join': 'round', 'line-cap': 'round' },
       paint: {
-        'line-color': '#1D4ED8', // Deep blue as requested
-        'line-width': 6.5,
+        'line-color': '#45796D',
+        'line-width': 5,
         'line-opacity': 1.0,
       },
     });
@@ -810,9 +810,9 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
         'text-optional': false,
       },
       paint: {
-        'text-color': '#FFFFFF',
-        'text-halo-color': '#0F172A',
-        'text-halo-width': 2.5,
+        'text-color': '#FAFBF7',
+        'text-halo-color': '#1E2229',
+        'text-halo-width': 3,
       },
     });
   }
@@ -854,7 +854,7 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
           14, 4.5,
           16, 6.5,
         ],
-        'circle-color': '#FA4B4B',
+        'circle-color': '#45796D',
         'circle-stroke-width': 1.5,
         'circle-stroke-color': '#FFFFFF',
         'circle-opacity': 0.92,
@@ -887,8 +887,8 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
         'text-optional': true,
       },
       paint: {
-        'text-color': '#0F172A',
-        'text-halo-color': '#FFFFFF',
+        'text-color': '#1E2229',
+        'text-halo-color': '#FAFBF7',
         'text-halo-width': 2,
       },
     });
@@ -931,8 +931,8 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
       source: 'tracked-bus-pulse',
       paint: {
         'circle-radius': 22,
-        'circle-color': '#00F0FF',
-        'circle-opacity': 0.65,
+        'circle-color': '#D98E2B',
+        'circle-opacity': 0.35,
         'circle-stroke-width': 2.5,
         'circle-stroke-color': '#FFFFFF',
         'circle-stroke-opacity': 0.9,
@@ -960,8 +960,8 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
         'text-optional': true,
       },
       paint: {
-        'text-color': '#0E1116',
-        'text-halo-color': '#FFFFFF',
+        'text-color': '#1E2229',
+        'text-halo-color': '#FAFBF7',
         'text-halo-width': 2,
       },
     });
@@ -1001,9 +1001,9 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
         'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
       },
       paint: {
-        'text-color': '#00F0FF',
-        'text-halo-color': '#0F172A',
-        'text-halo-width': 2.5,
+        'text-color': '#1E2229',
+        'text-halo-color': '#D98E2B',
+        'text-halo-width': 3,
       },
     });
 
@@ -1038,10 +1038,10 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
       source: 'user-location',
       paint: {
         'circle-radius': 30,
-        'circle-color': '#1A73E8',
-        'circle-opacity': 0.16,
+        'circle-color': '#2D6CDF',
+        'circle-opacity': 0.12,
         'circle-stroke-width': 1.5,
-        'circle-stroke-color': '#1A73E8',
+        'circle-stroke-color': '#2D6CDF',
         'circle-stroke-opacity': 0.35,
       },
     });

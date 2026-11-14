@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { MapPin } from '@phosphor-icons/react';
+import { MapPin, ArrowLeft } from '@phosphor-icons/react';
 import SearchField, { type SearchItem } from '../SearchField';
 import FilterBar from '../FilterBar';
 import BusRow from '../BusRow';
@@ -97,63 +97,40 @@ export default function NearbyPanel({
   }, [selectedStop, stopsWithProximity, userLat, userLng]);
 
   return (
-    <div className="flex flex-col gap-3">
-      {/* Universal Search at Top */}
-      <SearchField
-        placeholder="Where to? (e.g. ITPL, Indiranagar, 335E)"
-        items={searchItems}
-        onSelect={onSelectSearchItem}
-      />
+    <div className="flex flex-col gap-4">
+      <SearchField placeholder="Where to? (e.g. ITPL, Indiranagar, 335E)" items={searchItems} onSelect={onSelectSearchItem} />
 
-      {/* Filter Bar */}
       <FilterBar />
 
-      {/* When a specific stop is selected, offer a button to view all nearby stops */}
       {selectedStop && (
-        <button
-          type="button"
-          onClick={() => onFocusStop(null)}
-          className="text-xs text-[var(--primary-600)] dark:text-[var(--primary-400)] hover:underline self-start px-1 font-medium transition-colors"
-        >
-          ← Show all nearby stops around me
+        <button type="button" onClick={() => onFocusStop(null)} className="btn btn-ghost btn-sm self-start -ml-3 !text-[var(--primary-700)]">
+          <ArrowLeft size={16} aria-hidden="true" />
+          All stops near me
         </button>
       )}
 
-      {/* Stops and Bus Departures */}
-      <div className="flex flex-col gap-4 mt-1">
+      <div className="flex flex-col gap-6">
         {displayStopsWithDistance.length === 0 ? (
-          <div className="py-8 text-center text-sm text-[var(--text-2)]">
-            Loading stops around you…
-          </div>
+          <p className="py-8 text-center text-base text-[var(--text-2)]">Finding stops around you…</p>
         ) : (
           displayStopsWithDistance.map(({ stop, walkDistM, walkMin }) => {
             const stopRoutes = routes.filter((r) => stop.routeIds?.includes(r._id));
-            const formattedDist =
-              walkDistM < 1000 ? `${walkDistM} m` : `${(walkDistM / 1000).toFixed(1)} km`;
+            const formattedDist = walkDistM < 1000 ? `${walkDistM} m` : `${(walkDistM / 1000).toFixed(1)} km`;
 
-            // Live calculated buses for these routes (excluding buses that have already departed)
             const candidateBuses = stopRoutes.flatMap((route) => {
               const routeBuses = buses.filter((b) => b.routeId === route._id);
               return routeBuses
                 .filter((bus) => isStopUpcoming(bus._id, stop._id))
                 .slice(0, 3)
                 .map((bus) => {
-                  const live = stop.loc?.coordinates
-                    ? getBusLiveEta(bus._id, stop.loc.coordinates, stop._id)
-                    : null;
+                  const live = stop.loc?.coordinates ? getBusLiveEta(bus._id, stop.loc.coordinates, stop._id) : null;
                   if (live?.isDeparted) return null;
                   const etaMin = live ? live.etaMinutes : 5;
-                  return {
-                    bus,
-                    route,
-                    stop,
-                    etaMin,
-                  };
+                  return { bus, route, stop, etaMin };
                 })
                 .filter((item): item is { bus: Bus; route: Route; stop: Stop; etaMin: number } => item !== null);
             });
 
-            // Apply active filters and sort by arrival time
             const filteredBuses = candidateBuses
               .filter(({ bus, etaMin }) => {
                 const bType = normalizeBusType(bus.type);
@@ -166,30 +143,24 @@ export default function NearbyPanel({
               .sort((a, b) => a.etaMin - b.etaMin);
 
             return (
-              <div key={stop._id} className="flex flex-col gap-1">
-                {/* Stop Group Header */}
-                <div
-                  role="button"
+              <section key={stop._id} className="flex flex-col gap-2">
+                <button
+                  type="button"
                   onClick={() => onFocusStop(stop)}
-                  className="flex items-center justify-between py-1.5 px-2 rounded-[var(--r-sm)] hover:bg-[var(--surface-2)] cursor-pointer select-none transition-colors duration-[var(--dur-1)]"
+                  className="flex items-center justify-between gap-4 text-left cursor-pointer"
                 >
-                  <div className="flex items-center gap-1.5 min-w-0">
-                    <MapPin size={16} weight="fill" className="text-[var(--primary-700)] shrink-0" />
-                    <span className="text-sm font-semibold text-[var(--text)] truncate">
-                      {stop.name}
-                    </span>
-                  </div>
-                  <span className="text-xs text-[var(--text-3)] shrink-0 ml-2">
+                  <h3 className="flex items-center gap-2 text-sm min-w-0">
+                    <MapPin size={16} weight="fill" className="text-[var(--primary-700)] shrink-0" aria-hidden="true" />
+                    <span className="truncate">{stop.name}</span>
+                  </h3>
+                  <span className="text-xs text-[var(--text-3)] shrink-0 tabular-nums">
                     {walkMin} min walk · {formattedDist}
                   </span>
-                </div>
+                </button>
 
-                {/* Bus Rows */}
                 <div className="flex flex-col divide-y divide-[var(--border)]">
                   {filteredBuses.length === 0 ? (
-                    <div className="py-2 px-3 text-xs text-[var(--text-3)] italic">
-                      No buses matching active filters
-                    </div>
+                    <p className="py-3 text-sm text-[var(--text-3)]">No buses match your filters here.</p>
                   ) : (
                     filteredBuses.slice(0, 3).map(({ bus, route, etaMin }) => (
                       <BusRow
@@ -207,7 +178,7 @@ export default function NearbyPanel({
                     ))
                   )}
                 </div>
-              </div>
+              </section>
             );
           })
         )}

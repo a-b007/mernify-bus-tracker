@@ -32,7 +32,6 @@ import { connectSocket, disconnectSocket, subscribeToRoute } from '../services/s
 import { getDistanceMetres } from '../utils/geo';
 import type { Stop, Route, Bus } from '../types/transit';
 import { normalizeBusType } from '../types/transit';
-import { MapPin, NavigationArrow } from '@phosphor-icons/react';
 
 export default function HomePage() {
   const map = useMapStore((s) => s.map);
@@ -373,194 +372,136 @@ export default function HomePage() {
   }, [originStop, destStop, routes, buses, filters]);
 
   const isDesktopOrTablet = breakpoint === 'desktop' || breakpoint === 'tablet';
+  const showDetail = step === 'busDetail' && selectedBus && selectedRoute && selectedStop;
+
+  const panelTitle =
+    originStop && destStop ? `${originStop.name} to ${destStop.name}` : originStop ? `Buses at ${originStop.name}` : 'Find a bus';
+
+  const summary =
+    originStop && destStop
+      ? `${candidateBuses.length} direct ${candidateBuses.length === 1 ? 'bus' : 'buses'} · soonest first`
+      : originStop
+      ? 'Departing from this stop · soonest first'
+      : null;
+
+  const emptyMessage =
+    originStop && destStop
+      ? 'No direct buses match right now. Try removing a filter.'
+      : originStop
+      ? 'Now pick where you’re going, or tap any bus on the map.'
+      : 'Pick where you are and where you’re going. Buses show up here, soonest first.';
+
+  const search = (
+    <DualStopSearch
+      stops={stops}
+      originStop={originStop}
+      destStop={destStop}
+      onSelectOrigin={(stop) => {
+        setOriginStop(stop);
+        if (stop?.loc?.coordinates && map) map.flyTo({ center: stop.loc.coordinates, zoom: 15 });
+      }}
+      onSelectDest={(stop) => setDestStop(stop)}
+    />
+  );
+
+  const results = (
+    <div className="flex flex-col gap-4">
+      {summary && <p className="text-xs text-[var(--text-3)]">{summary}</p>}
+      {candidateBuses.length === 0 ? (
+        <p className="py-6 text-base text-[var(--text-2)]">{emptyMessage}</p>
+      ) : (
+        <div className="flex flex-col divide-y divide-[var(--border)]">
+          {candidateBuses.map(({ bus, route, stop, etaMin, fare, walkMin }) => (
+            <BusRow
+              key={bus._id}
+              routeNo={route.routeNo}
+              type={normalizeBusType(bus.type)}
+              destination={route.destination}
+              etaMinutes={etaMin}
+              walkMinutes={walkMin}
+              fare={fare}
+              crowding={bus.capacity > 45 ? 'medium' : 'low'}
+              isCatchable={etaMin >= walkMin - 1}
+              tracked={selectedBus?._id === bus._id}
+              onClick={() => handleSelectBus(bus, route, stop)}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
+  const detail = showDetail ? (
+    <BusDetailPanel
+      onBack={() => setStep('nearby')}
+      onNotifyClick={() => setStep('tracking')}
+      bus={selectedBus!}
+      route={selectedRoute!}
+      stop={selectedStop!}
+      allStops={stops}
+    />
+  ) : null;
+
+  // Map controls + the Demo-data pill slide left when the detail panel is open.
+  const controlsShift = isDesktopOrTablet
+    ? showDetail
+      ? 'sm:right-[364px] lg:right-[408px]'
+      : ''
+    : 'bottom-[128px]';
+  const pillShift = isDesktopOrTablet
+    ? showDetail
+      ? 'sm:right-[412px] lg:right-[456px]'
+      : ''
+    : 'bottom-[128px]';
 
   return (
     <div className="relative w-screen h-dvh overflow-hidden select-none bg-[var(--paper)]">
-      {/* Full-Bleed Interactive Map */}
       <MapContainer className="w-full h-full">
-        {/* Floating Demo Data Pill (Top Right) */}
-        <DemoDataPill />
+        <DemoDataPill className={pillShift} />
 
-        {/* Center-Top Floating Dual Search & Filter Bar */}
-        <div className="fixed top-16 left-1/2 -translate-x-1/2 z-40 w-full max-w-2xl px-3 flex flex-col items-center gap-2 pointer-events-none">
-          <div className="pointer-events-auto w-full">
-            <DualStopSearch
-              stops={stops}
-              originStop={originStop}
-              destStop={destStop}
-              onSelectOrigin={(stop) => {
-                setOriginStop(stop);
-                if (stop?.loc?.coordinates && map) {
-                  map.flyTo({ center: stop.loc.coordinates, zoom: 15 });
-                }
-              }}
-              onSelectDest={(stop) => {
-                setDestStop(stop);
-              }}
-            />
-          </div>
-
-          {/* Quick Filters Pill Bar */}
-          <div className="pointer-events-auto">
-            <FilterBar />
-          </div>
-        </div>
-
-        {/* Map Controls (Bottom Right) */}
         <MapControls
           onZoomIn={() => map?.zoomIn({ duration: 300 })}
           onZoomOut={() => map?.zoomOut({ duration: 300 })}
           onLocate={handleLocateMe}
           isLocating={isLocating}
-          className={!isDesktopOrTablet ? 'bottom-[136px]' : 'bottom-3 right-3'}
+          className={controlsShift}
         />
 
-        {/* Left Floating Panel: Bus Search Results & Recommendations */}
+        {/* Left panel: plan the trip, then pick a bus */}
         {isDesktopOrTablet && (
           <Panel
             position="left"
-            className="top-36"
-            title={
-              originStop && destStop
-                ? `${originStop.name.split(' ')[0]} ➔ ${destStop.name.split(' ')[0]}`
-                : originStop
-                ? `Buses at ${originStop.name.split(' ')[0]}`
-                : 'Direct Connecting Buses'
+            brand
+            title={panelTitle}
+            toolbar={
+              <>
+                {search}
+                <FilterBar />
+              </>
             }
           >
-            <div className="flex flex-col gap-3">
-              {/* Header Info Banner */}
-              {originStop && destStop ? (
-                <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60">
-                  <div className="flex items-center justify-between text-xs font-semibold text-emerald-800 dark:text-emerald-300">
-                    <span className="flex items-center gap-1.5 truncate">
-                      <MapPin size={14} weight="fill" className="text-emerald-600 shrink-0" />
-                      <span className="truncate">{originStop.name}</span>
-                      <span>➔</span>
-                      <span className="truncate">{destStop.name}</span>
-                    </span>
-                  </div>
-                  <div className="text-[11px] text-emerald-600 dark:text-emerald-400 mt-0.5">
-                    {candidateBuses.length} direct buses · In increasing order of arrival
-                  </div>
-                </div>
-              ) : originStop ? (
-                <div className="p-3 rounded-xl bg-slate-100 dark:bg-[#243044] border border-slate-200 dark:border-slate-700">
-                  <div className="text-xs font-semibold text-[var(--text)]">
-                    Boarding at: {originStop.name}
-                  </div>
-                  <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-                    Select a destination stop above to find connecting buses, or pick any bus below:
-                  </div>
-                </div>
-              ) : (
-                <div className="p-4 rounded-xl bg-slate-100 dark:bg-[#243044] border border-slate-200 dark:border-slate-700 text-center space-y-2">
-                  <NavigationArrow size={24} className="text-emerald-500 mx-auto" />
-                  <div className="text-sm font-bold text-[var(--text)]">
-                    Plan Your BMTC Journey
-                  </div>
-                  <div className="text-xs text-slate-500 dark:text-slate-400">
-                    Select your current stop & destination above to see direct buses sorted by arrival time.
-                  </div>
-                </div>
-              )}
+            {results}
+          </Panel>
+        )}
 
-              {/* Bus Results List (Sorted strictly ascending by arrival time) */}
-              <div className="flex flex-col divide-y divide-[var(--border)] max-h-[calc(100vh-320px)] overflow-y-auto pr-1">
-                {candidateBuses.length === 0 ? (
-                  <div className="py-8 text-center text-xs text-slate-400">
-                    {originStop && destStop
-                      ? 'No direct buses found matching active filters. Try toggling filters.'
-                      : 'Pick stops in the dual search box above to display live buses.'}
-                  </div>
-                ) : (
-                  candidateBuses.map(({ bus, route, stop, etaMin, fare, walkMin }) => {
-                    const isSelected = selectedBus?._id === bus._id;
-                    return (
-                      <div
-                        key={bus._id}
-                        className={`transition-all rounded-lg ${
-                          isSelected ? 'ring-2 ring-amber-500 bg-amber-500/10' : ''
-                        }`}
-                      >
-                        <BusRow
-                          routeNo={route.routeNo}
-                          type={normalizeBusType(bus.type)}
-                          destination={route.destination}
-                          etaMinutes={etaMin}
-                          walkMinutes={walkMin}
-                          fare={fare}
-                          crowding={bus.capacity > 45 ? 'medium' : 'low'}
-                          isCatchable={etaMin >= walkMin - 1}
-                          onClick={() => handleSelectBus(bus, route, stop)}
-                        />
-                      </div>
-                    );
-                  })
+        {/* Right panel: one bus in detail. Replaces nothing, never stacks a third panel. */}
+        {isDesktopOrTablet && detail && <Panel position="right">{detail}</Panel>}
+
+        {/* Mobile: floating search card + bottom sheet */}
+        {!isDesktopOrTablet && (
+          <>
+            <div className="fixed top-[72px] left-4 right-4 z-30 panel-surface dots p-4">{search}</div>
+            <BottomSheet>
+              <div className="flex flex-col gap-4 pt-2">
+                {detail ?? (
+                  <>
+                    <FilterBar />
+                    {results}
+                  </>
                 )}
               </div>
-            </div>
-          </Panel>
-        )}
-
-        {/* Right Floating Panel: Bus Details, Live Tracking & Weekly Historical Analysis */}
-        {isDesktopOrTablet && step === 'busDetail' && selectedBus && selectedRoute && selectedStop && (
-          <Panel
-            position="right"
-            title={`Bus ${selectedRoute.routeNo} (${selectedBus._id})`}
-            onClose={() => setStep('nearby')}
-          >
-            <BusDetailPanel
-              onBack={() => setStep('nearby')}
-              onNotifyClick={() => setStep('tracking')}
-              bus={selectedBus}
-              route={selectedRoute}
-              stop={selectedStop}
-              allStops={stops}
-            />
-          </Panel>
-        )}
-
-        {/* Mobile Bottom Sheet for Bus Results & Tracking */}
-        {!isDesktopOrTablet && (
-          <BottomSheet>
-            <div className="pt-2 px-1 flex flex-col gap-3">
-              {step === 'busDetail' && selectedBus && selectedRoute && selectedStop ? (
-                <BusDetailPanel
-                  onBack={() => setStep('nearby')}
-                  onNotifyClick={() => setStep('tracking')}
-                  bus={selectedBus}
-                  route={selectedRoute}
-                  stop={selectedStop}
-                  allStops={stops}
-                />
-              ) : (
-                <>
-                  <div className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                    {originStop && destStop
-                      ? `Connecting Buses (${candidateBuses.length})`
-                      : 'Nearby Departures'}
-                  </div>
-                  <div className="flex flex-col divide-y divide-[var(--border)] max-h-[50vh] overflow-y-auto">
-                    {candidateBuses.map(({ bus, route, stop, etaMin, fare, walkMin }) => (
-                      <BusRow
-                        key={bus._id}
-                        routeNo={route.routeNo}
-                        type={normalizeBusType(bus.type)}
-                        destination={route.destination}
-                        etaMinutes={etaMin}
-                        walkMinutes={walkMin}
-                        fare={fare}
-                        crowding={bus.capacity > 45 ? 'medium' : 'low'}
-                        isCatchable={etaMin >= walkMin - 1}
-                        onClick={() => handleSelectBus(bus, route, stop)}
-                      />
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
-          </BottomSheet>
+            </BottomSheet>
+          </>
         )}
       </MapContainer>
     </div>

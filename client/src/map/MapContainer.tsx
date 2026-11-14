@@ -93,14 +93,14 @@ export default function MapContainer({
   useEffect(() => {
     if (!map) return;
     if (breakpoint === 'desktop') {
-      // 384px panel + 24px margins = 408px left padding
-      map.setPadding({ top: 24, right: 24, bottom: 24, left: 412 });
+      // 384px panel + 16px edge + 16px breathing room
+      map.setPadding({ top: 16, right: 16, bottom: 16, left: 416 });
     } else if (breakpoint === 'tablet') {
-      // 340px panel + 24px margins
-      map.setPadding({ top: 24, right: 24, bottom: 24, left: 368 });
+      // 340px panel + 16px edge + 16px breathing room
+      map.setPadding({ top: 16, right: 16, bottom: 16, left: 372 });
     } else {
-      // Mobile: bottom sheet peek (~112px)
-      map.setPadding({ top: 24, right: 16, bottom: 128, left: 16 });
+      // Mobile: floating search card on top (~200px), sheet peek (112px) below
+      map.setPadding({ top: 208, right: 16, bottom: 128, left: 16 });
     }
   }, [breakpoint, map]);
 

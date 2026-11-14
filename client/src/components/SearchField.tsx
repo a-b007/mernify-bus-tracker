@@ -87,17 +87,13 @@ export default function SearchField({
   const groups = ['Recent', 'Saved', 'Places', 'Bus stops', 'Routes'] as const;
 
   const renderGroupIcon = (group: SearchItem['group']) => {
+    const cls = 'text-[var(--text-3)] shrink-0';
     switch (group) {
-      case 'Recent':
-        return <Clock size={16} className="text-[var(--text-3)]" />;
-      case 'Saved':
-        return <BookmarkSimple size={16} className="text-[var(--text-3)]" />;
-      case 'Places':
-        return <MapPin size={16} className="text-[var(--text-3)]" />;
-      case 'Bus stops':
-        return <Bus size={16} className="text-[var(--text-3)]" />;
-      case 'Routes':
-        return <Path size={16} className="text-[var(--text-3)]" />;
+      case 'Recent': return <Clock size={20} className={cls} aria-hidden="true" />;
+      case 'Saved': return <BookmarkSimple size={20} className={cls} aria-hidden="true" />;
+      case 'Places': return <MapPin size={20} className={cls} aria-hidden="true" />;
+      case 'Bus stops': return <Bus size={20} className={cls} aria-hidden="true" />;
+      case 'Routes': return <Path size={20} className={cls} aria-hidden="true" />;
     }
   };
 
@@ -117,17 +113,13 @@ export default function SearchField({
   return (
     <div ref={containerRef} className={`relative w-full ${className}`}>
       <Command className="w-full relative" shouldFilter={false}>
-        <div className="relative flex items-center w-full">
-          <MagnifyingGlass
-            size={20}
-            weight="regular"
-            className="absolute left-3 text-[var(--text-3)] pointer-events-none"
-            aria-hidden="true"
-          />
+        <div className="field">
+          <MagnifyingGlass size={20} className="text-[var(--text-3)] shrink-0" aria-hidden="true" />
           <input
             ref={inputRef}
             type="text"
             role="searchbox"
+            aria-label="Search places, bus stops and routes"
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
@@ -137,15 +129,6 @@ export default function SearchField({
             onKeyDown={handleKeyDown}
             placeholder={placeholder}
             autoFocus={autoFocus}
-            className={[
-              'w-full h-[44px] pl-10 pr-9',
-              'bg-[#F1F5F9] dark:bg-[#243044] text-[var(--text)]',
-              'placeholder:text-[var(--text-3)]',
-              'border border-slate-200 dark:border-slate-700/80 rounded-[var(--r-md)]',
-              'text-[16px] md:text-[14px]',
-              'focus:outline-none focus:ring-2 focus:ring-[var(--primary-600)] focus:border-transparent',
-              'transition-all duration-[var(--dur-1)]',
-            ].join(' ')}
           />
           {search && (
             <button
@@ -154,68 +137,36 @@ export default function SearchField({
                 setSearch('');
                 inputRef.current?.focus();
               }}
-              className="absolute right-2.5 p-1 rounded-full text-[var(--text-3)] hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors"
+              className="icon-btn -mr-3"
               aria-label="Clear search"
             >
-              <X size={14} weight="bold" />
+              <X size={16} />
             </button>
           )}
         </div>
 
         {open && (
-          <div
-            className={[
-              'absolute top-[calc(100%+6px)] left-0 right-0 z-50',
-              // Solid, 100% opaque background to fix transparency completely
-              'bg-[#FFFFFF] dark:bg-[#1E293B]',
-              'border border-slate-200 dark:border-slate-700/90',
-              'rounded-[var(--r-md)]',
-              'shadow-[0_20px_60px_rgba(0,0,0,0.35)] dark:shadow-[0_24px_70px_rgba(0,0,0,0.7)]',
-              'max-h-[360px] overflow-y-auto p-1.5',
-            ].join(' ')}
-          >
+          <div className="menu">
             <Command.List>
               {filteredItems.length === 0 ? (
                 <div className="py-6 px-4 text-center text-sm text-[var(--text-2)]">
-                  {search ? `No results found for "${search}"` : 'Search by place, bus stop or route number'}
+                  {search ? `No results for “${search}”. Try a stop name or route number.` : 'Search a place, bus stop or route number.'}
                 </div>
               ) : (
                 groups.map((grp) => {
                   const groupItems = filteredItems.filter((item) => item.group === grp);
                   if (groupItems.length === 0) return null;
-
                   return (
                     <Command.Group
                       key={grp}
-                      heading={
-                        <div className="px-2.5 py-1.5 text-[11px] font-semibold text-[var(--text-3)] uppercase tracking-wider">
-                          {grp}
-                        </div>
-                      }
-                      className="mb-1"
+                      heading={<div className="section-label px-3 pt-3 pb-2">{grp}</div>}
                     >
                       {groupItems.slice(0, 15).map((item) => (
-                        <Command.Item
-                          key={item.id}
-                          value={item.id}
-                          onSelect={() => handleItemSelect(item)}
-                          className={[
-                            'flex items-center gap-3 px-3 py-2.5 min-h-[44px]',
-                            'rounded-[var(--r-sm)] cursor-pointer text-sm select-none',
-                            'hover:bg-slate-100 dark:hover:bg-slate-700/60 active:bg-[var(--primary-50)]',
-                            'transition-colors duration-[var(--dur-1)]',
-                          ].join(' ')}
-                        >
-                          <div className="shrink-0">{renderGroupIcon(item.group)}</div>
+                        <Command.Item key={item.id} value={item.id} onSelect={() => handleItemSelect(item)} className="menu-item">
+                          {renderGroupIcon(item.group)}
                           <div className="flex-1 min-w-0">
-                            <div className="font-medium text-[var(--text)] truncate">
-                              {item.label}
-                            </div>
-                            {item.subtitle && (
-                              <div className="text-xs text-[var(--text-2)] truncate">
-                                {item.subtitle}
-                              </div>
-                            )}
+                            <div className="text-base font-medium text-[var(--text)] truncate">{item.label}</div>
+                            {item.subtitle && <div className="text-xs text-[var(--text-2)] truncate">{item.subtitle}</div>}
                           </div>
                         </Command.Item>
                       ))}

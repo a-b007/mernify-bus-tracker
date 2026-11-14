@@ -1,69 +1,34 @@
 import * as Popover from '@radix-ui/react-popover';
-import { Info, Sun, Moon } from '@phosphor-icons/react';
-import { useTheme } from '../hooks/useTheme';
+import { Info } from '@phosphor-icons/react';
 
 interface DemoDataPillProps {
   className?: string;
 }
 
+/** Persistent honesty marker (DESIGN §10). Sits beside the map controls, never under a panel. */
 export default function DemoDataPill({ className = '' }: DemoDataPillProps) {
-  const { theme, toggle } = useTheme();
-
   return (
-    <div className={`fixed top-3 right-3 z-20 flex items-center gap-2 ${className}`}>
-      {/* Theme Toggle Button */}
-      <button
-        type="button"
-        onClick={toggle}
-        aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
-        className={[
-          'flex items-center justify-center w-8 h-8 cursor-pointer',
-          'bg-[var(--surface)] backdrop-blur-md text-[var(--text)]',
-          'border border-[var(--border)] rounded-[var(--r-md)]',
-          'shadow-[var(--shadow-panel)]',
-          'hover:bg-[var(--surface-2)] active:bg-[var(--primary-100)]',
-          'transition-colors duration-[var(--dur-1)]',
-        ].join(' ')}
-      >
-        {theme === 'light' ? (
-          <Moon size={16} weight="regular" />
-        ) : (
-          <Sun size={16} weight="regular" />
-        )}
-      </button>
-
-      {/* Demo Data Pill with Popover */}
+    <div className={`fixed bottom-4 right-16 z-10 transition-[right] duration-[var(--dur-3)] ease-[var(--ease-out)] ${className}`}>
       <Popover.Root>
         <Popover.Trigger asChild>
           <button
             type="button"
-            className={[
-              'inline-flex items-center gap-1.5 px-3 py-1.5',
-              'bg-[var(--amber-100)] backdrop-blur-md text-[var(--text)]',
-              'border border-[var(--amber-500)] rounded-[var(--r-pill)]',
-              'text-[12px] font-semibold tracking-wide cursor-pointer',
-              'shadow-[var(--shadow-panel)]',
-              'hover:opacity-90 active:opacity-80 transition-opacity duration-[var(--dur-1)]',
-            ].join(' ')}
+            className="inline-flex items-center gap-2 h-10 px-4 cursor-pointer rounded-[var(--r-pill)] bg-[var(--amber-100)] text-[var(--text)] border border-[var(--amber-500)] text-xs font-semibold shadow-[var(--shadow-panel)] transition-opacity duration-[var(--dur-1)] hover:opacity-90"
           >
-            <Info size={14} weight="bold" className="text-[var(--amber-500)]" />
+            <Info size={16} weight="bold" className="text-[var(--amber-500)]" aria-hidden="true" />
             <span>Demo data</span>
           </button>
         </Popover.Trigger>
         <Popover.Portal>
           <Popover.Content
-            sideOffset={6}
+            side="top"
             align="end"
-            className={[
-              'z-30 w-64 p-3 bg-[var(--surface)] text-[var(--text)]',
-              'border border-[var(--border)] rounded-[var(--r-md)]',
-              'shadow-[var(--shadow-panel)] text-xs leading-relaxed',
-              'focus:outline-none animate-in fade-in-50 duration-[var(--dur-1)]',
-            ].join(' ')}
+            sideOffset={8}
+            className="z-50 w-72 p-4 flex flex-col gap-2 bg-[var(--surface-solid)] text-[var(--text)] border border-[var(--border)] rounded-[var(--r-md)] shadow-[var(--shadow-panel)] focus:outline-none"
           >
-            <p className="font-semibold mb-1 text-[var(--text)]">Simulated Transit Prototype</p>
-            <p className="text-[var(--text-2)]">
-              Bus positions and arrival times are simulated on real Bengaluru route and stop geometry.
+            <h3 className="text-xs">Simulated prototype</h3>
+            <p className="text-sm text-[var(--text-2)]">
+              Bus positions are simulated on real Bengaluru routes and stops. This is a prototype.
             </p>
             <Popover.Arrow className="fill-[var(--border)]" />
           </Popover.Content>

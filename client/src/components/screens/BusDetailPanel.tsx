@@ -112,245 +112,174 @@ export default function BusDetailPanel({
   const routeLengthKm = route.lengthM ? (route.lengthM / 1000).toFixed(1) : '24.5';
   const totalStopsCount = route.stops?.length || 24;
 
-  return (
-    <div className="flex flex-col gap-3">
-      {/* Top Header */}
-      <div className="flex items-center justify-between pb-1 border-b border-slate-200 dark:border-slate-700/60">
-        <div className="flex items-center gap-2 min-w-0">
-          <button
-            type="button"
-            onClick={onBack}
-            aria-label="Back"
-            className="flex items-center justify-center w-8 h-8 rounded-[var(--r-md)] hover:bg-[var(--surface-2)] text-[var(--text-2)] transition-colors duration-[var(--dur-1)]"
-          >
-            <ArrowLeft size={18} />
-          </button>
-          <RouteChip routeNo={route.routeNo} type={normalizeBusType(bus.type)} />
-          <div className="flex flex-col min-w-0">
-            <span className="text-[11px] text-[var(--text-3)] font-medium">Towards</span>
-            <span className="text-sm font-semibold text-[var(--text)] truncate">{route.destination}</span>
-          </div>
-        </div>
-        <button
-          type="button"
-          onClick={onBack}
-          className="p-1 rounded-md text-[var(--text-3)] hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors"
-          aria-label="Close"
-        >
-          <X size={18} />
-        </button>
-      </div>
+  const stat = (label: string, value: string, Icon?: typeof Gauge) => (
+    <div className="flex flex-col gap-1 min-w-0">
+      <span className="flex items-center gap-1 text-xs text-[var(--text-3)]">
+        {Icon && <Icon size={14} aria-hidden="true" />}
+        {label}
+      </span>
+      <span className="text-sm font-semibold text-[var(--text)] truncate tabular-nums">{value}</span>
+    </div>
+  );
 
-      {/* Segmented Tab Switcher */}
-      <div className="grid grid-cols-2 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-[var(--r-md)] text-xs font-semibold select-none">
-        <button
-          type="button"
-          onClick={() => setActiveTab('details')}
-          className={`py-1.5 rounded-[var(--r-sm)] transition-all ${
-            activeTab === 'details'
-              ? 'bg-white dark:bg-slate-700 text-[var(--text)] shadow-sm'
-              : 'text-[var(--text-3)] hover:text-[var(--text)]'
-          }`}
-        >
-          Live Tracking
+  const tabBtn = (active: boolean) =>
+    `flex items-center justify-center gap-2 h-8 rounded-[var(--r-sm)] text-sm font-semibold cursor-pointer transition-colors duration-[var(--dur-1)] ${
+      active
+        ? 'bg-[var(--surface-solid)] text-[var(--text)] shadow-[0_1px_2px_rgb(30_34_41/.12)]'
+        : 'text-[var(--text-3)] hover:text-[var(--text)]'
+    }`;
+
+  return (
+    <div className="flex flex-col gap-6">
+      {/* Header */}
+      <header className="flex items-center gap-3">
+        <button type="button" onClick={onBack} aria-label="Back" className="icon-btn -ml-2">
+          <ArrowLeft size={20} />
         </button>
-        <button
-          type="button"
-          onClick={() => setActiveTab('history')}
-          className={`py-1.5 rounded-[var(--r-sm)] transition-all flex items-center justify-center gap-1.5 ${
-            activeTab === 'history'
-              ? 'bg-white dark:bg-slate-700 text-[var(--text)] shadow-sm'
-              : 'text-[var(--text-3)] hover:text-[var(--text)]'
-          }`}
-        >
-          <CalendarCheck size={14} weight="bold" />
-          <span>Weekly Analysis</span>
+        <RouteChip routeNo={route.routeNo} type={normalizeBusType(bus.type)} />
+        <div className="flex flex-col min-w-0 flex-1">
+          <span className="text-xs text-[var(--text-3)]">Towards</span>
+          <h2 className="text-md truncate">{route.destination}</h2>
+        </div>
+        <button type="button" onClick={onBack} aria-label="Close" className="icon-btn -mr-2">
+          <X size={20} />
+        </button>
+      </header>
+
+      {/* Segmented tabs */}
+      <div role="tablist" className="grid grid-cols-2 gap-1 p-1 well select-none">
+        <button type="button" role="tab" aria-selected={activeTab === 'details'} onClick={() => setActiveTab('details')} className={tabBtn(activeTab === 'details')}>
+          Live
+        </button>
+        <button type="button" role="tab" aria-selected={activeTab === 'history'} onClick={() => setActiveTab('history')} className={tabBtn(activeTab === 'history')}>
+          <CalendarCheck size={16} aria-hidden="true" />
+          This week
         </button>
       </div>
 
       {activeTab === 'details' ? (
-        /* TAB 1: Live Details & Hero ETA */
         <>
-          {/* Hero ETA Block */}
-          <div className="p-4 rounded-[var(--r-md)] bg-[#F1F5F9] dark:bg-[#243044] border border-slate-200 dark:border-slate-700/80 flex flex-col gap-1.5">
-            <div className="flex items-baseline justify-between">
-              <div className="flex items-baseline gap-2">
-                <span
-                  className="text-[36px] leading-[40px] font-semibold text-[var(--text)] tracking-tight"
-                  style={{ fontVariantNumeric: 'tabular-nums' }}
-                >
+          {/* Hero ETA: the one big number on this screen */}
+          <section className="well dots p-5 flex flex-col gap-4">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex flex-col gap-1 min-w-0">
+                <span className="text-eta font-semibold tracking-tight tabular-nums text-[var(--text)]">
                   {eta.status === 'departed' ? 'Departed' : eta.status === 'arrived' ? 'Arrived' : `${eta.etaMinutes} min`}
                 </span>
-                <span className="text-xs text-[var(--text-2)]">
+                <span className="text-sm text-[var(--text-2)]">
                   {eta.status === 'departed'
-                    ? '· passed stop'
+                    ? 'Passed your stop'
                     : eta.status === 'arrived'
-                    ? '· at stop'
-                    : `· ${eta.stopsAway} stops away (${eta.distanceM} m)`}
+                    ? 'At your stop'
+                    : `${eta.stopsAway} stops away · ${eta.distanceM} m`}
                 </span>
               </div>
-              <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
-                eta.status === 'departed'
-                  ? 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300'
-                  : 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300'
-              }`}>
+              <span
+                className={`shrink-0 h-6 px-3 inline-flex items-center rounded-[var(--r-pill)] text-xs font-semibold ${
+                  eta.status === 'departed' ? 'bg-[var(--border)] text-[var(--text-2)]' : 'bg-[var(--primary-100)] text-[var(--primary-700)]'
+                }`}
+              >
                 {eta.status === 'departed' ? 'Departed' : eta.status === 'arrived' ? 'At stop' : eta.status === 'arriving' ? 'Approaching' : 'On time'}
               </span>
             </div>
 
-            {/* Walking hint */}
-            <p className="text-xs text-[var(--text-2)] font-medium">
+            <p className="text-sm font-medium text-[var(--text)]">
               {eta.status === 'departed'
-                ? `Bus has already reached and departed from ${stop.name}.`
+                ? `This bus has already left ${stop.name}.`
                 : eta.status === 'arrived'
-                ? `Bus has arrived at ${stop.name}. Board now!`
+                ? `The bus is at ${stop.name}. Board now.`
                 : eta.status === 'arriving'
-                ? `Bus is arriving now at ${stop.name} (${eta.distanceM} m).`
+                ? `Arriving now at ${stop.name} (${eta.distanceM} m).`
                 : `Leave in ${Math.max(1, eta.etaMinutes - 2)} min to catch it at ${stop.name}.`}
             </p>
 
-            {/* Quick Metrics */}
-            <div className="grid grid-cols-3 gap-2 mt-2 pt-2 border-t border-slate-200/80 dark:border-slate-700/60 text-xs">
-              <div className="flex flex-col">
-                <span className="text-[10px] text-[var(--text-3)] flex items-center gap-1">
-                  <Gauge size={12} /> Speed
-                </span>
-                <span className="font-semibold text-[var(--text)]">{eta.speedKmh} km/h</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-[10px] text-[var(--text-3)] flex items-center gap-1">
-                  <Path size={12} /> Distance
-                </span>
-                <span className="font-semibold text-[var(--text)]">{(eta.distanceM / 1000).toFixed(1)} km</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-[10px] text-[var(--text-3)] flex items-center gap-1">
-                  <MapPin size={12} /> Boarding
-                </span>
-                <span className="font-semibold text-[var(--text)] truncate">{stop.name}</span>
-              </div>
-            </div>
-          </div>
+            <div className="divider" />
 
-          {/* Primary Action: Notify Me */}
+            <div className="grid grid-cols-3 gap-4">
+              {stat('Speed', `${eta.speedKmh} km/h`, Gauge)}
+              {stat('Distance', `${(eta.distanceM / 1000).toFixed(1)} km`, Path)}
+              {stat('Boarding', stop.name, MapPin)}
+            </div>
+          </section>
+
+          {/* Primary action: one per panel */}
           {!isPickerOpen ? (
-            <button
-              type="button"
-              onClick={() => setIsPickerOpen(true)}
-              className={[
-                'flex items-center justify-center gap-2 w-full h-[44px] px-4',
-                'bg-[var(--primary-600)] text-white text-sm font-medium rounded-[var(--r-md)]',
-                'hover:bg-[var(--primary-700)] active:bg-[var(--primary-800)]',
-                'shadow-sm transition-colors duration-[var(--dur-1)]',
-              ].join(' ')}
-            >
-              <Bell size={18} weight="bold" />
-              <span>Notify me when it's close</span>
+            <button type="button" onClick={() => setIsPickerOpen(true)} className="btn btn-primary w-full">
+              <Bell size={20} aria-hidden="true" />
+              Notify me when it’s close
             </button>
           ) : (
-            <div className="p-3 bg-[var(--amber-100)]/40 border border-[var(--amber-500)] rounded-[var(--r-md)] flex flex-col gap-2.5">
-              <span className="text-xs font-semibold text-[var(--text)]">Alert me before arrival:</span>
-              <div className="flex gap-2">
+            <section className="flex flex-col gap-4 p-4 rounded-[var(--r-md)] bg-[var(--amber-100)]">
+              <span className="text-sm font-semibold text-[var(--text)]">Alert me before it arrives</span>
+              <div className="grid grid-cols-3 gap-2">
                 {([2, 5, 10] as const).map((mins) => (
                   <button
                     key={mins}
                     type="button"
+                    aria-pressed={notifyThreshold === mins}
                     onClick={() => setNotifyThreshold(mins)}
-                    className={[
-                      'flex-1 py-1.5 text-xs font-semibold rounded-[var(--r-sm)] border select-none transition-colors duration-[var(--dur-1)]',
+                    className={`h-10 rounded-[var(--r-md)] text-sm font-semibold border cursor-pointer tabular-nums transition-colors duration-[var(--dur-1)] ${
                       notifyThreshold === mins
-                        ? 'bg-[var(--amber-500)] text-[var(--text)] border-[var(--amber-500)]'
-                        : 'bg-[var(--surface)] text-[var(--text-2)] border-[var(--border)] hover:bg-[var(--surface-2)]',
-                    ].join(' ')}
+                        ? 'bg-[var(--amber-500)] border-[var(--amber-500)] text-[var(--on-amber)]'
+                        : 'bg-[var(--surface-solid)] border-[var(--border)] text-[var(--text-2)] hover:border-[var(--border-strong)]'
+                    }`}
                   >
                     {mins} min
                   </button>
                 ))}
               </div>
-
-              <button
-                type="button"
-                onClick={handleNotifyConfirm}
-                className="w-full py-2 bg-[var(--primary-600)] text-white text-xs font-semibold rounded-[var(--r-sm)] hover:bg-[var(--primary-700)] transition-colors duration-[var(--dur-1)]"
-              >
-                Start Tracking
+              <button type="button" onClick={handleNotifyConfirm} className="btn btn-primary w-full">
+                Start tracking
               </button>
-            </div>
+            </section>
           )}
 
-          {/* Route Overview */}
-          <div className="p-3 rounded-[var(--r-md)] bg-[#F1F5F9] dark:bg-[#243044] border border-slate-200 dark:border-slate-700/80 flex flex-col gap-2">
-            <span className="text-xs font-semibold text-[var(--text)] flex items-center gap-1.5">
-              <Path size={14} className="text-[var(--primary-600)]" />
-              Route Details ({route.routeNo})
-            </span>
-            <div className="grid grid-cols-2 gap-2 text-xs text-[var(--text-2)]">
-              <div>
-                <span className="text-[var(--text-3)] block text-[10px]">Origin:</span>
-                <span className="font-medium text-[var(--text)] truncate block">{route.origin}</span>
-              </div>
-              <div>
-                <span className="text-[var(--text-3)] block text-[10px]">Destination:</span>
-                <span className="font-medium text-[var(--text)] truncate block">{route.destination}</span>
-              </div>
-              <div>
-                <span className="text-[var(--text-3)] block text-[10px]">Total Distance:</span>
-                <span className="font-medium text-[var(--text)]">{routeLengthKm} km</span>
-              </div>
-              <div>
-                <span className="text-[var(--text-3)] block text-[10px]">Total Stops:</span>
-                <span className="font-medium text-[var(--text)]">{totalStopsCount} stops</span>
-              </div>
+          {/* Route overview */}
+          <section className="flex flex-col gap-4">
+            <h3 className="section-label">Route {route.routeNo}</h3>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-4">
+              {stat('From', route.origin)}
+              {stat('To', route.destination)}
+              {stat('Length', `${routeLengthKm} km`)}
+              {stat('Stops', `${totalStopsCount}`)}
             </div>
-          </div>
+          </section>
 
-          {/* Vehicle & Depot details */}
-          <div className="border-t border-[var(--border)] pt-2 flex flex-col gap-2">
+          {/* Vehicle details (collapsed) */}
+          <section className="flex flex-col gap-2">
+            <div className="divider" />
             <button
               type="button"
               onClick={() => setShowDetails(!showDetails)}
-              className="flex items-center justify-between text-xs font-semibold text-[var(--text-2)] hover:text-[var(--text)] transition-colors"
+              aria-expanded={showDetails}
+              className="flex items-center justify-between h-10 text-sm font-semibold text-[var(--text-2)] cursor-pointer hover:text-[var(--text)] transition-colors"
             >
-              <span>Vehicle Specifications</span>
-              {showDetails ? <CaretUp size={14} /> : <CaretDown size={14} />}
+              <span>Vehicle details</span>
+              {showDetails ? <CaretUp size={16} /> : <CaretDown size={16} />}
             </button>
-
             {showDetails && (
-              <div className="grid grid-cols-2 gap-2 text-xs py-1 text-[var(--text-2)]">
-                <div>
-                  <span className="text-[var(--text-3)] block">Reg No:</span>
-                  <span className="font-mono text-[var(--text)]">{bus.regNo}</span>
-                </div>
-                <div>
-                  <span className="text-[var(--text-3)] block">Depot:</span>
-                  <span className="text-[var(--text)]">{bus.depot}</span>
-                </div>
-                <div>
-                  <span className="text-[var(--text-3)] block">Capacity:</span>
-                  <span className="text-[var(--text)]">{bus.capacity} seats</span>
-                </div>
-                <div>
-                  <span className="text-[var(--text-3)] block">Bus Type:</span>
-                  <span className="text-[var(--text)]">{normalizeBusType(bus.type)}</span>
-                </div>
+              <div className="grid grid-cols-2 gap-x-4 gap-y-4 pb-2">
+                {stat('Registration', bus.regNo)}
+                {stat('Depot', bus.depot)}
+                {stat('Capacity', `${bus.capacity} seats`)}
+                {stat('Type', normalizeBusType(bus.type))}
               </div>
             )}
-          </div>
+          </section>
         </>
       ) : (
-        /* TAB 2: Historical Analysis of a Week (Every Stop on Route) */
-        <div className="flex flex-col gap-3">
-          {/* Day of Week Selector */}
-          <div className="flex items-center justify-between gap-1 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-[var(--r-md)]">
+        <div className="flex flex-col gap-6">
+          {/* Day selector */}
+          <div className="grid grid-cols-7 gap-1 p-1 well" role="tablist" aria-label="Day of week">
             {daysOfWeek.map((day, idx) => (
               <button
                 key={day}
                 type="button"
+                role="tab"
+                aria-selected={selectedDayIndex === idx}
                 onClick={() => setSelectedDayIndex(idx)}
-                className={`flex-1 py-1 text-[11px] font-semibold rounded-[var(--r-sm)] transition-all ${
-                  selectedDayIndex === idx
-                    ? 'bg-[var(--primary-600)] text-white shadow-sm'
-                    : 'text-[var(--text-3)] hover:text-[var(--text)]'
+                className={`h-8 rounded-[var(--r-sm)] text-xs font-semibold cursor-pointer transition-colors duration-[var(--dur-1)] ${
+                  selectedDayIndex === idx ? 'bg-[var(--primary-600)] text-[var(--on-primary)]' : 'text-[var(--text-3)] hover:text-[var(--text)]'
                 }`}
               >
                 {day}
@@ -358,103 +287,69 @@ export default function BusDetailPanel({
             ))}
           </div>
 
-          {/* Weekly Summary KPIs */}
-          <div className="grid grid-cols-3 gap-2 text-center">
-            <div className="p-2 rounded-[var(--r-sm)] bg-[#F1F5F9] dark:bg-[#243044] border border-slate-200 dark:border-slate-700/80">
-              <span className="text-[10px] text-[var(--text-3)] block">Weekly On-Time</span>
-              <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400">91.4%</span>
-            </div>
-            <div className="p-2 rounded-[var(--r-sm)] bg-[#F1F5F9] dark:bg-[#243044] border border-slate-200 dark:border-slate-700/80">
-              <span className="text-[10px] text-[var(--text-3)] block">Avg Route Delay</span>
-              <span className="text-sm font-bold text-[var(--text)]">+1.8 min</span>
-            </div>
-            <div className="p-2 rounded-[var(--r-sm)] bg-[#F1F5F9] dark:bg-[#243044] border border-slate-200 dark:border-slate-700/80">
-              <span className="text-[10px] text-[var(--text-3)] block">Avg Headway</span>
-              <span className="text-sm font-bold text-[var(--text)]">14 min</span>
-            </div>
+          {/* Weekly summary */}
+          <div className="grid grid-cols-3 gap-4">
+            {stat('On time', '91.4%')}
+            {stat('Avg delay', '+1.8 min')}
+            {stat('Every', '14 min')}
           </div>
 
-          {/* Route Stop Arrival History Header */}
-          <div className="flex items-center justify-between px-1 text-[11px] font-semibold text-[var(--text-3)] uppercase tracking-wider">
-            <span>Stops along route ({weeklyStopHistory.length})</span>
-            <span>{daysOfWeek[selectedDayIndex]} Arrival</span>
-          </div>
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between">
+              <h3 className="section-label">Stops ({weeklyStopHistory.length})</h3>
+              <span className="text-xs text-[var(--text-3)]">{daysOfWeek[selectedDayIndex]} arrival</span>
+            </div>
 
-          {/* Stop-by-Stop Historical Timeline */}
-          <div className="flex flex-col gap-1.5 max-h-[380px] overflow-y-auto pr-1 divide-y divide-slate-100 dark:divide-slate-800">
-            {weeklyStopHistory.map((item) => {
-              const dayRecord = item.dailyRecords[selectedDayIndex];
-
-              return (
-                <div
-                  key={item.stopId}
-                  className={`pt-2 first:pt-0 flex items-center justify-between text-xs py-1.5 px-2 rounded-[var(--r-sm)] transition-colors ${
-                    item.isCurrentBoardingStop
-                      ? 'bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-700/60'
-                      : 'hover:bg-slate-50 dark:hover:bg-slate-800/40'
-                  }`}
-                >
-                  <div className="flex items-center gap-2 min-w-0">
-                    <span
-                      className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
-                        item.isCurrentBoardingStop
-                          ? 'bg-[var(--primary-600)] text-white'
-                          : 'bg-slate-200 dark:bg-slate-700 text-[var(--text-2)]'
-                      }`}
-                    >
-                      {item.seqNo}
-                    </span>
-                    <div className="flex flex-col min-w-0">
-                      <span className="font-semibold text-[var(--text)] truncate">
-                        {item.stopName}
-                        {item.isCurrentBoardingStop && (
-                          <span className="ml-1 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
-                            (Your Stop)
-                          </span>
-                        )}
-                      </span>
-                      <span className="text-[10px] text-[var(--text-3)]">
-                        {(item.offsetM / 1000).toFixed(1)} km · {item.onTimeRate}% on-time this week
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-col items-end shrink-0 pl-2">
-                    <span
-                      className="font-mono font-semibold text-[var(--text)]"
-                      style={{ fontVariantNumeric: 'tabular-nums' }}
-                    >
-                      {dayRecord.arrivalTime}
-                    </span>
-                    {!isStopUpcoming(bus._id, item.stopId) ? (
-                      <span className="text-[10px] font-semibold text-slate-400 flex items-center gap-0.5">
-                        <CheckCircle size={10} weight="fill" className="text-slate-400" />
-                        Departed
-                      </span>
-                    ) : (
+            <div className="flex flex-col divide-y divide-[var(--border)] max-h-[380px] overflow-y-auto -mx-2 px-2">
+              {weeklyStopHistory.map((item) => {
+                const dayRecord = item.dailyRecords[selectedDayIndex];
+                const departed = !isStopUpcoming(bus._id, item.stopId);
+                return (
+                  <div
+                    key={item.stopId}
+                    className={`flex items-center justify-between gap-4 py-3 ${item.isCurrentBoardingStop ? 'bg-[var(--primary-50)] -mx-2 px-2 rounded-[var(--r-sm)]' : ''}`}
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
                       <span
-                        className={`text-[10px] font-semibold flex items-center gap-0.5 ${
-                          dayRecord.delayMinutes <= 1
-                            ? 'text-emerald-600 dark:text-emerald-400'
-                            : dayRecord.delayMinutes <= 3
-                            ? 'text-amber-500'
-                            : 'text-red-500'
+                        className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-semibold shrink-0 tabular-nums ${
+                          item.isCurrentBoardingStop ? 'bg-[var(--primary-600)] text-[var(--on-primary)]' : 'bg-[var(--surface-2)] text-[var(--text-2)]'
                         }`}
                       >
-                        {dayRecord.delayMinutes <= 1 ? (
-                          <CheckCircle size={10} weight="fill" />
-                        ) : (
-                          <WarningCircle size={10} weight="fill" />
-                        )}
-                        {dayRecord.delayMinutes <= 0
-                          ? 'On Time'
-                          : `+${dayRecord.delayMinutes}m delay`}
+                        {item.seqNo}
                       </span>
-                    )}
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-sm font-medium text-[var(--text)] truncate">
+                          {item.stopName}
+                          {item.isCurrentBoardingStop && <span className="ml-2 text-xs font-semibold text-[var(--primary-700)]">Your stop</span>}
+                        </span>
+                        <span className="text-xs text-[var(--text-3)] tabular-nums">
+                          {(item.offsetM / 1000).toFixed(1)} km · {item.onTimeRate}% on time
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col items-end shrink-0">
+                      <span className="text-sm font-semibold tabular-nums text-[var(--text)]">{dayRecord.arrivalTime}</span>
+                      {departed ? (
+                        <span className="flex items-center gap-1 text-xs text-[var(--text-3)]">
+                          <CheckCircle size={14} weight="fill" aria-hidden="true" />
+                          Departed
+                        </span>
+                      ) : (
+                        <span
+                          className={`flex items-center gap-1 text-xs font-medium ${
+                            dayRecord.delayMinutes <= 1 ? 'text-[var(--primary-700)]' : dayRecord.delayMinutes <= 3 ? 'text-[var(--text-2)]' : 'text-[var(--red-600)]'
+                          }`}
+                        >
+                          {dayRecord.delayMinutes <= 1 ? <CheckCircle size={14} weight="fill" aria-hidden="true" /> : <WarningCircle size={14} weight="fill" aria-hidden="true" />}
+                          {dayRecord.delayMinutes <= 0 ? 'On time' : `${dayRecord.delayMinutes} min late`}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
       )}
