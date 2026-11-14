@@ -43,7 +43,8 @@ export default function BusDetailPanel({
   const [showDetails, setShowDetails] = useState(false);
   const [notifyThreshold, setNotifyThreshold] = useState<2 | 5 | 10>(2);
   const [isPickerOpen, setIsPickerOpen] = useState(false);
-  const { startTracking } = useJourneyStore();
+  const { startTracking, stopTracking, trackedBusId, trackingThresholdMin } = useJourneyStore();
+  const isTrackingThisBus = trackedBusId === bus._id;
 
   // Use live ETA with fallback to initialEtaMin (fixes the 3-min mismatch bug)
   const eta = useLiveBusEta(bus._id, stop, initialEtaMin);
@@ -164,27 +165,49 @@ export default function BusDetailPanel({
             <div className="flex items-start justify-between gap-4">
               <div className="flex flex-col gap-1 min-w-0">
                 <span className="text-eta font-semibold tracking-tight tabular-nums text-[var(--text)]">
-                  {eta.status === 'departed' ? 'Departed' : eta.status === 'arrived' ? 'Arrived' : `${eta.etaMinutes} min`}
+                  {eta.status === 'finalReached'
+                    ? 'Final location reached'
+                    : eta.status === 'departed'
+                    ? 'Departed'
+                    : eta.status === 'arrived'
+                    ? 'Arrived'
+                    : `${eta.etaMinutes} min`}
                 </span>
                 <span className="text-sm text-[var(--text-2)]">
-                  {eta.status === 'departed'
+                  {eta.status === 'finalReached'
+                    ? `Terminus reached at ${route.destination}`
+                    : eta.status === 'departed'
                     ? 'Passed your stop'
                     : eta.status === 'arrived'
                     ? 'At your stop'
-                    : `${eta.stopsAway} stops away · ${eta.distanceM} m`}
+                    : `${eta.stopsAway} ${eta.stopsAway === 1 ? 'stop' : 'stops'} away · ${eta.distanceM} m`}
                 </span>
               </div>
               <span
                 className={`shrink-0 h-6 px-3 inline-flex items-center rounded-[var(--r-pill)] text-xs font-semibold ${
-                  eta.status === 'departed' ? 'bg-[var(--border)] text-[var(--text-2)]' : 'bg-[var(--primary-100)] text-[var(--primary-700)]'
+                  eta.status === 'finalReached'
+                    ? 'bg-[var(--surface-2)] text-[var(--text)] border border-[var(--border)]'
+                    : eta.status === 'departed'
+                    ? 'bg-[var(--border)] text-[var(--text-2)]'
+                    : 'bg-[var(--primary-100)] text-[var(--primary-700)]'
                 }`}
               >
-                {eta.status === 'departed' ? 'Departed' : eta.status === 'arrived' ? 'At stop' : eta.status === 'arriving' ? 'Approaching' : 'On time'}
+                {eta.status === 'finalReached'
+                  ? 'Final location reached'
+                  : eta.status === 'departed'
+                  ? 'Departed'
+                  : eta.status === 'arrived'
+                  ? 'At stop'
+                  : eta.status === 'arriving'
+                  ? 'Approaching'
+                  : 'On time'}
               </span>
             </div>
 
             <p className="text-sm font-medium text-[var(--text)]">
-              {eta.status === 'departed'
+              {eta.status === 'finalReached'
+                ? `Bus ${bus.regNo || route.routeNo} has completed its route and reached its final destination at ${route.destination}.`
+                : eta.status === 'departed'
                 ? `This bus has already left ${stop.name}.`
                 : eta.status === 'arrived'
                 ? `The bus is at ${stop.name}. Board now.`
@@ -196,14 +219,62 @@ export default function BusDetailPanel({
             <div className="divider" />
 
             <div className="grid grid-cols-3 gap-4">
-              {stat('Speed', `${eta.speedKmh} km/h`, Gauge)}
-              {stat('Distance', `${(eta.distanceM / 1000).toFixed(1)} km`, Path)}
+              {stat('Speed', `${eta.status === 'finalReached' ? 0 : eta.speedKmh} km/h`, Gauge)}
+              {stat('Distance', `${eta.status === 'finalReached' ? '0.0' : (eta.distanceM / 1000).toFixed(1)} km`, Path)}
               {stat('Boarding', stop.name, MapPin)}
             </div>
           </section>
 
-          {/* Primary action: one per panel */}
-          {!isPickerOpen ? (
+          {/* Primary action: Alert Notification Countdown or trigger */}
+          {isTrackingThisBus ? (
+            <section className="flex flex-col gap-3 p-4 rounded-[var(--r-md)] bg-[var(--amber-100)] border border-[var(--amber-500)] shadow-sm">
+              <div className="flex items-center justify-between">
+                <span className="flex items-center gap-2 text-sm font-bold text-[var(--text)]">
+                  <Bell size={18} weight="fill" className="text-[var(--amber-500)] animate-pulse" />
+                  Alert active: notify at {trackingThresholdMin} min away
+                </span>
+                <button
+                  type="button"
+                  onClick={() => stopTracking()}
+                  className="text-xs font-semibold text-[var(--text-2)] hover:text-[var(--text)] underline cursor-pointer"
+                >
+                  Cancel alert
+                </button>
+              </div>
+
+              {/* Countdown displaying 3, 2, 1 mins away */}
+              <div className="flex items-center justify-between p-3 rounded-[var(--r-sm)] bg-[var(--surface-solid)]">
+                <div className="flex flex-col min-w-0">
+                  <span className="text-xs text-[var(--text-3)] uppercase tracking-wide font-semibold">Live ETA Countdown</span>
+                  <span className="text-xl font-bold tabular-nums text-[var(--text)]">
+                    {eta.status === 'finalReached'
+                      ? 'Final location reached'
+                      : eta.status === 'departed'
+                      ? 'Departed'
+                      : eta.etaMinutes <= 0
+                      ? 'Arriving now!'
+                      : `${eta.etaMinutes} min away`}
+                  </span>
+                  <span className="text-xs text-[var(--text-2)] tabular-nums">
+                    {eta.etaSeconds}s remaining · {eta.stopsAway} {eta.stopsAway === 1 ? 'stop' : 'stops'} away
+                  </span>
+                </div>
+                <div className="shrink-0 text-right">
+                  <span
+                    className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold ${
+                      eta.etaMinutes <= trackingThresholdMin && eta.status !== 'departed' && eta.status !== 'finalReached'
+                        ? 'bg-red-600 text-white animate-bounce'
+                        : 'bg-[var(--amber-500)] text-[var(--on-amber)]'
+                    }`}
+                  >
+                    {eta.etaMinutes <= trackingThresholdMin && eta.status !== 'departed' && eta.status !== 'finalReached'
+                      ? '🚨 Time to board!'
+                      : `Threshold: ${trackingThresholdMin}m`}
+                  </span>
+                </div>
+              </div>
+            </section>
+          ) : !isPickerOpen ? (
             <button type="button" onClick={() => setIsPickerOpen(true)} className="btn btn-primary w-full">
               <Bell size={20} aria-hidden="true" />
               Notify me when it’s close
@@ -320,7 +391,12 @@ export default function BusDetailPanel({
                       <div className="flex flex-col min-w-0">
                         <span className="text-sm font-medium text-[var(--text)] truncate">
                           {item.stopName}
-                          {item.isCurrentBoardingStop && <span className="ml-2 text-xs font-semibold text-[var(--primary-700)]">Your stop</span>}
+                          {item.isCurrentBoardingStop && (
+                            <span className="ml-2 inline-flex items-center gap-1 text-xs font-semibold text-[#FE3837]">
+                              <MapPin size={13} weight="fill" />
+                              Boarding Stop
+                            </span>
+                          )}
                         </span>
                         <span className="text-xs text-[var(--text-3)] tabular-nums">
                           {(item.offsetM / 1000).toFixed(1)} km · {item.onTimeRate}% on time

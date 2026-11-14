@@ -10,9 +10,9 @@ const chipVariants = cva(
   {
     variants: {
       type: {
-        NonAC: 'bg-[var(--ink)] text-[var(--on-ink)]',
-        AC: 'bg-[var(--primary-700)] text-[var(--on-primary)]',
-        Electric: 'bg-[var(--sage-400)] text-[var(--on-sage)]',
+        NonAC: 'bg-[#FACC15] text-[#1E2229] border border-[#EAB308]',
+        AC: 'bg-[#0D9488] text-white',
+        Electric: 'bg-[#2563EB] text-white',
       },
       tracked: {
         true: 'ring-2 ring-[var(--amber-500)]',

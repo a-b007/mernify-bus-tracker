@@ -21,11 +21,14 @@ export default function TrackingBar({ bus, route, stop, onStopTracking, classNam
   const mins = Math.floor(secondsRemaining / 60);
   const secs = secondsRemaining % 60;
 
-  const isDone = eta.status === 'arrived' || secondsRemaining === 0;
+  const isFinal = eta.status === 'finalReached';
+  const isDone = isFinal || eta.status === 'arrived' || secondsRemaining === 0;
   const isArriving = !isDone && (eta.status === 'arriving' || secondsRemaining < 60);
   const isApproaching = !isDone && !isArriving && (eta.status === 'approaching' || secondsRemaining <= trackingThresholdMin * 60);
 
-  const tone = isDone
+  const tone = isFinal
+    ? 'bg-[var(--surface-solid)] text-[var(--text)] border-[var(--border-strong)]'
+    : isDone
     ? 'bg-[var(--primary-600)] text-[var(--on-primary)] border-[var(--primary-700)]'
     : isArriving
     ? 'bg-[var(--amber-500)] text-[var(--on-amber)] border-[var(--amber-500)]'
@@ -43,22 +46,26 @@ export default function TrackingBar({ bus, route, stop, onStopTracking, classNam
         <RouteChip routeNo={route.routeNo} type={normalizeBusType(bus.type)} tracked />
         <div className="flex flex-col min-w-0">
           <span className="text-sm font-semibold truncate">
-            {isDone
+            {isFinal
+              ? `Final location reached · ${route.destination}`
+              : isDone
               ? `Reached ${stop.name}`
               : isArriving
               ? `Arriving now · ${eta.distanceM} m away`
               : isApproaching
               ? `Arriving in ${mins} min ${secs} s · head to ${stop.name}`
-              : `${eta.stopsAway} stops away · ${eta.distanceM} m`}
+              : `${eta.stopsAway} ${eta.stopsAway === 1 ? 'stop' : 'stops'} away · ${eta.distanceM} m`}
           </span>
           <span className="text-xs opacity-80 truncate">
-            Towards {route.destination} · {eta.speedKmh} km/h
+            Towards {route.destination} · {isFinal ? 0 : eta.speedKmh} km/h
           </span>
         </div>
       </div>
 
       <div className="flex items-center gap-2 shrink-0">
-        <span className="text-md font-semibold tabular-nums">{isDone ? 'Arrived' : `${mins}:${secs < 10 ? '0' : ''}${secs}`}</span>
+        <span className="text-md font-semibold tabular-nums">
+          {isFinal ? 'Final location reached' : isDone ? 'Arrived' : `${mins}:${secs < 10 ? '0' : ''}${secs}`}
+        </span>
         <button type="button" onClick={onStopTracking} aria-label="Stop tracking" className="icon-btn !w-8 !h-8 !text-current">
           <X size={16} />
         </button>

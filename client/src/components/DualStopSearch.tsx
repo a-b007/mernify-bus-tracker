@@ -109,9 +109,9 @@ export default function DualStopSearch({
   return (
     <div ref={containerRef} className={`relative w-full ${className}`}>
       <div className="flex items-stretch gap-3">
-        {/* Route spine: boarding dot → destination pin */}
+        {/* Route spine: boarding pin → destination pin */}
         <div className="flex flex-col items-center justify-between pt-4 pb-3 shrink-0" aria-hidden="true">
-          <span className="w-3 h-3 rounded-full bg-[var(--primary-600)] ring-4 ring-[var(--primary-100)]" />
+          <MapPin size={20} weight="fill" className="text-[#FE3837]" />
           <span className="flex-1 my-2 border-l-2 border-dotted border-[var(--border-strong)]" />
           <MapPin size={20} weight="fill" className="text-[var(--text)]" />
         </div>
@@ -128,8 +128,18 @@ export default function DualStopSearch({
                 setActiveInput('origin');
                 if (originStop && e.target.value !== originStop.name) onSelectOrigin(null);
               }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  if (filteredStops.length > 0) {
+                    handleSelect(filteredStops[0]);
+                  }
+                } else if (e.key === 'Escape') {
+                  setActiveInput(null);
+                }
+              }}
               onFocus={() => setActiveInput('origin')}
-              placeholder="Where are you? (e.g. Majestic)"
+              placeholder="Boarding stop (e.g. Majestic)"
             />
             {originQuery &&
               clearBtn(() => {
@@ -149,6 +159,16 @@ export default function DualStopSearch({
                 setDestQuery(e.target.value);
                 setActiveInput('dest');
                 if (destStop && e.target.value !== destStop.name) onSelectDest(null);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  if (filteredStops.length > 0) {
+                    handleSelect(filteredStops[0]);
+                  }
+                } else if (e.key === 'Escape') {
+                  setActiveInput(null);
+                }
               }}
               onFocus={() => setActiveInput('dest')}
               placeholder="Where to? (e.g. ITPL, Silk Board)"

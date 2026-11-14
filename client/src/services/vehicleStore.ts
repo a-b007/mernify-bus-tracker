@@ -19,12 +19,18 @@ interface SimVehicle {
   heading: number;
   lat: number;
   lng: number;
+  reachedEnd: boolean; // true when the bus has reached the final coordinate
 }
 const simVehicles = new Map<string, SimVehicle>();
 
 let onBusClickCallback: ((busId: string) => void) | null = null;
 export function setOnBusClickListener(listener: ((busId: string) => void) | null) {
   onBusClickCallback = listener;
+}
+
+let onStopClickCallback: ((stopId: string) => void) | null = null;
+export function setOnStopClickListener(listener: ((stopId: string) => void) | null) {
+  onStopClickCallback = listener;
 }
 
 let mapInstance: MapLibreMap | null = null;
@@ -44,7 +50,7 @@ let activeFilters: JourneyFilters = {
   within10m: false,
 };
 
-// SVG Icons — palette from DESIGN.md: slate = non-AC, teal = AC, sage = electric, saffron = tracked
+// SVG Icons — palette: yellow = non-AC, teal = AC, blue = electric, saffron = tracked, red = stops/pin
 const SVG_DEFAULT_BUS = `
 <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 52 52">
   <defs>
@@ -54,22 +60,22 @@ const SVG_DEFAULT_BUS = `
   </defs>
   <g filter="url(#bus-sh-def)">
     <!-- Direction chevron -->
-    <polygon points="26,1 32,8 26,6 20,8" fill="#6B7887" stroke="#1E2229" stroke-width="1" stroke-linejoin="round"/>
+    <polygon points="26,1 32,8 26,6 20,8" fill="#F59E0B" stroke="#1E2229" stroke-width="1" stroke-linejoin="round"/>
     <!-- Side wing mirrors -->
-    <rect x="14" y="13" width="2.5" height="5" rx="1" fill="#6B7887" stroke="#1E2229" stroke-width="1"/>
-    <rect x="35.5" y="13" width="2.5" height="5" rx="1" fill="#6B7887" stroke="#1E2229" stroke-width="1"/>
+    <rect x="14" y="13" width="2.5" height="5" rx="1" fill="#F59E0B" stroke="#1E2229" stroke-width="1"/>
+    <rect x="35.5" y="13" width="2.5" height="5" rx="1" fill="#F59E0B" stroke="#1E2229" stroke-width="1"/>
     <!-- Main Bus Body (Vivid Yellow Non-AC) -->
-    <rect x="16.5" y="9" width="19" height="34" rx="4.5" fill="#6B7887" stroke="#1E2229" stroke-width="2"/>
+    <rect x="16.5" y="9" width="19" height="34" rx="4.5" fill="#FACC15" stroke="#1E2229" stroke-width="2"/>
     <!-- Windshield -->
     <rect x="18.5" y="12" width="15" height="6" rx="1.5" fill="#1E2229"/>
-    <line x1="20" y1="13.5" x2="25" y2="13.5" stroke="#C5D6C9" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="20" y1="13.5" x2="25" y2="13.5" stroke="#FEF08A" stroke-width="1.2" stroke-linecap="round"/>
     <!-- Headlights -->
-    <rect x="17.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#F6E6C8"/>
-    <rect x="31.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#F6E6C8"/>
+    <rect x="17.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#FFFFFF"/>
+    <rect x="31.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#FFFFFF"/>
     <!-- Roof Details -->
-    <rect x="20" y="21" width="12" height="2" rx="0.8" fill="#E9EDE3" opacity="0.9"/>
-    <rect x="20" y="25" width="12" height="2" rx="0.8" fill="#E9EDE3" opacity="0.9"/>
-    <rect x="20" y="29" width="12" height="2" rx="0.8" fill="#E9EDE3" opacity="0.9"/>
+    <rect x="20" y="21" width="12" height="2" rx="0.8" fill="#EAB308" opacity="0.9"/>
+    <rect x="20" y="25" width="12" height="2" rx="0.8" fill="#EAB308" opacity="0.9"/>
+    <rect x="20" y="29" width="12" height="2" rx="0.8" fill="#EAB308" opacity="0.9"/>
     <!-- Rear Window & Tail lights -->
     <rect x="19" y="38" width="14" height="2" rx="0.8" fill="#1E2229"/>
     <rect x="17.5" y="41.5" width="3" height="1.5" rx="0.5" fill="#B4493B"/>
@@ -86,22 +92,22 @@ const SVG_AC_BUS = `
   </defs>
   <g filter="url(#bus-sh-ac)">
     <!-- Direction chevron -->
-    <polygon points="26,1 32,8 26,6 20,8" fill="#C5D6C9" stroke="#1E2229" stroke-width="1" stroke-linejoin="round"/>
+    <polygon points="26,1 32,8 26,6 20,8" fill="#2DD4BF" stroke="#1E2229" stroke-width="1" stroke-linejoin="round"/>
     <!-- Side wing mirrors -->
-    <rect x="14" y="13" width="2.5" height="5" rx="1" fill="#45796D" stroke="#1E2229" stroke-width="1"/>
-    <rect x="35.5" y="13" width="2.5" height="5" rx="1" fill="#45796D" stroke="#1E2229" stroke-width="1"/>
+    <rect x="14" y="13" width="2.5" height="5" rx="1" fill="#0D9488" stroke="#1E2229" stroke-width="1"/>
+    <rect x="35.5" y="13" width="2.5" height="5" rx="1" fill="#0D9488" stroke="#1E2229" stroke-width="1"/>
     <!-- Main Bus Body (Vivid Teal AC) -->
-    <rect x="16.5" y="9" width="19" height="34" rx="4.5" fill="#45796D" stroke="#1E2229" stroke-width="2"/>
+    <rect x="16.5" y="9" width="19" height="34" rx="4.5" fill="#0D9488" stroke="#1E2229" stroke-width="2"/>
     <!-- Windshield -->
     <rect x="18.5" y="12" width="15" height="6" rx="1.5" fill="#1E2229"/>
-    <line x1="20" y1="13.5" x2="25" y2="13.5" stroke="#C5D6C9" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="20" y1="13.5" x2="25" y2="13.5" stroke="#99F6E4" stroke-width="1.2" stroke-linecap="round"/>
     <!-- Headlights -->
     <rect x="17.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#F6E6C8"/>
     <rect x="31.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#F6E6C8"/>
     <!-- AC Unit on Roof -->
-    <rect x="19.5" y="21" width="13" height="8" rx="2" fill="#2F6358" stroke="#1E2229" stroke-width="1"/>
-    <circle cx="23" cy="25" r="1.5" fill="#E9EDE3"/>
-    <circle cx="29" cy="25" r="1.5" fill="#E9EDE3"/>
+    <rect x="19.5" y="21" width="13" height="8" rx="2" fill="#0F766E" stroke="#1E2229" stroke-width="1"/>
+    <circle cx="23" cy="25" r="1.5" fill="#CCFBF1"/>
+    <circle cx="29" cy="25" r="1.5" fill="#CCFBF1"/>
     <!-- Rear Window & Tail lights -->
     <rect x="19" y="38" width="14" height="2" rx="0.8" fill="#1E2229"/>
     <rect x="17.5" y="41.5" width="3" height="1.5" rx="0.5" fill="#B4493B"/>
@@ -118,20 +124,20 @@ const SVG_ELECTRIC_BUS = `
   </defs>
   <g filter="url(#bus-sh-el)">
     <!-- Direction chevron -->
-    <polygon points="26,1 32,8 26,6 20,8" fill="#E9EDE3" stroke="#1E2229" stroke-width="1" stroke-linejoin="round"/>
+    <polygon points="26,1 32,8 26,6 20,8" fill="#60A5FA" stroke="#1E2229" stroke-width="1" stroke-linejoin="round"/>
     <!-- Side wing mirrors -->
-    <rect x="14" y="13" width="2.5" height="5" rx="1" fill="#80A48D" stroke="#1E2229" stroke-width="1"/>
-    <rect x="35.5" y="13" width="2.5" height="5" rx="1" fill="#80A48D" stroke="#1E2229" stroke-width="1"/>
+    <rect x="14" y="13" width="2.5" height="5" rx="1" fill="#2563EB" stroke="#1E2229" stroke-width="1"/>
+    <rect x="35.5" y="13" width="2.5" height="5" rx="1" fill="#2563EB" stroke="#1E2229" stroke-width="1"/>
     <!-- Main Bus Body (Vivid Blue Electric) -->
-    <rect x="16.5" y="9" width="19" height="34" rx="4.5" fill="#80A48D" stroke="#1E2229" stroke-width="2"/>
+    <rect x="16.5" y="9" width="19" height="34" rx="4.5" fill="#2563EB" stroke="#1E2229" stroke-width="2"/>
     <!-- Windshield -->
     <rect x="18.5" y="12" width="15" height="6" rx="1.5" fill="#1E2229"/>
-    <line x1="20" y1="13.5" x2="25" y2="13.5" stroke="#E9EDE3" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="20" y1="13.5" x2="25" y2="13.5" stroke="#DBEAFE" stroke-width="1.2" stroke-linecap="round"/>
     <!-- Headlights -->
     <rect x="17.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#F6E6C8"/>
     <rect x="31.5" y="9.5" width="3" height="1.5" rx="0.5" fill="#F6E6C8"/>
     <!-- Battery / Electric Bolt Symbol -->
-    <polygon points="27,20 23,26 26,26 24.5,31 29,24 26,24" fill="#F6E6C8" stroke="#1E2229" stroke-width="0.8"/>
+    <polygon points="27,20 23,26 26,26 24.5,31 29,24 26,24" fill="#FACC15" stroke="#1E2229" stroke-width="0.8"/>
     <!-- Rear Window & Tail lights -->
     <rect x="19" y="38" width="14" height="2" rx="0.8" fill="#1E2229"/>
     <rect x="17.5" y="41.5" width="3" height="1.5" rx="0.5" fill="#B4493B"/>
@@ -171,36 +177,40 @@ const SVG_TRACKED_BUS = `
   </g>
 </svg>`;
 
-// Red Stop Location Pin matching user's uploaded marker design
+// Red Stop Location Pin matching user's uploaded marker design (red teardrop + white circle cutout + shadow)
 const SVG_RED_PIN = `
-<svg xmlns="http://www.w3.org/2000/svg" width="48" height="58" viewBox="0 0 48 58">
+<svg xmlns="http://www.w3.org/2000/svg" width="56" height="68" viewBox="0 0 56 68">
   <defs>
-    <filter id="pin-sh" x="-30%" y="-30%" width="160%" height="160%">
-      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#000000" flood-opacity="0.6"/>
+    <filter id="pin-sh" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="4" stdDeviation="3.5" flood-color="#000000" flood-opacity="0.5"/>
     </filter>
   </defs>
   <g filter="url(#pin-sh)">
-    <path d="M24 0C10.745 0 0 10.745 0 24c0 16.5 24 34 24 34s24-17.5 24-34C48 10.745 37.255 0 24 0z" fill="#1E2229"/>
-    <circle cx="24" cy="22" r="9.5" fill="#FFFFFF"/>
+    <!-- Red location pin matching uploaded design -->
+    <path d="M28 2C15.85 2 6 11.85 6 24c0 16 22 38 22 38s22-22 22-38C50 11.85 40.15 2 28 2z" fill="#FE3837" stroke="#FFFFFF" stroke-width="2"/>
+    <!-- Inner white cutout circle -->
+    <circle cx="28" cy="24" r="9.5" fill="#FFFFFF"/>
   </g>
 </svg>`;
 
+// Red Bus Stop Icon (Larger size & red color with white bus silhouette)
 const SVG_STOP_MARKER = `
-<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
   <defs>
-    <filter id="stop-sh" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="1.5" stdDeviation="1.5" flood-color="#000000" flood-opacity="0.4"/>
+    <filter id="stop-sh" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.45"/>
     </filter>
   </defs>
   <g filter="url(#stop-sh)">
-    <circle cx="18" cy="18" r="15" fill="#45796D" stroke="#FFFFFF" stroke-width="2.5"/>
+    <!-- Red circle base -->
+    <circle cx="24" cy="24" r="20" fill="#FE3837" stroke="#FFFFFF" stroke-width="3"/>
     <!-- White bus silhouette inside -->
-    <rect x="11.5" y="10.5" width="13" height="13" rx="2.5" fill="#FFFFFF"/>
-    <rect x="13" y="12" width="10" height="4" rx="1" fill="#45796D"/>
-    <circle cx="14" cy="21" r="1.3" fill="#45796D"/>
-    <circle cx="22" cy="21" r="1.3" fill="#45796D"/>
-    <circle cx="14" cy="17.5" r="0.9" fill="#45796D"/>
-    <circle cx="22" cy="17.5" r="0.9" fill="#45796D"/>
+    <rect x="15" y="14" width="18" height="18" rx="3.5" fill="#FFFFFF"/>
+    <rect x="17" y="16" width="14" height="6" rx="1.5" fill="#FE3837"/>
+    <circle cx="19" cy="28" r="1.8" fill="#FE3837"/>
+    <circle cx="29" cy="28" r="1.8" fill="#FE3837"/>
+    <circle cx="19" cy="23.5" r="1.2" fill="#FE3837"/>
+    <circle cx="29" cy="23.5" r="1.2" fill="#FE3837"/>
   </g>
 </svg>`;
 
@@ -215,12 +225,31 @@ const SVG_USER_ARROW = `
   </g>
 </svg>`;
 
+const cachedImages = new Map<string, HTMLImageElement>();
+
 function registerSvgIcon(map: MapLibreMap, name: string, svg: string, size = 48) {
   if (map.hasImage(name)) return;
+  const cached = cachedImages.get(name);
+  if (cached && cached.complete && cached.naturalWidth > 0) {
+    try {
+      if (!map.hasImage(name)) {
+        map.addImage(name, cached, { pixelRatio: 2 });
+      }
+    } catch (e) {
+      console.warn('Error adding cached image to map:', name, e);
+    }
+    return;
+  }
+
   const img = new Image(size, size);
+  cachedImages.set(name, img);
   img.onload = () => {
-    if (!map.hasImage(name)) {
-      map.addImage(name, img, { pixelRatio: 2 });
+    try {
+      if (!map.hasImage(name)) {
+        map.addImage(name, img, { pixelRatio: 2 });
+      }
+    } catch (e) {
+      console.warn('Error adding image on load:', name, e);
     }
   };
   img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg.trim());
@@ -369,8 +398,9 @@ export interface LiveEtaResult {
   distanceM: number;
   stopsAway: number;
   speedKmh: number;
-  status: 'scheduled' | 'approaching' | 'arriving' | 'arrived' | 'departed';
+  status: 'scheduled' | 'approaching' | 'arriving' | 'arrived' | 'departed' | 'finalReached';
   isDeparted?: boolean;
+  isFinalReached?: boolean;
 }
 
 // Map of busId -> Map<stopId, boolean>
@@ -378,7 +408,42 @@ export interface LiveEtaResult {
 // once the bus reaches the bus stop, set the boolean variable to FALSE!
 const busStopApproachingMap = new Map<string, Map<string, boolean>>();
 
+export function getStopCoordIndex(route: Route, stopId: string): number {
+  const stopEntry = route.stops?.find((s) => s.stopId === stopId);
+  if (stopEntry && typeof stopEntry.seqNo === 'number' && stopEntry.seqNo >= 1) {
+    return Math.min(stopEntry.seqNo - 1, (route.geometry?.coordinates?.length || 1) - 1);
+  }
+  // Fallback: match by coordinates
+  const stopObj = stopsData.find((s) => s._id === stopId);
+  if (stopObj && route.geometry?.coordinates) {
+    let minDist = Infinity;
+    let bestIdx = 0;
+    route.geometry.coordinates.forEach((coord, idx) => {
+      const d = getDistanceMetres(coord[1], coord[0], stopObj.loc.coordinates[1], stopObj.loc.coordinates[0]);
+      if (d < minDist) {
+        minDist = d;
+        bestIdx = idx;
+      }
+    });
+    return bestIdx;
+  }
+  return -1;
+}
+
 export function isStopUpcoming(busId: string, stopId: string): boolean {
+  const sim = simVehicles.get(busId);
+  if (sim) {
+    const route = routeCatalog.get(sim.routeId);
+    if (route) {
+      if (sim.reachedEnd) return false;
+      const stopIdx = getStopCoordIndex(route, stopId);
+      if (stopIdx !== -1) {
+        if (sim.coordIndex > stopIdx) return false;
+        if (sim.coordIndex === stopIdx && sim.segmentProgress > 0.05) return false;
+        return true;
+      }
+    }
+  }
   const stopMap = busStopApproachingMap.get(busId);
   if (!stopMap) return true;
   const isUpcoming = stopMap.get(stopId);
@@ -455,6 +520,24 @@ export function getBusLiveEta(
   const bus = liveBuses.get(busId);
   if (!bus || !stopCoords) return null;
 
+  // Check if bus has reached its final destination/terminus
+  const sim = simVehicles.get(busId);
+  const route = sim ? routeCatalog.get(sim.routeId) : null;
+  const isFinalTerminus = sim?.reachedEnd || (route && sim && sim.coordIndex >= (route.geometry.coordinates.length - 2) && sim.segmentProgress >= 0.98);
+
+  if (isFinalTerminus) {
+    return {
+      etaSeconds: 0,
+      etaMinutes: 0,
+      distanceM: 0,
+      stopsAway: 0,
+      speedKmh: 0,
+      status: 'finalReached',
+      isDeparted: true,
+      isFinalReached: true,
+    };
+  }
+
   // Once a bus reaches the bus stop, boolean is set to false:
   // If stopId is provided and the stop boolean is false, it has departed!
   if (stopId && !isStopUpcoming(busId, stopId)) {
@@ -469,23 +552,14 @@ export function getBusLiveEta(
     };
   }
 
-  // If bus is simulated along a route and we have the target stop offset along that route
-  const sim = simVehicles.get(busId);
-  if (sim && stopId) {
-    const route = routeCatalog.get(sim.routeId);
-    const targetStop = route?.stops?.find((s) => s.stopId === stopId);
-    if (targetStop && route?.geometry?.coordinates && route.geometry.coordinates.length >= 2) {
-      const cumDists = getRouteDistances(route._id, route.geometry.coordinates);
-      const coords = route.geometry.coordinates;
-      const safeIdx = Math.min(sim.coordIndex, coords.length - 2);
-      const p1 = coords[safeIdx];
-      const p2 = coords[safeIdx + 1];
-      const segDist = getDistanceMetres(p1[1], p1[0], p2[1], p2[0]);
-      const currentRouteDistM = (cumDists[safeIdx] || 0) + segDist * sim.segmentProgress;
+  // If bus is simulated along a route and we have the target stop
+  if (sim && stopId && route && route.geometry?.coordinates && route.geometry.coordinates.length >= 2) {
+    const coords = route.geometry.coordinates;
+    const targetCoordIdx = getStopCoordIndex(route, stopId);
 
-      const forwardDistM = (targetStop.offsetM || 0) - currentRouteDistM;
-      if (forwardDistM <= -30) {
-        // Bus has already passed this stop! Set boolean to false and mark departed
+    if (targetCoordIdx !== -1) {
+      // Check if bus has already passed or left this stop
+      if (sim.coordIndex > targetCoordIdx || (sim.coordIndex === targetCoordIdx && sim.segmentProgress > 0.05)) {
         const stopMap = busStopApproachingMap.get(busId);
         if (stopMap) stopMap.set(stopId, false);
         return {
@@ -493,27 +567,49 @@ export function getBusLiveEta(
           etaMinutes: 0,
           distanceM: 0,
           stopsAway: 0,
-          speedKmh: Math.round(bus.speed || 25),
+          speedKmh: Math.round(sim.speedMps * 3.6),
           status: 'departed',
           isDeparted: true,
         };
       }
 
-      const roadDistM = Math.max(10, forwardDistM);
+      const cumDists = getRouteDistances(route._id, coords);
+      const safeIdx = Math.min(sim.coordIndex, coords.length - 2);
+      const segDist = getDistanceMetres(coords[safeIdx][1], coords[safeIdx][0], coords[safeIdx + 1][1], coords[safeIdx + 1][0]);
+      const currentRouteDistM = (cumDists[safeIdx] || 0) + segDist * sim.segmentProgress;
+      const targetDistM = cumDists[targetCoordIdx] || 0;
+      const forwardDistM = targetDistM - currentRouteDistM;
+
+      // Bus is arriving at this stop (within 40 meters)
+      if (forwardDistM <= 40 || (sim.coordIndex === targetCoordIdx && sim.segmentProgress <= 0.05)) {
+        return {
+          etaSeconds: 0,
+          etaMinutes: 0,
+          distanceM: Math.max(0, Math.round(forwardDistM)),
+          stopsAway: 0,
+          speedKmh: Math.round(sim.speedMps * 3.6),
+          status: 'arrived',
+          isDeparted: false,
+        };
+      }
+
+      const roadDistM = Math.max(40, Math.round(forwardDistM));
       const speedMps = sim.speedMps > 3 ? sim.speedMps : 6;
       const etaSeconds = Math.round(roadDistM / speedMps);
       const etaMinutes = Math.max(1, Math.ceil(etaSeconds / 60));
-      const stopsAway = Math.max(1, Math.round(roadDistM / 750));
+      const stopsAway = Math.max(1, targetCoordIdx - sim.coordIndex);
 
       let status: LiveEtaResult['status'] = 'scheduled';
-      if (roadDistM < 60) status = 'arrived';
-      else if (roadDistM < 250 || etaSeconds < 60) status = 'arriving';
-      else if (etaSeconds <= 180) status = 'approaching';
+      if (roadDistM <= 200 || etaSeconds <= 45) {
+        status = 'arriving';
+      } else if (etaSeconds <= 180) {
+        status = 'approaching';
+      }
 
       return {
         etaSeconds,
         etaMinutes,
-        distanceM: Math.round(roadDistM),
+        distanceM: roadDistM,
         stopsAway,
         speedKmh: Math.round(sim.speedMps * 3.6),
         status,
@@ -580,19 +676,16 @@ function initializeSimVehiclesIfReady() {
       heading,
       lng: p1[0],
       lat: p1[1],
+      reachedEnd: false,
     });
 
     // Initialize individual boolean variables for each stop in that bus's route
     const stopMap = new Map<string, boolean>();
-    const cumDists = getRouteDistances(route._id, coords);
-    const segDist = getDistanceMetres(p1[1], p1[0], p2[1], p2[0]);
-    const busInitDist = (cumDists[startIndex] || 0) + segDist * (((i * 3) % 10) / 10);
-
+    const startProgress = ((i * 3) % 10) / 10;
     for (const st of (route.stops || [])) {
-      // If the bus has already reached/passed this stop's offset on this trip, boolean = false.
-      // Otherwise, the bus hasn't reached it yet, boolean = true!
-      const hasReached = busInitDist >= (st.offsetM || 0) + 40;
-      stopMap.set(st.stopId, !hasReached);
+      const stopIdx = getStopCoordIndex(route, st.stopId);
+      const isPast = (startIndex > stopIdx) || (startIndex === stopIdx && startProgress > 0.05);
+      stopMap.set(st.stopId, !isPast);
     }
     busStopApproachingMap.set(bus._id, stopMap);
   }
@@ -686,11 +779,16 @@ export function updateUserLocationMarker(lng: number, lat: number, heading = 0) 
   }
 }
 
+let savedRouteCoords: [number, number][] = [];
+let savedRemainingCoords: [number, number][] | undefined = undefined;
+
 // Selected route line highlight
 export function setSelectedRouteLine(
   routeCoords: [number, number][],
   remainingCoords?: [number, number][]
 ) {
+  savedRouteCoords = routeCoords;
+  savedRemainingCoords = remainingCoords;
   if (!mapInstance) return;
   const source = mapInstance.getSource('selected-route') as GeoJSONSource | undefined;
   if (source) {
@@ -720,14 +818,42 @@ export function setSelectedRouteLine(
 export function setupVehicleMapLayers(map: MapLibreMap) {
   mapInstance = map;
 
+  if (!map.isStyleLoaded()) {
+    map.once('style.load', () => setupVehicleMapLayers(map));
+    return;
+  }
+
+  // Ensure style.load listener is registered so future setStyle calls re-invoke setupVehicleMapLayers
+  if (!(map as any)._hasVehicleStyleListener) {
+    (map as any)._hasVehicleStyleListener = true;
+    map.on('style.load', () => {
+      setupVehicleMapLayers(map);
+    });
+  }
+
   // Register all SVG icons
   registerSvgIcon(map, 'bus-icon-default', SVG_DEFAULT_BUS, 52);
   registerSvgIcon(map, 'bus-icon-ac', SVG_AC_BUS, 52);
   registerSvgIcon(map, 'bus-icon-electric', SVG_ELECTRIC_BUS, 52);
   registerSvgIcon(map, 'bus-icon-tracked', SVG_TRACKED_BUS, 64);
-  registerSvgIcon(map, 'red-stop-pin', SVG_RED_PIN, 48);
-  registerSvgIcon(map, 'bus-stop-icon', SVG_STOP_MARKER, 36);
+  registerSvgIcon(map, 'red-stop-pin', SVG_RED_PIN, 68);
+  registerSvgIcon(map, 'bus-stop-icon', SVG_STOP_MARKER, 48);
   registerSvgIcon(map, 'user-arrow-icon', SVG_USER_ARROW, 40);
+
+  // Missing image resolver fallback
+  if (!(map as any)._hasMissingImageHandler) {
+    (map as any)._hasMissingImageHandler = true;
+    map.on('styleimagemissing', (e: any) => {
+      const id = e.id;
+      if (id === 'bus-icon-default') registerSvgIcon(map, id, SVG_DEFAULT_BUS, 52);
+      else if (id === 'bus-icon-ac') registerSvgIcon(map, id, SVG_AC_BUS, 52);
+      else if (id === 'bus-icon-electric') registerSvgIcon(map, id, SVG_ELECTRIC_BUS, 52);
+      else if (id === 'bus-icon-tracked') registerSvgIcon(map, id, SVG_TRACKED_BUS, 64);
+      else if (id === 'red-stop-pin') registerSvgIcon(map, id, SVG_RED_PIN, 68);
+      else if (id === 'bus-stop-icon') registerSvgIcon(map, id, SVG_STOP_MARKER, 48);
+      else if (id === 'user-arrow-icon') registerSvgIcon(map, id, SVG_USER_ARROW, 40);
+    });
+  }
 
   // Selected Route Line Sources
   if (!map.getSource('selected-route')) {
@@ -784,7 +910,7 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
     });
   }
 
-  // Pinned Stops Source & Red Arrow/Pin Marker Layer (Boarding & Destination)
+  // Pinned Stops Source & Red Pin Marker Layer (Boarding & Destination highlighting)
   if (!map.getSource('pinned-stops')) {
     map.addSource('pinned-stops', {
       type: 'geojson',
@@ -799,20 +925,23 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
       source: 'pinned-stops',
       layout: {
         'icon-image': 'red-stop-pin',
-        'icon-size': 0.85,
+        'icon-size': 1.05,
         'icon-anchor': 'bottom',
         'icon-allow-overlap': true,
         'icon-ignore-placement': true,
         'text-field': ['get', 'title'],
-        'text-size': 11.5,
+        'text-font': ['Noto Sans Bold', 'Open Sans Bold', 'Arial Unicode MS Bold'],
+        'text-size': 12.5,
         'text-offset': [0, 0.4],
         'text-anchor': 'top',
         'text-optional': false,
+        'text-allow-overlap': true,
       },
       paint: {
-        'text-color': '#FAFBF7',
-        'text-halo-color': '#1E2229',
-        'text-halo-width': 3,
+        'text-color': '#FE3837',
+        'text-halo-color': '#FFFFFF',
+        'text-halo-width': 3.5,
+        'text-halo-blur': 0.5,
       },
     });
   }
@@ -838,26 +967,26 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
     });
   }
 
-  // Small markers on bus stops (red dots with white border)
+  // Red circle markers on bus stops
   if (!map.getLayer('bus-stops-circle')) {
     map.addLayer({
       id: 'bus-stops-circle',
       type: 'circle',
       source: 'bus-stops',
-      minzoom: 12,
+      minzoom: 11,
       paint: {
         'circle-radius': [
           'interpolate',
           ['linear'],
           ['zoom'],
-          12, 2.5,
-          14, 4.5,
-          16, 6.5,
+          11, 4,
+          13, 6,
+          16, 8,
         ],
-        'circle-color': '#45796D',
-        'circle-stroke-width': 1.5,
+        'circle-color': '#FE3837',
+        'circle-stroke-width': 2,
         'circle-stroke-color': '#FFFFFF',
-        'circle-opacity': 0.92,
+        'circle-opacity': 0.95,
       },
     });
 
@@ -867,29 +996,47 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
     map.on('mouseleave', 'bus-stops-circle', () => {
       map.getCanvas().style.cursor = '';
     });
+    map.on('click', 'bus-stops-circle', (e) => {
+      if (!e.features || !e.features[0]) return;
+      const stopId = e.features[0].properties?.id;
+      if (stopId && onStopClickCallback) {
+        onStopClickCallback(stopId);
+      }
+    });
   }
 
-  // Bus stop icons with name labels at zoom 14.5+
+  // Bus stop icons with bold, clearly visible name labels at zoom 11+
   if (!map.getLayer('bus-stops-icon-layer')) {
     map.addLayer({
       id: 'bus-stops-icon-layer',
       type: 'symbol',
       source: 'bus-stops',
-      minzoom: 14.5,
+      minzoom: 11,
       layout: {
         'icon-image': 'bus-stop-icon',
-        'icon-size': 0.65,
-        'icon-allow-overlap': false,
+        'icon-size': 0.9, // Increased size for bus stop icons
+        'icon-allow-overlap': true,
+        'icon-ignore-placement': true,
         'text-field': ['get', 'name'],
-        'text-size': 11,
-        'text-offset': [0, 1.3],
+        'text-font': ['Noto Sans Bold', 'Open Sans Bold', 'Arial Unicode MS Bold'], // Bold stop names
+        'text-size': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          11, 11,
+          13, 12.5,
+          15, 14,
+        ],
+        'text-offset': [0, 1.45],
         'text-anchor': 'top',
-        'text-optional': true,
+        'text-optional': false,
+        'text-allow-overlap': true, // Keep each bus stop name visible
       },
       paint: {
-        'text-color': '#1E2229',
-        'text-halo-color': '#FAFBF7',
-        'text-halo-width': 2,
+        'text-color': '#0F172A',
+        'text-halo-color': '#FFFFFF',
+        'text-halo-width': 3,
+        'text-halo-blur': 0.5,
       },
     });
 
@@ -898,6 +1045,13 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
     });
     map.on('mouseleave', 'bus-stops-icon-layer', () => {
       map.getCanvas().style.cursor = '';
+    });
+    map.on('click', 'bus-stops-icon-layer', (e) => {
+      if (!e.features || !e.features[0]) return;
+      const stopId = e.features[0].properties?.id;
+      if (stopId && onStopClickCallback) {
+        onStopClickCallback(stopId);
+      }
     });
   }
 
@@ -1063,6 +1217,14 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
     });
   }
 
+  // Restore any existing selected route line
+  if (savedRouteCoords.length > 0) {
+    setSelectedRouteLine(savedRouteCoords, savedRemainingCoords);
+  }
+
+  // Force immediate update of bus source on next animation frame
+  lastSourceUpdateTime = 0;
+
   startRafLoop();
 }
 
@@ -1084,28 +1246,66 @@ function startRafLoop() {
       if (!route || !route.geometry?.coordinates || route.geometry.coordinates.length < 2) continue;
 
       const coords = route.geometry.coordinates;
+
+      // If bus has reached the final stop, keep it parked there
+      if (sim.reachedEnd) {
+        // Bus stays at the last coordinate, speed = 0
+        const lastCoord = coords[coords.length - 1];
+        sim.lng = lastCoord[0];
+        sim.lat = lastCoord[1];
+
+        // Update liveBuses with speed = 0 for the parked bus
+        liveBuses.set(busId, {
+          busId,
+          lat: sim.lat,
+          lng: sim.lng,
+          speed: 0,
+          heading: sim.heading,
+          seq: 1,
+          routeId: route._id,
+          updatedAt: Date.now(),
+          targetLat: sim.lat,
+          targetLng: sim.lng,
+          interpolatedLat: sim.lat,
+          interpolatedLng: sim.lng,
+          interpolatedHeading: sim.heading,
+        });
+        continue;
+      }
+
       const p1 = coords[sim.coordIndex];
-      const p2 = coords[(sim.coordIndex + 1) % coords.length];
+      const nextIdx = Math.min(sim.coordIndex + 1, coords.length - 1);
+      const p2 = coords[nextIdx];
 
       const segmentDist = getDistanceMetres(p1[1], p1[0], p2[1], p2[0]);
       const progressDelta = segmentDist > 0 ? (sim.speedMps * dt) / segmentDist : 1;
 
       sim.segmentProgress += progressDelta;
 
-      let hasLooped = false;
       if (sim.segmentProgress >= 1) {
         sim.segmentProgress = 0;
-        const nextIdx = sim.coordIndex + 1;
-        if (nextIdx >= coords.length - 1) {
-          sim.coordIndex = 0;
-          hasLooped = true;
+        const next = sim.coordIndex + 1;
+        if (next >= coords.length - 1) {
+          // Reached the final coordinate — park the bus here
+          sim.coordIndex = coords.length - 2;
+          sim.segmentProgress = 1;
+          sim.reachedEnd = true;
+
+          // Mark all remaining stops as departed
+          const stopMap = busStopApproachingMap.get(busId);
+          if (stopMap) {
+            for (const st of (route.stops || [])) {
+              stopMap.set(st.stopId, false);
+            }
+          }
         } else {
-          sim.coordIndex = nextIdx;
+          sim.coordIndex = next;
         }
       }
 
       const currentP1 = coords[sim.coordIndex];
-      const currentP2 = coords[(sim.coordIndex + 1) % coords.length];
+      const currentNextIdx = Math.min(sim.coordIndex + 1, coords.length - 1);
+      const currentP2 = coords[currentNextIdx];
 
       sim.lng = currentP1[0] + (currentP2[0] - currentP1[0]) * sim.segmentProgress;
       sim.lat = currentP1[1] + (currentP2[1] - currentP1[1]) * sim.segmentProgress;
@@ -1118,24 +1318,12 @@ function startRafLoop() {
         busStopApproachingMap.set(busId, stopMap);
       }
 
-      if (hasLooped) {
-        // Reset all stop booleans to true for the new trip
-        for (const st of (route.stops || [])) {
-          stopMap.set(st.stopId, true);
-        }
-      } else {
-        const cumDists = getRouteDistances(route._id, coords);
-        const safeIdx = Math.min(sim.coordIndex, coords.length - 2);
-        const segDist = getDistanceMetres(currentP1[1], currentP1[0], currentP2[1], currentP2[0]);
-        const busRouteDistM = (cumDists[safeIdx] || 0) + segDist * sim.segmentProgress;
-
-        for (const st of (route.stops || [])) {
-          // Once a bus reaches the bus stop, set the boolean variable to false!
-          if (stopMap.get(st.stopId) !== false) {
-            if (busRouteDistM >= (st.offsetM || 0) - 25) {
-              stopMap.set(st.stopId, false);
-            }
-          }
+      for (const st of (route.stops || [])) {
+        // Once a bus reaches or leaves the bus stop, set the boolean variable to false!
+        const stopIdx = getStopCoordIndex(route, st.stopId);
+        const isPast = (sim.coordIndex > stopIdx) || (sim.coordIndex === stopIdx && sim.segmentProgress > 0.05);
+        if (isPast) {
+          stopMap.set(st.stopId, false);
         }
       }
 
@@ -1280,13 +1468,9 @@ function startRafLoop() {
 
         let targetCoordIdx = coords.length - 1;
         if (targetStop) {
-          const cumDists = getRouteDistances(route._id, coords);
-          const stopOffset = targetStop.offsetM || 0;
-          for (let c = 0; c < cumDists.length; c++) {
-            if (cumDists[c] >= stopOffset) {
-              targetCoordIdx = c;
-              break;
-            }
+          const idx = getStopCoordIndex(route, targetStop.stopId);
+          if (idx !== -1) {
+            targetCoordIdx = idx;
           }
         }
 

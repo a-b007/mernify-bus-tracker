@@ -83,8 +83,11 @@ export default function MapContainer({
   }, []);
 
   // Update theme style dynamically
+  const initialThemeRef = useRef(theme);
   useEffect(() => {
     if (!map) return;
+    if (initialThemeRef.current === theme) return;
+    initialThemeRef.current = theme;
     const nextStyle = theme === 'dark' ? (darkStyle as any) : (lightStyle as any);
     map.setStyle(nextStyle);
   }, [theme, map]);

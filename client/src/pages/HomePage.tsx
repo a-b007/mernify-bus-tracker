@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useCallback } from 'react';
+import { useEffect, useState, useMemo, useCallback, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import MapContainer from '../map/MapContainer';
 import Panel from '../components/Panel';
@@ -21,6 +21,8 @@ import {
   setVehicleFilters,
   setupVehicleMapLayers,
   setTrackedBus,
+  setPinnedStops,
+  setOnStopClickListener,
   setSelectedRouteLine,
   updateUserLocationMarker,
   setOnBusClickListener,
@@ -90,9 +92,22 @@ export default function HomePage() {
     if (routes.length > 0) setRoutesCatalog(routes);
   }, [routes]);
 
+  // Load catalogs into vehicle store & initialize default boarding stop once
+  const hasInitializedOriginRef = useRef(false);
   useEffect(() => {
-    if (stops.length > 0) setStopsCatalog(stops);
-  }, [stops]);
+    if (stops.length > 0) {
+      setStopsCatalog(stops);
+      if (!hasInitializedOriginRef.current) {
+        hasInitializedOriginRef.current = true;
+        if (!originStop) {
+          const defaultStop = stops.find((s) => s.name.includes('Majestic')) || stops[0];
+          if (defaultStop) {
+            setOriginStop(defaultStop);
+          }
+        }
+      }
+    }
+  }, [stops, setOriginStop]);
 
   // Sync active filters to vehicle store (filters out buses from map)
   useEffect(() => {
@@ -108,13 +123,47 @@ export default function HomePage() {
   useEffect(() => {
     if (!map) return;
     setupVehicleMapLayers(map);
-  }, [map]);
+
+    const handleStyleLoad = () => {
+      setupVehicleMapLayers(map);
+      const boarding = originStop || selectedStop || null;
+      setPinnedStops(boarding, destStop || null);
+      if (selectedRoute?.geometry?.coordinates) {
+        setSelectedRouteLine(selectedRoute.geometry.coordinates);
+      }
+    };
+
+    map.on('style.load', handleStyleLoad);
+    return () => {
+      map.off('style.load', handleStyleLoad);
+    };
+  }, [map, originStop, selectedStop, destStop, selectedRoute]);
 
   // Sync tracked bus ID and stop coordinates for pulse animation & camera
   useEffect(() => {
     const targetStopCoords = (originStop || selectedStop)?.loc?.coordinates;
     setTrackedBus(trackedBusId, targetStopCoords);
   }, [trackedBusId, selectedStop, originStop]);
+
+  // Sync pinned boarding & destination stops on the map (highlighting boarding stop with pin symbol)
+  useEffect(() => {
+    const boarding = originStop || selectedStop || null;
+    setPinnedStops(boarding, destStop || null);
+  }, [originStop, selectedStop, destStop]);
+
+  // Map bus stop click listener (Clicking any bus stop sets it as the boarding stop and highlights it)
+  useEffect(() => {
+    setOnStopClickListener((stopId: string) => {
+      const stop = stops.find((s) => s._id === stopId);
+      if (stop) {
+        setOriginStop(stop);
+        if (map && stop.loc?.coordinates) {
+          map.flyTo({ center: stop.loc.coordinates, zoom: 15, duration: 600 });
+        }
+      }
+    });
+    return () => setOnStopClickListener(null);
+  }, [stops, map, setOriginStop]);
 
   // Sync selected route highlight line
   useEffect(() => {
@@ -296,7 +345,7 @@ export default function HomePage() {
           if (!isUpcoming) return;
 
           const live = getBusLiveEta(bus._id, boardCoords, activeOrigin._id);
-          if (!live || live.isDeparted) return;
+          if (!live || live.isDeparted || live.status === 'departed' || live.status === 'finalReached') return;
 
           const etaMin = live.etaMinutes;
           const { fare } = calculateBMTCFare(boardCoords, destCoords, normalizeBusType(bus.type));
@@ -339,7 +388,7 @@ export default function HomePage() {
           if (!isUpcoming) return;
 
           const live = getBusLiveEta(bus._id, boardCoords, activeOrigin._id);
-          if (!live || live.isDeparted) return;
+          if (!live || live.isDeparted || live.status === 'departed' || live.status === 'finalReached') return;
 
           const etaMin = live.etaMinutes;
           const fare = normalizeBusType(bus.type) === 'AC' ? 35 : normalizeBusType(bus.type) === 'Electric' ? 20 : 15;
@@ -372,7 +421,7 @@ export default function HomePage() {
   }, [originStop, destStop, routes, buses, filters]);
 
   const isDesktopOrTablet = breakpoint === 'desktop' || breakpoint === 'tablet';
-  const showDetail = step === 'busDetail' && selectedBus && selectedRoute && selectedStop;
+  const showDetail = (step === 'busDetail' || step === 'tracking') && selectedBus && selectedRoute && selectedStop;
 
   const panelTitle =
     originStop && destStop ? `${originStop.name} to ${destStop.name}` : originStop ? `Buses at ${originStop.name}` : 'Find a bus';
