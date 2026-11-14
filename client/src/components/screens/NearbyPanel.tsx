@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { MapPin } from '@phosphor-icons/react';
 import SearchField, { type SearchItem } from '../SearchField';
 import FilterBar from '../FilterBar';
 import BusRow from '../BusRow';
 import { useJourneyStore } from '../../stores/journey';
 import { getBusLiveEta } from '../../services/vehicleStore';
+import { getDistanceMetres } from '../../utils/geo';
 import type { Stop, Route, Bus } from '../../types/transit';
 import { normalizeBusType } from '../../types/transit';
 
@@ -15,7 +16,7 @@ interface NearbyPanelProps {
   searchItems: SearchItem[];
   onSelectSearchItem: (item: SearchItem) => void;
   onSelectBus: (bus: Bus, route: Route, stop: Stop) => void;
-  onFocusStop: (stop: Stop) => void;
+  onFocusStop: (stop: Stop | null) => void;
 }
 
 export default function NearbyPanel({
@@ -27,7 +28,7 @@ export default function NearbyPanel({
   onSelectBus,
   onFocusStop,
 }: NearbyPanelProps) {
-  const { filters, selectedStop } = useJourneyStore();
+  const { filters, selectedStop, userLocation } = useJourneyStore();
   const [, setTick] = useState(0);
 
   // Re-calculate live ETAs every 1.5s as buses move on the map
@@ -38,8 +39,62 @@ export default function NearbyPanel({
     return () => clearInterval(interval);
   }, []);
 
-  // If a stop is focused, show only that stop; otherwise show nearest 3-5 stops
-  const displayStops = selectedStop ? [selectedStop] : stops.slice(0, 4);
+  const userLat = userLocation?.lat;
+  const userLng = userLocation?.lng;
+
+  // Real proximity calculation: sort all stops by geodesic distance from user's current GPS location
+  const stopsWithProximity = useMemo(() => {
+    if (!userLat || !userLng || stops.length === 0) {
+      return stops.map((s, idx) => ({
+        stop: s,
+        distM: 200 + idx * 150,
+        walkDistM: 200 + idx * 150,
+        walkMin: Math.max(1, Math.round((200 + idx * 150) / 75)),
+      }));
+    }
+
+    return stops
+      .filter((s) => s.loc?.coordinates && s.loc.coordinates.length >= 2)
+      .map((s) => {
+        const distM = getDistanceMetres(
+          userLat,
+          userLng,
+          s.loc.coordinates[1],
+          s.loc.coordinates[0]
+        );
+        const walkDistM = Math.round(distM);
+        const walkMin = Math.max(1, Math.round(walkDistM / 75)); // ~4.5 km/h walking speed
+        return {
+          stop: s,
+          distM,
+          walkDistM,
+          walkMin,
+        };
+      })
+      .sort((a, b) => a.distM - b.distM);
+  }, [stops, userLat, userLng]);
+
+  // If a stop is specifically selected/focused, show that stop;
+  // otherwise show the closest 4 stops to the user
+  const displayStopsWithDistance = useMemo(() => {
+    if (selectedStop) {
+      const match = stopsWithProximity.find((item) => item.stop._id === selectedStop._id);
+      if (match) return [match];
+      const distM =
+        selectedStop.loc?.coordinates && userLat && userLng
+          ? getDistanceMetres(
+              userLat,
+              userLng,
+              selectedStop.loc.coordinates[1],
+              selectedStop.loc.coordinates[0]
+            )
+          : 225;
+      const walkDistM = Math.round(distM);
+      const walkMin = Math.max(1, Math.round(walkDistM / 75));
+      return [{ stop: selectedStop, distM, walkDistM, walkMin }];
+    }
+    return stopsWithProximity.slice(0, 4);
+  }, [selectedStop, stopsWithProximity, userLat, userLng]);
 
   return (
     <div className="flex flex-col gap-3">
@@ -53,17 +108,28 @@ export default function NearbyPanel({
       {/* Filter Bar */}
       <FilterBar />
 
+      {/* When a specific stop is selected, offer a button to view all nearby stops */}
+      {selectedStop && (
+        <button
+          type="button"
+          onClick={() => onFocusStop(null)}
+          className="text-xs text-[var(--primary-600)] dark:text-[var(--primary-400)] hover:underline self-start px-1 font-medium transition-colors"
+        >
+          ← Show all nearby stops around me
+        </button>
+      )}
+
       {/* Stops and Bus Departures */}
       <div className="flex flex-col gap-4 mt-1">
-        {displayStops.length === 0 ? (
+        {displayStopsWithDistance.length === 0 ? (
           <div className="py-8 text-center text-sm text-[var(--text-2)]">
             Loading stops around you…
           </div>
         ) : (
-          displayStops.map((stop, stopIndex) => {
+          displayStopsWithDistance.map(({ stop, walkDistM, walkMin }) => {
             const stopRoutes = routes.filter((r) => stop.routeIds?.includes(r._id));
-            const walkMin = 3 + stopIndex * 2;
-            const walkDistM = walkMin * 75;
+            const formattedDist =
+              walkDistM < 1000 ? `${walkDistM} m` : `${(walkDistM / 1000).toFixed(1)} km`;
 
             // Live calculated buses for these routes
             const candidateBuses = stopRoutes.flatMap((route, rIdx) => {
@@ -109,7 +175,7 @@ export default function NearbyPanel({
                     </span>
                   </div>
                   <span className="text-xs text-[var(--text-3)] shrink-0 ml-2">
-                    {walkMin} min walk · {walkDistM} m
+                    {walkMin} min walk · {formattedDist}
                   </span>
                 </div>
 

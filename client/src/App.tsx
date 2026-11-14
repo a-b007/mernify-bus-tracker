@@ -230,6 +230,7 @@ function BusTwinApp() {
 
         setUserLocation({ lat: latitude, lng: longitude, accuracy });
         updateUserLocationMarker(longitude, latitude, heading || 45);
+        selectStop(null);
         setStep('nearby');
 
         if (map) {
@@ -255,6 +256,7 @@ function BusTwinApp() {
   const handleUseMajestic = useCallback(() => {
     const majesticCoords = { lat: 12.9771, lng: 77.5726 };
     setUserLocation(majesticCoords);
+    selectStop(null);
     updateUserLocationMarker(majesticCoords.lng, majesticCoords.lat, 45);
     setStep('nearby');
     if (map) {
@@ -387,7 +389,7 @@ function BusTwinApp() {
             onSelectBus={handleSelectBus}
             onFocusStop={(stop) => {
               selectStop(stop);
-              if (map && stop.loc?.coordinates) {
+              if (stop && map && stop.loc?.coordinates) {
                 map.flyTo({ center: stop.loc.coordinates, zoom: 15.5 });
               }
             }}
