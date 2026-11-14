@@ -399,3 +399,19 @@ Do instead:
 5. `axe` passes; keyboard-only path works; reduced-motion path works.
 6. Copy follows §7; strings are in i18n.
 7. Journey in §2 still works end to end: welcome → locate → nearby → destination → bus → alert.
+
+---
+
+## 14. Visual refinement pass (Nov 2026)
+
+Deliberate departures from earlier sections, made at the owner's request. Where this section and §4–§5/§11 disagree, this section wins.
+
+1. **Headings are Inter Bold (700), UPPERCASE**, tracking `.04em` (set globally on `h1–h4` and `.heading` in `base.css`). Body, labels and numbers stay 400–600.
+2. **One typeface.** Inter everywhere, including form controls (`font: inherit`). `font-mono` is aliased to Inter in `@theme`, so it cannot introduce a second face. Map labels still use the glyph server's face until Inter glyph PBFs are self-hosted (see §6).
+3. **4 px grid, enforced.** Only whole Tailwind steps (`1,2,3,4,5,6,8…` = 4, 8, 12, 16, 20, 24, 32). No `.5` steps. Minimum gap between two components is **8 px** (`--gap-min`); default rhythm 16 px; between sections 24 px; panel padding 20 px; viewport edge 16 px. All line-heights are multiples of 4.
+3b. **Type scale:** `xs 12/16 · sm 13/20 · base 14/20 · md 16/24 · lg 20/28 · xl 28/32 · eta 36/40`. Minimum text size is 12 px.
+4. **Atmosphere (replaces "no gradients"):** panels carry a very light sage wash (top-left) with a faint saffron breath (bottom-right), plus a 16 px dot field that fades out by ~50% of the panel. One slow shimmer (12 s, saffron dots) sweeps across it. Implemented by `.panel-surface` + `.dots`; disabled under `prefers-reduced-motion`. Still forbidden: gradient text, glass/blur, purple-pink ramps, glowing blobs.
+5. **Colour roles (60/30/10):** 60 % neutrals (paper/surface), 30 % teal–sage (analogous to the base), 10 % saffron (the complement of teal) for tracked/arriving only. Filter chips use one active style (teal fill) instead of one colour per chip.
+6. **Map sprites:** slate = non-AC, teal = AC, sage + bolt = electric, saffron ring = tracked, ink pin = destination, teal ring = stop, blue = you.
+7. **Layout:** one left panel (384 px) holds wordmark, trip search, filters and results; one right panel (384 px, 16 px below the nav) holds bus detail. Nav + theme toggle live top-right. Map controls and the Demo-data pill sit bottom-right and slide left when the detail panel opens.
+8. **Dropdowns are always opaque** (`.menu`, `--surface-solid`) and sit above the panel body.
