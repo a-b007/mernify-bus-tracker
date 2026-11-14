@@ -128,6 +128,7 @@ export default function NearbyPanel({
                         destination={route.destination}
                         etaMinutes={etaMin}
                         walkMinutes={walkMin}
+                        fare={normalizeBusType(bus.type) === 'AC' ? 35 : normalizeBusType(bus.type) === 'Electric' ? 20 : 15}
                         crowding={bus.capacity > 45 ? 'medium' : 'low'}
                         isCatchable={etaMin >= walkMin - 1}
                         onClick={() => onSelectBus(bus, route, stop)}

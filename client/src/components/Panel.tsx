@@ -8,6 +8,7 @@ interface PanelProps {
   onClose?: () => void;
   footer?: ReactNode;
   className?: string;
+  position?: 'left' | 'right';
 }
 
 export default function Panel({
@@ -17,24 +18,27 @@ export default function Panel({
   onClose,
   footer,
   className = '',
+  position = 'left',
 }: PanelProps) {
+  const positionClasses =
+    position === 'right'
+      ? 'fixed top-3 right-3 z-30 w-[460px] md:max-lg:w-[390px]'
+      : 'fixed top-3 left-3 z-20 w-[384px] md:max-lg:w-[340px]';
+
   return (
     <aside
       className={[
         // Hidden on mobile; bottom sheet takes over there
         'hidden lg:flex flex-col',
         // Positioning
-        'fixed top-3 left-3 z-20',
-        // Sizing: 384px on ≥1024, 340px on 640-1023
-        'w-[384px] md:max-lg:w-[340px]',
+        positionClasses,
         // Constraints
         'max-h-[calc(100dvh-24px)]',
-        // Visual treatment: Felt-like translucent gradient with subtle border & glass blur
-        'bg-gradient-to-b from-[rgba(255,255,255,0.88)] to-[rgba(240,245,252,0.76)] dark:from-[rgba(52,63,80,0.80)] dark:to-[rgba(36,44,58,0.72)]',
-        'backdrop-blur-xl',
-        'border border-[rgba(255,255,255,0.6)] dark:border-[rgba(255,255,255,0.18)]',
+        // Visual treatment: Solid opaque background with crisp border & deep shadow
+        'bg-[#FFFFFF] dark:bg-[#1A2332]',
+        'border border-slate-200 dark:border-slate-700/80',
         'rounded-[var(--r-lg)]',
-        'shadow-[0_12px_40px_rgba(0,0,0,0.2),inset_0_1px_0_rgba(255,255,255,0.2)] dark:shadow-[0_16px_48px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.15)]',
+        'shadow-[0_16px_48px_rgba(0,0,0,0.18)] dark:shadow-[0_20px_56px_rgba(0,0,0,0.65)]',
         className,
       ].join(' ')}
     >

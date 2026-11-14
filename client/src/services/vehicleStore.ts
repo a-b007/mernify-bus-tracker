@@ -22,6 +22,11 @@ interface SimVehicle {
 }
 const simVehicles = new Map<string, SimVehicle>();
 
+let onBusClickCallback: ((busId: string) => void) | null = null;
+export function setOnBusClickListener(listener: ((busId: string) => void) | null) {
+  onBusClickCallback = listener;
+}
+
 let mapInstance: MapLibreMap | null = null;
 let animationFrameId: number | null = null;
 let lastTickTime = performance.now();
@@ -201,6 +206,49 @@ function registerSvgIcon(map: MapLibreMap, name: string, svg: string, size = 48)
   img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg.trim());
 }
 
+export function calculateBMTCFare(
+  boardingStopCoords: [number, number],
+  destCoords: [number, number],
+  busType: 'AC' | 'NonAC' | 'Electric'
+): { fare: number; distanceKm: number } {
+  const distM = getDistanceMetres(
+    boardingStopCoords[1],
+    boardingStopCoords[0],
+    destCoords[1],
+    destCoords[0]
+  );
+  const roadDistKm = Math.max(1, Math.round((distM * 1.25) / 100) / 10);
+
+  let fare = 15;
+  if (busType === 'AC') {
+    if (roadDistKm <= 2) fare = 20;
+    else if (roadDistKm <= 5) fare = 30;
+    else if (roadDistKm <= 10) fare = 45;
+    else if (roadDistKm <= 15) fare = 60;
+    else if (roadDistKm <= 20) fare = 75;
+    else if (roadDistKm <= 30) fare = 90;
+    else fare = 110;
+  } else if (busType === 'Electric') {
+    if (roadDistKm <= 2) fare = 10;
+    else if (roadDistKm <= 5) fare = 15;
+    else if (roadDistKm <= 10) fare = 20;
+    else if (roadDistKm <= 15) fare = 25;
+    else if (roadDistKm <= 20) fare = 30;
+    else fare = 35;
+  } else {
+    // Non-AC Ordinary
+    if (roadDistKm <= 2) fare = 5;
+    else if (roadDistKm <= 5) fare = 10;
+    else if (roadDistKm <= 10) fare = 15;
+    else if (roadDistKm <= 15) fare = 20;
+    else if (roadDistKm <= 20) fare = 25;
+    else if (roadDistKm <= 30) fare = 30;
+    else fare = 35;
+  }
+
+  return { fare, distanceKm: roadDistKm };
+}
+
 export function setVehicleFilters(filters: JourneyFilters) {
   activeFilters = { ...filters };
 }
@@ -321,14 +369,14 @@ function initializeSimVehiclesIfReady() {
   const routes = Array.from(routeCatalog.values());
   const buses = Array.from(busMetadata.values());
 
-  // Assign up to 80 buses across routes
-  for (let i = 0; i < Math.min(80, buses.length); i++) {
+  // Assign all buses across routes with distributed positions
+  for (let i = 0; i < buses.length; i++) {
     const bus = buses[i];
     const route = routeCatalog.get(bus.routeId) || routes[i % routes.length];
     if (!route || !route.geometry?.coordinates || route.geometry.coordinates.length < 2) continue;
 
     const coords = route.geometry.coordinates;
-    const startIndex = (i * 3) % (coords.length - 1);
+    const startIndex = (i * 2) % (coords.length - 1);
     const p1 = coords[startIndex];
     const p2 = coords[startIndex + 1];
 
@@ -338,7 +386,7 @@ function initializeSimVehiclesIfReady() {
       busId: bus._id,
       routeId: route._id,
       coordIndex: startIndex,
-      segmentProgress: (i * 0.25) % 1,
+      segmentProgress: ((i * 3) % 10) / 10,
       speedMps: 7 + (i % 5), // ~25 to 40 km/h
       heading,
       lng: p1[0],
@@ -676,6 +724,20 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
         'text-halo-width': 2,
       },
     });
+
+    map.on('mouseenter', 'buses-icon-layer', () => {
+      map.getCanvas().style.cursor = 'pointer';
+    });
+    map.on('mouseleave', 'buses-icon-layer', () => {
+      map.getCanvas().style.cursor = '';
+    });
+    map.on('click', 'buses-icon-layer', (e) => {
+      if (!e.features || !e.features[0]) return;
+      const busId = e.features[0].properties?.busId || e.features[0].properties?.id;
+      if (busId && onBusClickCallback) {
+        onBusClickCallback(busId);
+      }
+    });
   }
 
   // Tracked bus symbol layer
@@ -701,6 +763,20 @@ export function setupVehicleMapLayers(map: MapLibreMap) {
         'text-halo-color': '#F59E0B',
         'text-halo-width': 2,
       },
+    });
+
+    map.on('mouseenter', 'tracked-bus-icon-layer', () => {
+      map.getCanvas().style.cursor = 'pointer';
+    });
+    map.on('mouseleave', 'tracked-bus-icon-layer', () => {
+      map.getCanvas().style.cursor = '';
+    });
+    map.on('click', 'tracked-bus-icon-layer', (e) => {
+      if (!e.features || !e.features[0]) return;
+      const busId = e.features[0].properties?.busId || e.features[0].properties?.id;
+      if (busId && onBusClickCallback) {
+        onBusClickCallback(busId);
+      }
     });
   }
 
@@ -846,7 +922,8 @@ function startRafLoop() {
       if (busType === 'AC') iconName = 'bus-icon-ac';
       if (busType === 'Electric') iconName = 'bus-icon-electric';
 
-      const routeNo = meta?.routeId?.split('-')[0] || '';
+      const matchedRoute = meta?.routeId ? routeCatalog.get(meta.routeId) : null;
+      const routeNo = matchedRoute?.routeNo || meta?.routeId?.split('-')[0] || '';
 
       const feature = {
         type: 'Feature' as const,
@@ -855,6 +932,7 @@ function startRafLoop() {
           coordinates: [lng, lat],
         },
         properties: {
+          id: bus.busId,
           busId: bus.busId,
           routeNo,
           type: busType,

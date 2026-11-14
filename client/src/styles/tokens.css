@@ -1,10 +1,10 @@
 /* client/src/styles/tokens.css — Tailwind v4 */
 :root {
-  /* Neutrals (Light Mode - Frosted Glass) */
+  /* Neutrals (Light Mode - Solid High-Contrast Surfaces) */
   --paper:          #E3E8DC;  /* app background, map tint */
-  --surface:        rgba(255, 255, 255, 0.82);  /* floating panels with elegant glassy transparency */
+  --surface:        #FFFFFF;  /* solid opaque surface for crisp contrast */
   --surface-solid:  #FFFFFF;
-  --surface-2:      rgba(0, 0, 0, 0.05);       /* reduced opacity for inputs, sunken cards, buttons */
+  --surface-2:      #F1F5F9;  /* inputs, sunken cards, buttons */
   --surface-2-solid:#E2E8DE;
   --border:         rgba(0, 0, 0, 0.12);
   --border-strong:  rgba(0, 0, 0, 0.22);
@@ -43,12 +43,12 @@
 }
 
 [data-theme="dark"] {
-  /* Neutrals (Dark Mode - Felt-inspired Frosted Glass with Subtle Gradient) */
+  /* Neutrals (Dark Mode - Solid High-Contrast Surfaces) */
   --paper:          #0C1015;
-  --surface:        rgba(48, 58, 74, 0.74); /* translucent floating glass panel, lighter than dark map */
-  --surface-solid:  #2D3748;
-  --surface-2:      rgba(255, 255, 255, 0.08); /* reduced opacity for inputs, row chips, pill buttons */
-  --surface-2-solid:#3A4556;
+  --surface:        #1A2332; /* solid dark surface, fully opaque */
+  --surface-solid:  #1A2332;
+  --surface-2:      #243044; /* input fields, sunken cards, buttons */
+  --surface-2-solid:#2A374E;
   --border:         rgba(255, 255, 255, 0.14); /* subtle crisp border line */
   --border-strong:  rgba(255, 255, 255, 0.24);
   --text:           #FFFFFF; /* bright crisp text */

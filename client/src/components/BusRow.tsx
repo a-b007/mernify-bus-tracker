@@ -7,6 +7,7 @@ interface BusRowProps {
   destination: string;
   etaMinutes: number;
   walkMinutes?: number;
+  fare?: number;
   crowding?: 'low' | 'medium' | 'high';
   isCatchable?: boolean;
   tracked?: boolean;
@@ -20,6 +21,7 @@ export default function BusRow({
   destination,
   etaMinutes,
   walkMinutes = 4,
+  fare,
   crowding = 'low',
   isCatchable = true,
   tracked = false,
@@ -81,6 +83,11 @@ export default function BusRow({
       </div>
 
       <div className="flex flex-col items-end shrink-0 pl-3">
+        {fare !== undefined && (
+          <span className="text-[11px] font-bold px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 mb-0.5 shadow-sm">
+            ₹{fare}
+          </span>
+        )}
         {isCatchable ? (
           <>
             <span

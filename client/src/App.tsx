@@ -26,6 +26,7 @@ import {
   setTrackedBus,
   setSelectedRouteLine,
   updateUserLocationMarker,
+  setOnBusClickListener,
 } from './services/vehicleStore';
 import { connectSocket, disconnectSocket, subscribeToRoute } from './services/socket';
 import type { Stop, Route, Bus } from './types/transit';
@@ -174,8 +175,8 @@ function BusTwinApp() {
       },
     ];
 
-    // Add routes
-    routes.slice(0, 30).forEach((r) => {
+    // Add all routes for universal search
+    routes.forEach((r) => {
       list.push({
         id: `route-${r._id}`,
         label: `${r.routeNo} — ${r.origin} ➔ ${r.destination}`,
@@ -186,8 +187,8 @@ function BusTwinApp() {
       });
     });
 
-    // Add major stops
-    stops.slice(0, 40).forEach((s) => {
+    // Add all stops for comprehensive destination discovery
+    stops.forEach((s) => {
       list.push({
         id: `stop-${s._id}`,
         label: s.name,
@@ -285,6 +286,11 @@ function BusTwinApp() {
       } else if (item.type === 'stop') {
         const stop = item.data as Stop;
         selectStop(stop);
+        setDestination({
+          name: stop.name,
+          lat: stop.loc?.coordinates ? stop.loc.coordinates[1] : undefined,
+          lng: stop.loc?.coordinates ? stop.loc.coordinates[0] : undefined,
+        });
         if (map && stop.loc?.coordinates) {
           map.flyTo({
             center: stop.loc.coordinates,
@@ -292,7 +298,7 @@ function BusTwinApp() {
             duration: 700,
           });
         }
-        setStep('nearby');
+        setStep('destination');
       } else {
         // Place
         const coords = item.data;
@@ -328,6 +334,30 @@ function BusTwinApp() {
     },
     [map, selectBus, selectRoute, selectStop, setStep]
   );
+
+  // Handle bus marker clicks on the map (Requirement 3: Buses should be clickable)
+  useEffect(() => {
+    setOnBusClickListener((busId: string) => {
+      const bus = buses.find((b) => b._id === busId);
+      if (!bus) return;
+      const route = routes.find((r) => r._id === bus.routeId);
+      if (!route) return;
+
+      const stopPool = stops.filter((s) => s.routeIds?.includes(route._id));
+      const targetStop = stopPool[0] || stops[0] || {
+        _id: 'S0001',
+        name: 'Kempegowda Bus Station',
+        loc: { type: 'Point', coordinates: [77.5726, 12.9771] },
+        routeIds: [route._id],
+      };
+
+      handleSelectBus(bus, route, targetStop);
+    });
+
+    return () => {
+      setOnBusClickListener(null);
+    };
+  }, [buses, routes, stops, handleSelectBus]);
 
   // Render panel content based on current journey state
   const renderPanelContent = () => {
@@ -388,6 +418,7 @@ function BusTwinApp() {
             bus={selectedBus}
             route={selectedRoute}
             stop={selectedStop}
+            allStops={stops}
           />
         );
       case 'tracking':
@@ -442,6 +473,7 @@ function BusTwinApp() {
         {/* Desktop / Tablet Floating Panel */}
         {isDesktopOrTablet && (
           <Panel
+            position={step === 'busDetail' ? 'right' : 'left'}
             title={
               step === 'welcome'
                 ? 'Bus Twin'

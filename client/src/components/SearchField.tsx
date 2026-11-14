@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { Command } from 'cmdk';
-import { MagnifyingGlass, Clock, BookmarkSimple, MapPin, Bus, Path } from '@phosphor-icons/react';
+import { MagnifyingGlass, Clock, BookmarkSimple, MapPin, Bus, Path, X } from '@phosphor-icons/react';
 
 export interface SearchItem {
   id: string;
@@ -20,7 +20,7 @@ interface SearchFieldProps {
 }
 
 export default function SearchField({
-  placeholder = 'Search place, stop, or route (e.g. 335E)…',
+  placeholder = 'Search place, stop, or route (e.g. ITPL, 335E)…',
   items = [],
   onSelect,
   className = '',
@@ -59,6 +59,31 @@ export default function SearchField({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Filter items based on active search text
+  const filteredItems = useMemo(() => {
+    const query = search.trim().toLowerCase();
+    if (!query) {
+      // Default: show Recent, Saved, Places, and top stops/routes
+      return items;
+    }
+
+    return items
+      .filter((item) => {
+        const label = item.label.toLowerCase();
+        const subtitle = (item.subtitle || '').toLowerCase();
+        return label.includes(query) || subtitle.includes(query);
+      })
+      .sort((a, b) => {
+        const aLabel = a.label.toLowerCase();
+        const bLabel = b.label.toLowerCase();
+        const aStarts = aLabel.startsWith(query);
+        const bStarts = bLabel.startsWith(query);
+        if (aStarts && !bStarts) return -1;
+        if (!aStarts && bStarts) return 1;
+        return 0;
+      });
+  }, [items, search]);
+
   const groups = ['Recent', 'Saved', 'Places', 'Bus stops', 'Routes'] as const;
 
   const renderGroupIcon = (group: SearchItem['group']) => {
@@ -76,12 +101,22 @@ export default function SearchField({
     }
   };
 
+  const handleItemSelect = (item: SearchItem) => {
+    onSelect?.(item);
+    setOpen(false);
+    setSearch('');
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && filteredItems.length > 0) {
+      e.preventDefault();
+      handleItemSelect(filteredItems[0]);
+    }
+  };
+
   return (
     <div ref={containerRef} className={`relative w-full ${className}`}>
-      <Command
-        className="w-full relative"
-        shouldFilter={false} // We can do direct search or custom filter
-      >
+      <Command className="w-full relative" shouldFilter={false}>
         <div className="relative flex items-center w-full">
           <MagnifyingGlass
             size={20}
@@ -99,37 +134,54 @@ export default function SearchField({
               setOpen(true);
             }}
             onFocus={() => setOpen(true)}
+            onKeyDown={handleKeyDown}
             placeholder={placeholder}
             autoFocus={autoFocus}
             className={[
-              'w-full h-[44px] pl-10 pr-4',
-              'bg-[var(--surface-2)] text-[var(--text)]',
+              'w-full h-[44px] pl-10 pr-9',
+              'bg-[#F1F5F9] dark:bg-[#243044] text-[var(--text)]',
               'placeholder:text-[var(--text-3)]',
-              'border border-[var(--border)] rounded-[var(--r-md)]',
-              'text-[16px] md:text-[14px]', // 16px on mobile prevents iOS zoom
-              'focus:outline-none focus:ring-2 focus:ring-[var(--primary-700)] focus:border-transparent',
+              'border border-slate-200 dark:border-slate-700/80 rounded-[var(--r-md)]',
+              'text-[16px] md:text-[14px]',
+              'focus:outline-none focus:ring-2 focus:ring-[var(--primary-600)] focus:border-transparent',
               'transition-all duration-[var(--dur-1)]',
             ].join(' ')}
           />
+          {search && (
+            <button
+              type="button"
+              onClick={() => {
+                setSearch('');
+                inputRef.current?.focus();
+              }}
+              className="absolute right-2.5 p-1 rounded-full text-[var(--text-3)] hover:text-[var(--text)] hover:bg-[var(--surface-2)] transition-colors"
+              aria-label="Clear search"
+            >
+              <X size={14} weight="bold" />
+            </button>
+          )}
         </div>
 
         {open && (
           <div
             className={[
-              'absolute top-[calc(100%+6px)] left-0 right-0 z-30',
-              'bg-[var(--surface)] border border-[var(--border)]',
-              'rounded-[var(--r-md)] shadow-[var(--shadow-panel)]',
-              'max-h-[320px] overflow-y-auto p-1.5',
+              'absolute top-[calc(100%+6px)] left-0 right-0 z-50',
+              // Solid, 100% opaque background to fix transparency completely
+              'bg-[#FFFFFF] dark:bg-[#1E293B]',
+              'border border-slate-200 dark:border-slate-700/90',
+              'rounded-[var(--r-md)]',
+              'shadow-[0_20px_60px_rgba(0,0,0,0.35)] dark:shadow-[0_24px_70px_rgba(0,0,0,0.7)]',
+              'max-h-[360px] overflow-y-auto p-1.5',
             ].join(' ')}
           >
             <Command.List>
-              {items.length === 0 ? (
+              {filteredItems.length === 0 ? (
                 <div className="py-6 px-4 text-center text-sm text-[var(--text-2)]">
-                  {search ? 'No results found' : 'Search by place, bus stop or route number'}
+                  {search ? `No results found for "${search}"` : 'Search by place, bus stop or route number'}
                 </div>
               ) : (
                 groups.map((grp) => {
-                  const groupItems = items.filter((item) => item.group === grp);
+                  const groupItems = filteredItems.filter((item) => item.group === grp);
                   if (groupItems.length === 0) return null;
 
                   return (
@@ -142,19 +194,15 @@ export default function SearchField({
                       }
                       className="mb-1"
                     >
-                      {groupItems.map((item) => (
+                      {groupItems.slice(0, 15).map((item) => (
                         <Command.Item
                           key={item.id}
                           value={item.id}
-                          onSelect={() => {
-                            onSelect?.(item);
-                            setOpen(false);
-                            setSearch('');
-                          }}
+                          onSelect={() => handleItemSelect(item)}
                           className={[
                             'flex items-center gap-3 px-3 py-2.5 min-h-[44px]',
                             'rounded-[var(--r-sm)] cursor-pointer text-sm select-none',
-                            'hover:bg-[var(--primary-50)] active:bg-[var(--primary-100)]',
+                            'hover:bg-slate-100 dark:hover:bg-slate-700/60 active:bg-[var(--primary-50)]',
                             'transition-colors duration-[var(--dur-1)]',
                           ].join(' ')}
                         >

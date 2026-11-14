@@ -33,9 +33,8 @@ export default function BottomSheet({
             aria-describedby={undefined}
             className={[
               'fixed bottom-0 left-0 right-0 z-20 flex flex-col',
-              'bg-gradient-to-b from-[rgba(255,255,255,0.88)] to-[rgba(240,245,252,0.76)] dark:from-[rgba(52,63,80,0.84)] dark:to-[rgba(36,44,58,0.76)]',
-              'backdrop-blur-xl',
-              'border-t border-x border-[rgba(255,255,255,0.6)] dark:border-[rgba(255,255,255,0.18)]',
+              'bg-[#FFFFFF] dark:bg-[#1A2332]',
+              'border-t border-x border-slate-200 dark:border-slate-700/80',
               'rounded-t-[var(--r-lg)]',
               'shadow-[var(--shadow-sheet)]',
               'max-h-[calc(100dvh-56px)]',
