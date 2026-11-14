@@ -540,8 +540,9 @@ function startRafLoop() {
       sim.lat = currentP1[1] + (currentP2[1] - currentP1[1]) * sim.segmentProgress;
       sim.heading = getBearing(currentP1[1], currentP1[0], currentP2[1], currentP2[0]);
 
-      // If no live server delta exists for this bus, update liveBuses map
-      if (!liveBuses.has(busId)) {
+      // Update local position for fallback/standalone simulation
+      const existing = liveBuses.get(busId);
+      if (!existing || !existing.targetLat || existing.targetLat === existing.lat) {
         liveBuses.set(busId, {
           busId,
           lat: sim.lat,
@@ -557,6 +558,23 @@ function startRafLoop() {
           interpolatedLng: sim.lng,
           interpolatedHeading: sim.heading,
         });
+      }
+    }
+
+    // Interpolate live server buses toward their targetLat/targetLng
+    for (const bus of liveBuses.values()) {
+      if (bus.targetLat !== undefined && bus.targetLng !== undefined) {
+        const curLat = bus.interpolatedLat ?? bus.lat;
+        const curLng = bus.interpolatedLng ?? bus.lng;
+
+        // Smoothly interpolate towards target position (~50% per second)
+        const alpha = Math.min(1, dt * 2.5);
+        bus.interpolatedLat = curLat + (bus.targetLat - curLat) * alpha;
+        bus.interpolatedLng = curLng + (bus.targetLng - curLng) * alpha;
+
+        if (bus.targetHeading !== undefined) {
+          bus.interpolatedHeading = bus.targetHeading;
+        }
       }
     }
 

@@ -13,9 +13,14 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { MongoClient } from 'mongodb';
+import dotenv from 'dotenv';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Load .env from root and server directory
+dotenv.config({ path: path.resolve(__dirname, '../../../../.env') });
+dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/bus_twin';
 const DATA_DIR = process.env.DATA_DIR || path.resolve(__dirname, '../../../data');
@@ -99,9 +104,13 @@ async function seed() {
     );
     console.log('✓ stop_hourly_stats unique index created');
 
-    // alerts: (ts), TTL on ts = 3 days (259200s)
+    // alerts: TTL on ts = 3 days (259200s)
     const alertsCol = db.collection('alerts');
-    await alertsCol.createIndex({ ts: 1 });
+    try {
+      await alertsCol.dropIndex('ts_1');
+    } catch (e) {
+      // index might not exist
+    }
     await alertsCol.createIndex(
       { ts: 1 },
       { expireAfterSeconds: 259200 }

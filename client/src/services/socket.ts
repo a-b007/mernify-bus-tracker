@@ -1,6 +1,7 @@
 import { io, type Socket } from 'socket.io-client';
 import { ensureAuthToken } from './api';
 import { applySnapshot, applyDeltaRows } from './vehicleStore';
+import { bboxToCellIds } from '../utils/geo';
 import type { EtaItem, AlertItem } from '../types/transit';
 
 let socket: Socket | null = null;
@@ -49,14 +50,9 @@ export async function connectSocket(): Promise<Socket | null> {
 
     socket.on('connect', () => {
       connectionStatusListeners.forEach((cb) => cb(true));
-      // Auto-subscribe to central Bengaluru cells on initial connect
-      updateSubscribedCells([
-        'c_12.96_77.56',
-        'c_12.96_77.58',
-        'c_12.98_77.56',
-        'c_12.98_77.58',
-        'c_13.00_77.58',
-      ]);
+      // Auto-subscribe to all active metropolitan Bengaluru cells
+      const defaultCells = bboxToCellIds(12.82, 77.46, 13.14, 77.78);
+      updateSubscribedCells(defaultCells);
     });
 
     socket.on('disconnect', () => {

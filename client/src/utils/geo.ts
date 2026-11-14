@@ -38,3 +38,25 @@ export function getBearing(
 
   return ((θ * 180) / Math.PI + 360) % 360;
 }
+
+const CELL_SIZE_KM = 2;
+const BBOX = { minLat: 12.7, maxLat: 13.2, minLng: 77.3, maxLng: 77.9 };
+const DEG_TO_RAD = Math.PI / 180;
+
+export function bboxToCellIds(minLat: number, minLng: number, maxLat: number, maxLng: number): string[] {
+  const cells: string[] = [];
+  const latDeg = CELL_SIZE_KM / 111.32;
+  const lngDeg = CELL_SIZE_KM / (111.32 * Math.cos(((BBOX.minLat + BBOX.maxLat) / 2) * DEG_TO_RAD));
+
+  const startRow = Math.max(0, Math.floor((minLat - BBOX.minLat) / latDeg));
+  const endRow = Math.min(27, Math.floor((maxLat - BBOX.minLat) / latDeg));
+  const startCol = Math.max(0, Math.floor((minLng - BBOX.minLng) / lngDeg));
+  const endCol = Math.min(32, Math.floor((maxLng - BBOX.minLng) / lngDeg));
+
+  for (let r = startRow; r <= endRow; r++) {
+    for (let c = startCol; c <= endCol; c++) {
+      cells.push(`${r}:${c}`);
+    }
+  }
+  return cells;
+}

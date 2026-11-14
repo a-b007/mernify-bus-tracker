@@ -84,7 +84,6 @@ async function ensureIndexes(db) {
     { ts: 1 },
     { expireAfterSeconds: env.ALERTS_TTL }
   );
-  await db.collection('alerts').createIndex({ ts: 1 });
 
   // users
   await db.collection('users').createIndex({ email: 1 }, { unique: true });
