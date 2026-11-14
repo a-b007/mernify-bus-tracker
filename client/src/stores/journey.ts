@@ -4,6 +4,8 @@ import type { Stop, Route, Bus, JourneyStep, JourneyFilters } from '../types/tra
 interface JourneyState {
   step: JourneyStep;
   userLocation: { lat: number; lng: number; accuracy?: number } | null;
+  originStop: Stop | null;
+  destStop: Stop | null;
   destination: { name: string; lat?: number; lng?: number; stopId?: string } | null;
   selectedStop: Stop | null;
   selectedRoute: Route | null;
@@ -16,6 +18,8 @@ interface JourneyState {
   // Actions
   setStep: (step: JourneyStep) => void;
   setUserLocation: (loc: { lat: number; lng: number; accuracy?: number } | null) => void;
+  setOriginStop: (stop: Stop | null) => void;
+  setDestStop: (stop: Stop | null) => void;
   setDestination: (dest: { name: string; lat?: number; lng?: number; stopId?: string } | null) => void;
   selectStop: (stop: Stop | null) => void;
   selectRoute: (route: Route | null) => void;
@@ -38,6 +42,8 @@ const initialFilters: JourneyFilters = {
 export const useJourneyStore = create<JourneyState>((set) => ({
   step: 'welcome',
   userLocation: null,
+  originStop: null,
+  destStop: null,
   destination: null,
   selectedStop: null,
   selectedRoute: null,
@@ -49,6 +55,8 @@ export const useJourneyStore = create<JourneyState>((set) => ({
 
   setStep: (step) => set({ step }),
   setUserLocation: (userLocation) => set({ userLocation }),
+  setOriginStop: (originStop) => set({ originStop }),
+  setDestStop: (destStop) => set({ destStop }),
   setDestination: (destination) => set({ destination }),
   selectStop: (selectedStop) => set({ selectedStop }),
   selectRoute: (selectedRoute) => set({ selectedRoute }),
@@ -68,6 +76,8 @@ export const useJourneyStore = create<JourneyState>((set) => ({
     set({
       step: 'welcome',
       userLocation: null,
+      originStop: null,
+      destStop: null,
       destination: null,
       selectedStop: null,
       selectedRoute: null,
