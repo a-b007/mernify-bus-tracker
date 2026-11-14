@@ -15,6 +15,7 @@ import {
 import RouteChip from '../RouteChip';
 import { useJourneyStore } from '../../stores/journey';
 import { useLiveBusEta } from '../../hooks/useLiveEta';
+import { isStopUpcoming } from '../../services/vehicleStore';
 import type { Stop, Route, Bus } from '../../types/transit';
 import { normalizeBusType } from '../../types/transit';
 
@@ -178,20 +179,30 @@ export default function BusDetailPanel({
                   className="text-[36px] leading-[40px] font-semibold text-[var(--text)] tracking-tight"
                   style={{ fontVariantNumeric: 'tabular-nums' }}
                 >
-                  {eta.status === 'arrived' ? 'Arrived' : `${eta.etaMinutes} min`}
+                  {eta.status === 'departed' ? 'Departed' : eta.status === 'arrived' ? 'Arrived' : `${eta.etaMinutes} min`}
                 </span>
                 <span className="text-xs text-[var(--text-2)]">
-                  {eta.status === 'arrived' ? '· at stop' : `· ${eta.stopsAway} stops away (${eta.distanceM} m)`}
+                  {eta.status === 'departed'
+                    ? '· passed stop'
+                    : eta.status === 'arrived'
+                    ? '· at stop'
+                    : `· ${eta.stopsAway} stops away (${eta.distanceM} m)`}
                 </span>
               </div>
-              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300">
-                {eta.status === 'arrived' ? 'At stop' : eta.status === 'arriving' ? 'Approaching' : 'On time'}
+              <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+                eta.status === 'departed'
+                  ? 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300'
+                  : 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300'
+              }`}>
+                {eta.status === 'departed' ? 'Departed' : eta.status === 'arrived' ? 'At stop' : eta.status === 'arriving' ? 'Approaching' : 'On time'}
               </span>
             </div>
 
             {/* Walking hint */}
             <p className="text-xs text-[var(--text-2)] font-medium">
-              {eta.status === 'arrived'
+              {eta.status === 'departed'
+                ? `Bus has already reached and departed from ${stop.name}.`
+                : eta.status === 'arrived'
                 ? `Bus has arrived at ${stop.name}. Board now!`
                 : eta.status === 'arriving'
                 ? `Bus is arriving now at ${stop.name} (${eta.distanceM} m).`
@@ -408,31 +419,38 @@ export default function BusDetailPanel({
                     </div>
                   </div>
 
-                  <div className="flex flex-col items-end shrink-0 pl-2">
+                  <div className="flex items-col items-end shrink-0 pl-2">
                     <span
                       className="font-mono font-semibold text-[var(--text)]"
                       style={{ fontVariantNumeric: 'tabular-nums' }}
                     >
                       {dayRecord.arrivalTime}
                     </span>
-                    <span
-                      className={`text-[10px] font-semibold flex items-center gap-0.5 ${
-                        dayRecord.delayMinutes <= 1
-                          ? 'text-emerald-600 dark:text-emerald-400'
-                          : dayRecord.delayMinutes <= 3
-                          ? 'text-amber-500'
-                          : 'text-red-500'
-                      }`}
-                    >
-                      {dayRecord.delayMinutes <= 1 ? (
-                        <CheckCircle size={10} weight="fill" />
-                      ) : (
-                        <WarningCircle size={10} weight="fill" />
-                      )}
-                      {dayRecord.delayMinutes <= 0
-                        ? 'On Time'
-                        : `+${dayRecord.delayMinutes}m delay`}
-                    </span>
+                    {!isStopUpcoming(bus._id, item.stopId) ? (
+                      <span className="text-[10px] font-semibold text-slate-400 flex items-center gap-0.5">
+                        <CheckCircle size={10} weight="fill" className="text-slate-400" />
+                        Departed
+                      </span>
+                    ) : (
+                      <span
+                        className={`text-[10px] font-semibold flex items-center gap-0.5 ${
+                          dayRecord.delayMinutes <= 1
+                            ? 'text-emerald-600 dark:text-emerald-400'
+                            : dayRecord.delayMinutes <= 3
+                            ? 'text-amber-500'
+                            : 'text-red-500'
+                        }`}
+                      >
+                        {dayRecord.delayMinutes <= 1 ? (
+                          <CheckCircle size={10} weight="fill" />
+                        ) : (
+                          <WarningCircle size={10} weight="fill" />
+                        )}
+                        {dayRecord.delayMinutes <= 0
+                          ? 'On Time'
+                          : `+${dayRecord.delayMinutes}m delay`}
+                      </span>
+                    )}
                   </div>
                 </div>
               );

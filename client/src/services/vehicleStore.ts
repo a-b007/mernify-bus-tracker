@@ -284,7 +284,38 @@ export interface LiveEtaResult {
   distanceM: number;
   stopsAway: number;
   speedKmh: number;
-  status: 'scheduled' | 'approaching' | 'arriving' | 'arrived';
+  status: 'scheduled' | 'approaching' | 'arriving' | 'arrived' | 'departed';
+  isDeparted?: boolean;
+}
+
+// Map of busId -> Map<stopId, boolean>
+// boolean is TRUE when the bus is approaching/upcoming for that stop;
+// once the bus reaches the bus stop, set the boolean variable to FALSE!
+const busStopApproachingMap = new Map<string, Map<string, boolean>>();
+
+export function isStopUpcoming(busId: string, stopId: string): boolean {
+  const stopMap = busStopApproachingMap.get(busId);
+  if (!stopMap) return true;
+  const isUpcoming = stopMap.get(stopId);
+  return isUpcoming !== undefined ? isUpcoming : true;
+}
+
+export function getBusStopStates(busId: string): Map<string, boolean> | undefined {
+  return busStopApproachingMap.get(busId);
+}
+
+const routeDistanceCache = new Map<string, number[]>();
+
+function getRouteDistances(routeId: string, coords: [number, number][]): number[] {
+  const cached = routeDistanceCache.get(routeId);
+  if (cached && cached.length === coords.length) return cached;
+  const dists = [0];
+  for (let i = 0; i < coords.length - 1; i++) {
+    const d = getDistanceMetres(coords[i][1], coords[i][0], coords[i + 1][1], coords[i + 1][0]);
+    dists.push(dists[i] + d);
+  }
+  routeDistanceCache.set(routeId, dists);
+  return dists;
 }
 
 export function getLiveBus(busId: string): BusLiveState | undefined {
@@ -327,12 +358,85 @@ export function calculateBusToStopEta(
     stopsAway,
     speedKmh: Math.round(busSpeedKmh || 25),
     status,
+    isDeparted: false,
   };
 }
 
-export function getBusLiveEta(busId: string, stopCoords?: [number, number]): LiveEtaResult | null {
+export function getBusLiveEta(
+  busId: string,
+  stopCoords?: [number, number],
+  stopId?: string
+): LiveEtaResult | null {
   const bus = liveBuses.get(busId);
   if (!bus || !stopCoords) return null;
+
+  // Once a bus reaches the bus stop, boolean is set to false:
+  // If stopId is provided and the stop boolean is false, it has departed!
+  if (stopId && !isStopUpcoming(busId, stopId)) {
+    return {
+      etaSeconds: 0,
+      etaMinutes: 0,
+      distanceM: 0,
+      stopsAway: 0,
+      speedKmh: Math.round(bus.speed || 25),
+      status: 'departed',
+      isDeparted: true,
+    };
+  }
+
+  // If bus is simulated along a route and we have the target stop offset along that route
+  const sim = simVehicles.get(busId);
+  if (sim && stopId) {
+    const route = routeCatalog.get(sim.routeId);
+    const targetStop = route?.stops?.find((s) => s.stopId === stopId);
+    if (targetStop && route?.geometry?.coordinates && route.geometry.coordinates.length >= 2) {
+      const cumDists = getRouteDistances(route._id, route.geometry.coordinates);
+      const coords = route.geometry.coordinates;
+      const safeIdx = Math.min(sim.coordIndex, coords.length - 2);
+      const p1 = coords[safeIdx];
+      const p2 = coords[safeIdx + 1];
+      const segDist = getDistanceMetres(p1[1], p1[0], p2[1], p2[0]);
+      const currentRouteDistM = (cumDists[safeIdx] || 0) + segDist * sim.segmentProgress;
+
+      const forwardDistM = (targetStop.offsetM || 0) - currentRouteDistM;
+      if (forwardDistM <= -30) {
+        // Bus has already passed this stop! Set boolean to false and mark departed
+        const stopMap = busStopApproachingMap.get(busId);
+        if (stopMap) stopMap.set(stopId, false);
+        return {
+          etaSeconds: 0,
+          etaMinutes: 0,
+          distanceM: 0,
+          stopsAway: 0,
+          speedKmh: Math.round(bus.speed || 25),
+          status: 'departed',
+          isDeparted: true,
+        };
+      }
+
+      const roadDistM = Math.max(10, forwardDistM);
+      const speedMps = sim.speedMps > 3 ? sim.speedMps : 6;
+      const etaSeconds = Math.round(roadDistM / speedMps);
+      const etaMinutes = Math.max(1, Math.ceil(etaSeconds / 60));
+      const stopsAway = Math.max(1, Math.round(roadDistM / 750));
+
+      let status: LiveEtaResult['status'] = 'scheduled';
+      if (roadDistM < 60) status = 'arrived';
+      else if (roadDistM < 250 || etaSeconds < 60) status = 'arriving';
+      else if (etaSeconds <= 180) status = 'approaching';
+
+      return {
+        etaSeconds,
+        etaMinutes,
+        distanceM: Math.round(roadDistM),
+        stopsAway,
+        speedKmh: Math.round(sim.speedMps * 3.6),
+        status,
+        isDeparted: false,
+      };
+    }
+  }
+
   const busLat = bus.interpolatedLat ?? bus.lat;
   const busLng = bus.interpolatedLng ?? bus.lng;
   return calculateBusToStopEta(busLat, busLng, bus.speed, stopCoords[1], stopCoords[0]);
@@ -392,6 +496,20 @@ function initializeSimVehiclesIfReady() {
       lng: p1[0],
       lat: p1[1],
     });
+
+    // Initialize individual boolean variables for each stop in that bus's route
+    const stopMap = new Map<string, boolean>();
+    const cumDists = getRouteDistances(route._id, coords);
+    const segDist = getDistanceMetres(p1[1], p1[0], p2[1], p2[0]);
+    const busInitDist = (cumDists[startIndex] || 0) + segDist * (((i * 3) % 10) / 10);
+
+    for (const st of (route.stops || [])) {
+      // If the bus has already reached/passed this stop's offset on this trip, boolean = false.
+      // Otherwise, the bus hasn't reached it yet, boolean = true!
+      const hasReached = busInitDist >= (st.offsetM || 0) + 40;
+      stopMap.set(st.stopId, !hasReached);
+    }
+    busStopApproachingMap.set(bus._id, stopMap);
   }
 }
 
@@ -850,9 +968,16 @@ function startRafLoop() {
 
       sim.segmentProgress += progressDelta;
 
+      let hasLooped = false;
       if (sim.segmentProgress >= 1) {
         sim.segmentProgress = 0;
-        sim.coordIndex = (sim.coordIndex + 1) % (coords.length - 1);
+        const nextIdx = sim.coordIndex + 1;
+        if (nextIdx >= coords.length - 1) {
+          sim.coordIndex = 0;
+          hasLooped = true;
+        } else {
+          sim.coordIndex = nextIdx;
+        }
       }
 
       const currentP1 = coords[sim.coordIndex];
@@ -861,6 +986,34 @@ function startRafLoop() {
       sim.lng = currentP1[0] + (currentP2[0] - currentP1[0]) * sim.segmentProgress;
       sim.lat = currentP1[1] + (currentP2[1] - currentP1[1]) * sim.segmentProgress;
       sim.heading = getBearing(currentP1[1], currentP1[0], currentP2[1], currentP2[0]);
+
+      // Maintain individual boolean variable for each stop along the route
+      let stopMap = busStopApproachingMap.get(busId);
+      if (!stopMap) {
+        stopMap = new Map<string, boolean>();
+        busStopApproachingMap.set(busId, stopMap);
+      }
+
+      if (hasLooped) {
+        // Reset all stop booleans to true for the new trip
+        for (const st of (route.stops || [])) {
+          stopMap.set(st.stopId, true);
+        }
+      } else {
+        const cumDists = getRouteDistances(route._id, coords);
+        const safeIdx = Math.min(sim.coordIndex, coords.length - 2);
+        const segDist = getDistanceMetres(currentP1[1], currentP1[0], currentP2[1], currentP2[0]);
+        const busRouteDistM = (cumDists[safeIdx] || 0) + segDist * sim.segmentProgress;
+
+        for (const st of (route.stops || [])) {
+          // Once a bus reaches the bus stop, set the boolean variable to false!
+          if (stopMap.get(st.stopId) !== false) {
+            if (busRouteDistM >= (st.offsetM || 0) - 25) {
+              stopMap.set(st.stopId, false);
+            }
+          }
+        }
+      }
 
       // Update local position for fallback/standalone simulation
       const existing = liveBuses.get(busId);

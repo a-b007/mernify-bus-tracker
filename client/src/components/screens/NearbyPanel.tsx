@@ -4,7 +4,7 @@ import SearchField, { type SearchItem } from '../SearchField';
 import FilterBar from '../FilterBar';
 import BusRow from '../BusRow';
 import { useJourneyStore } from '../../stores/journey';
-import { getBusLiveEta } from '../../services/vehicleStore';
+import { getBusLiveEta, isStopUpcoming } from '../../services/vehicleStore';
 import { getDistanceMetres } from '../../utils/geo';
 import type { Stop, Route, Bus } from '../../types/transit';
 import { normalizeBusType } from '../../types/transit';
@@ -131,21 +131,26 @@ export default function NearbyPanel({
             const formattedDist =
               walkDistM < 1000 ? `${walkDistM} m` : `${(walkDistM / 1000).toFixed(1)} km`;
 
-            // Live calculated buses for these routes
-            const candidateBuses = stopRoutes.flatMap((route, rIdx) => {
+            // Live calculated buses for these routes (excluding buses that have already departed)
+            const candidateBuses = stopRoutes.flatMap((route) => {
               const routeBuses = buses.filter((b) => b.routeId === route._id);
-              return routeBuses.slice(0, 2).map((bus, bIdx) => {
-                const live = stop.loc?.coordinates
-                  ? getBusLiveEta(bus._id, stop.loc.coordinates)
-                  : null;
-                const etaMin = live ? live.etaMinutes : (3 + (rIdx * 3) + (bIdx * 5));
-                return {
-                  bus,
-                  route,
-                  stop,
-                  etaMin,
-                };
-              });
+              return routeBuses
+                .filter((bus) => isStopUpcoming(bus._id, stop._id))
+                .slice(0, 3)
+                .map((bus) => {
+                  const live = stop.loc?.coordinates
+                    ? getBusLiveEta(bus._id, stop.loc.coordinates, stop._id)
+                    : null;
+                  if (live?.isDeparted) return null;
+                  const etaMin = live ? live.etaMinutes : 5;
+                  return {
+                    bus,
+                    route,
+                    stop,
+                    etaMin,
+                  };
+                })
+                .filter((item): item is { bus: Bus; route: Route; stop: Stop; etaMin: number } => item !== null);
             });
 
             // Apply active filters and sort by arrival time

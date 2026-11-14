@@ -9,7 +9,7 @@ export function useLiveBusEta(
 ): LiveEtaResult {
   const [eta, setEta] = useState<LiveEtaResult>(() => {
     if (busId && stop?.loc?.coordinates) {
-      const live = getBusLiveEta(busId, stop.loc.coordinates);
+      const live = getBusLiveEta(busId, stop.loc.coordinates, stop._id);
       if (live) return live;
     }
     return {
@@ -26,7 +26,7 @@ export function useLiveBusEta(
     if (!busId || !stop?.loc?.coordinates) return;
 
     const tick = () => {
-      const live = getBusLiveEta(busId, stop.loc.coordinates);
+      const live = getBusLiveEta(busId, stop.loc.coordinates, stop._id);
       if (live) {
         setEta(live);
       }

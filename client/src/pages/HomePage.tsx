@@ -26,6 +26,7 @@ import {
   setOnBusClickListener,
   calculateBMTCFare,
   getBusLiveEta,
+  isStopUpcoming,
 } from '../services/vehicleStore';
 import { connectSocket, disconnectSocket, subscribeToRoute } from '../services/socket';
 import { getDistanceMetres } from '../utils/geo';
@@ -290,8 +291,15 @@ export default function HomePage() {
       connectingRoutes.forEach((route) => {
         const routeBuses = buses.filter((b) => b.routeId === route._id);
         routeBuses.forEach((bus) => {
-          const live = getBusLiveEta(bus._id, boardCoords);
-          const etaMin = live ? live.etaMinutes : 6;
+          // Once a bus reaches the bus stop, boolean variable is set to false.
+          // Buses departing from the selected boarding bus stop are NOT shown as arriving in 5 mins!
+          const isUpcoming = isStopUpcoming(bus._id, activeOrigin._id);
+          if (!isUpcoming) return;
+
+          const live = getBusLiveEta(bus._id, boardCoords, activeOrigin._id);
+          if (!live || live.isDeparted) return;
+
+          const etaMin = live.etaMinutes;
           const { fare } = calculateBMTCFare(boardCoords, destCoords, normalizeBusType(bus.type));
 
           results.push({
@@ -324,11 +332,17 @@ export default function HomePage() {
       const results: { bus: Bus; route: Route; stop: Stop; etaMin: number; fare: number; walkMin: number }[] = [];
       const boardCoords = activeOrigin.loc.coordinates;
 
-      stopRoutes.forEach((route, rIdx) => {
+      stopRoutes.forEach((route) => {
         const routeBuses = buses.filter((b) => b.routeId === route._id);
-        routeBuses.slice(0, 3).forEach((bus, bIdx) => {
-          const live = getBusLiveEta(bus._id, boardCoords);
-          const etaMin = live ? live.etaMinutes : 4 + rIdx * 3 + bIdx * 4;
+        routeBuses.forEach((bus) => {
+          // Once a bus reaches the bus stop, boolean is false: do not show departing buses as arriving in 5 mins
+          const isUpcoming = isStopUpcoming(bus._id, activeOrigin._id);
+          if (!isUpcoming) return;
+
+          const live = getBusLiveEta(bus._id, boardCoords, activeOrigin._id);
+          if (!live || live.isDeparted) return;
+
+          const etaMin = live.etaMinutes;
           const fare = normalizeBusType(bus.type) === 'AC' ? 35 : normalizeBusType(bus.type) === 'Electric' ? 20 : 15;
 
           results.push({

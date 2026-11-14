@@ -3,7 +3,7 @@ import { ArrowLeft, CurrencyInr, MapPin, NavigationArrow } from '@phosphor-icons
 import FilterBar from '../FilterBar';
 import BusRow from '../BusRow';
 import { useJourneyStore } from '../../stores/journey';
-import { getBusLiveEta, calculateBMTCFare } from '../../services/vehicleStore';
+import { getBusLiveEta, calculateBMTCFare, isStopUpcoming } from '../../services/vehicleStore';
 import { getDistanceMetres } from '../../utils/geo';
 import type { Stop, Route, Bus } from '../../types/transit';
 import { normalizeBusType } from '../../types/transit';
@@ -129,8 +129,12 @@ export default function DestinationPanel({
 
       for (const b of routeBuses) {
         if (boardingStop?.loc?.coordinates) {
-          const live = getBusLiveEta(b._id, boardingStop.loc.coordinates);
-          if (live && live.etaMinutes > 0 && live.etaMinutes < bestEtaMin) {
+          // Once a bus reaches the boarding bus stop, boolean is set to false:
+          // do NOT show departing buses as arriving in 5 mins!
+          if (!isStopUpcoming(b._id, boardingStop._id)) continue;
+
+          const live = getBusLiveEta(b._id, boardingStop.loc.coordinates, boardingStop._id);
+          if (live && !live.isDeparted && live.etaMinutes > 0 && live.etaMinutes < bestEtaMin) {
             bestEtaMin = live.etaMinutes;
             bestBus = b;
           }
